@@ -8,6 +8,8 @@ The results is store in ROOT file.
 4) make
 5) ./ana_delphes input_file.root <output_file.root>
 
+6) "root mkplot.cc" for making plots
+
 [1] http://madgraph.hep.uiuc.edu
 Download Madgraph5
 tar -zxf Madgraph5.tar.gz
