@@ -1,0 +1,26 @@
+This analysis code are based on the results from Madgraph5[1] and Delphes, which is fast-simulation package.
+The results is store in ROOT file.
+
+1) Make sure the Delphes path in MakeFile
+	Ex: You can link Delphes path to here by "ln -s your_delphes_path Delphes"
+2) Edit the Delphes path in env.csh
+3) source env.ch
+4) make
+5) ./ana_delphes input_file.root <output_file.root>
+
+[1] http://madgraph.hep.uiuc.edu
+Download Madgraph5
+tar -zxf Madgraph5.tar.gz
+go to Madgraph5_folder
+./bin/MG5_aMC
+>> install pythia-pgs
+>> install ExRootAnalysis
+>> install Delphes
+>> generate  p p > .......
+>> launch
+Turn on Pythia and Delphes
+After some options, and wait a few minutes...
+>> exit
+Results in "PROC_sm_#/Events/run_##/tag_#_delphes_events.root"
+ 
+	
