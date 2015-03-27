@@ -1,4 +1,8 @@
 1) Di-muon channel
-	generate p p > t t~ > b b~ mu- mu+ vm vm~
+	>> generate p p > t t~ > b b~ mu- mu+ vm vm~
+	>> output Production/TTtoDiMuon
+	>> output Production/TTtoDiMuon Run_10K_Evts_01
 2) Mutil-jet channel
-	generate p p > t t~ > b b~ w+ w- ,( w+ > j j ),( w- > j j )
+	>> generate p p > t t~ > b b~ w+ w- ,( w+ > j j ),( w- > j j )
+	>> output Production/TTtoMutiJet
+	>> launch Production/TTtoMutiJet Run_10K_Evts_01
