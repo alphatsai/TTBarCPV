@@ -1,5 +1,6 @@
 This analysis code are based on the results from Madgraph5[1] and Delphes, which is fast-simulation package.
 The results is store in ROOT file.
+Format: https://cp3.irmp.ucl.ac.be/projects/delphes/wiki/WorkBook/RootTreeDescription
 
 1) Make sure the Delphes path in MakeFile
 	Ex: You can link Delphes path to here by "ln -s your_delphes_path Delphes"
