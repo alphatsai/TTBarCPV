@@ -1,0 +1,4 @@
+1) Di-muon channel
+	generate p p > t t~ > b b~ mu- mu+ vm vm~
+2) Mutil-jet channel
+	generate p p > t t~ > b b~ w+ w- ,( w+ > j j ),( w- > j j )
