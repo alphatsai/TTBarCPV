@@ -28,10 +28,11 @@ class PIDs:
 			if isComment(l) or isEmpty(l):  # Remove comment and empty line
 				continue
 			ls = l.split()
-			if len(ls) == 12: 
+			if len(ls) > 10: 
 				self.PIDs[int(ls[0])]=ls[2]
 				antiPID=-1*int(ls[0])
 				self.PIDs[antiPID]=ls[3]
+		#		print ls[0]+" -> "+ls[2] #DEBUG
 		#print self.PIDs #DEBUG
 
 	def printParticle(self, pid):
