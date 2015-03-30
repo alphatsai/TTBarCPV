@@ -17,6 +17,8 @@ usage = """
 parser = OptionParser(usage=usage)
 parser.add_option("-p", "--pid", dest="pid", type="int", #action="store", #default=0
                   help="Input particle ID")
+parser.add_option("-d", "--data", dest="data", default='decayList.txt',
+                  help="Input particle decay list from pythia")
 (options, args) = parser.parse_args()
 
 # Main progress
@@ -24,7 +26,7 @@ if not options.pid:
 	print usage
 	sys.exit()
 else:
-	pids = PIDs("decayList.txt")
+	pids = PIDs(options.data)
 	pids.loadDecayList()
 	print "|"
 	print "| Paritcle ID "+str(options.pid)+" = "+pids.printParticle(options.pid)
