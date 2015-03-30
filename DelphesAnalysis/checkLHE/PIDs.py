@@ -14,8 +14,10 @@ class PIDs:
 
 	def loadDecayList(self):
 		if not os.path.isfile(self.decayListFile):
-			print "[ERROR] Can't find "+decayListi+", or it's not a file..."
-			return 
+			print "|" 
+			print "| [ERROR] Can't find "+self.decayListFile+", or it's not a file..."
+			print "|" 
+			sys.exit() 
 		else:
 			self.decayTable = open(self.decayListFile, 'r')
 			self.mapPIDs()
