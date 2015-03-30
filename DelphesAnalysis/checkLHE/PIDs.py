@@ -35,6 +35,9 @@ class PIDs:
 		#print self.PIDs #DEBUG
 
 	def printParticle(self, pid):
-		return self.PIDs[int(pid)]
+		if not int(pid) in self.PIDs:
+			return 'Undefined PID' 
+		else: 
+			return self.PIDs[int(pid)]
 
 
