@@ -18,11 +18,11 @@ slha=''
 init=''
 event=''
 tags = { 'MGVersion':0, 
-		 'MG5ProcCard':0,
-		 'MGRunCard':0,
-		 'slha':0,
-		 'init':0, 
-		 'event':0, 
+         'MG5ProcCard':0,
+         'MGRunCard':0,
+         'slha':0,
+         'init':0, 
+         'event':0, 
 } # 0: Off, 1: On, 2: Done 
 
 def switchTag(line, tags):
