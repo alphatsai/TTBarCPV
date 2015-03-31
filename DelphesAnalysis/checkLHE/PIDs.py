@@ -3,7 +3,7 @@ import os, re, sys, shutil
 import math, ROOT
 import numpy
 
-from checkLineFunc import*
+from fuctions import*
 
 class PIDs:
 	def __init__(self, decayListFile):
