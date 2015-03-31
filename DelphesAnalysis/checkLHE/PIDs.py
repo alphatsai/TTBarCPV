@@ -26,7 +26,7 @@ class PIDs:
 	def mapPIDs(self):
 		for line in self.decayTable:
 			l = line.strip() 								# Remove whitespace in begion and end of line
-			if isComment(l) or isEmpty(l):  				# Remove comment and empty line
+			if isComment(l) or isEmpty(l):					# Remove comment and empty line
 				continue
 			ls = l.split()
 			if len(ls) > 10: 
