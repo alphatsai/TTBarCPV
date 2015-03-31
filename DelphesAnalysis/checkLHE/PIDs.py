@@ -48,7 +48,7 @@ class PIDs:
 
 	def showName(self, pid):
 		if not int(pid) in self.PIDToName:
-			return 'Undefined PID - '+int(pid) 
+			return 'Undefined PID - '+str(pid) 
 		else: 
 			return self.PIDToName[int(pid)]
 
