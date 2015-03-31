@@ -10,7 +10,9 @@ class PIDs:
 	def __init__(self, decayListFile):
 		self.decayListFile = decayListFile
 		self.decayTable =[]	
-		self.PIDs = {}
+		self.PIDToName = {}
+		self.NameToPID = {}
+		#self.NameToLower = {}
 
 	def loadDecayList(self):
 		if not os.path.isfile(self.decayListFile):
@@ -29,16 +31,23 @@ class PIDs:
 				continue
 			ls = l.split()
 			if len(ls) > 10: 
-				self.PIDs[int(ls[0])]=ls[2]
 				antiPID=-1*int(ls[0])
-				self.PIDs[antiPID]=ls[3]
-		#		print ls[0]+" -> "+ls[2] #DEBUG
-		#print self.PIDs #DEBUG
+				self.PIDToName[int(ls[0])]=ls[2]
+				self.PIDToName[antiPID]=ls[3]
+				self.NameToPID[ls[2]]=int(ls[0])
+				self.NameToPID[ls[3]]=antiPID
+				#print ls[0]+" -> "+ls[2] #DEBUG
+		#print self.PIDToName #DEBUG
 
-	def printParticle(self, pid):
-		if not int(pid) in self.PIDs:
+	def showPID(self, name):
+		if not str(name) in self.NameToPID:
+			return 'Undefined Name' 
+		else: 
+			return self.NameToPID[str(name)]
+
+
+	def showName(self, pid):
+		if not int(pid) in self.PIDToName:
 			return 'Undefined PID' 
 		else: 
-			return self.PIDs[int(pid)]
-
-
+			return self.PIDToName[int(pid)]
