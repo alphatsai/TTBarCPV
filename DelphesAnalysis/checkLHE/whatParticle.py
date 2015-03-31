@@ -37,7 +37,7 @@ elif not options.pid and options.name:
 	pids = PIDs(options.data)
 	pids.loadDecayList()
 	print "|"
-	print "| Paritcle: "+options.name+" = "+str(pids.showPID(options.name))
+	print "| Paritcle: "+pids.correctName(options.name)+" = "+str(pids.showPID(options.name))
 	print "|"
 	
 
