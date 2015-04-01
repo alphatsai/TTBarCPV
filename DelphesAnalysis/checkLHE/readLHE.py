@@ -10,13 +10,14 @@ import numpy
 from fuctions import*
 from PIDs import PIDs  
 
-printEvt=2
+printEvt=6
 
 pids = PIDs('decayList.txt')
 pids.loadDecayList()
 
 #lheFile = open('example_TTtoDiMuon_UnWrtEvents.lhe');
-lheFile = open('unweighted_events.lhe');
+#lheFile = open('unweighted_events.lhe');
+lheFile = open('unweighted_events_v2.lhe');
 LHEVersion=''
 MGVersion=''
 MG5ProcCard=''
@@ -181,41 +182,41 @@ while ( i < printEvt ):
 			p+=1
 	
 		## * Print out event information 
-		print '\n.-------------------------------------------------------------------------------.' 
-		print '| *** Event '+str(i)+' **** -------------------------------------------------------------|'
-		print '|-------------------------------------------------------------------------------|' 
-		print '| Status = -1 : Incoming particle                                               |' 
-		print '|          +1 : Outgoing final state particle                                   |'
-		print '|          -2 : Intermediate space-like propagator, x and Q2 shell be preserved |' 
-		print '|          +2 : Intermediate resonance, Mass should be preserved                |' 				
-		print '|          +3 : Intermediate resonance, for documentation only                  |' 				
-		print '|          -9 : Incoming beam particles at time t = -oo                         |' 			
+		print '\n.----------------------------------------------------------------------------------.' 
+		print '| *** Event '+str(i)+' **** ----------------------------------------------------------------|'
+		print '|----------------------------------------------------------------------------------|' 
+		print '| Status = -1 : Incoming particle                                                  |' 
+		print '|          +1 : Outgoing final state particle                                      |'
+		print '|          -2 : Intermediate space-like propagator, x and Q2 shell be preserved    |' 
+		print '|          +2 : Intermediate resonance, Mass should be preserved                   |' 				
+		print '|          +3 : Intermediate resonance, for documentation only                     |' 				
+		print '|          -9 : Incoming beam particles at time t = -oo                            |' 			
 
 		for pro in GMProcess:
-			print '| MG5 Process : %-64s|' % pro				
+			print '| MG5 Process : %-67s|' % pro				
 				
-		print '| Number of particle : %2d                                                       |' % evtInfo_numParticle				
-		print '|-------------------------------------------------------------------------------|' 
-		print '| {0:20s}{1:6s} {2:7s} {3:7s} {4:7s} {5:6s} {6:6s} |'.format('Particle chain', ' | Status','|   Px  ', ' |    Py  ', '|    Pz  ', '| Energy', '|  Mass ')
+		print '| Number of particle : %2d                                                          |' % evtInfo_numParticle				
+		print '|----------------------------------------------------------------------------------|' 
+		print '| {0:20s}{1:6s} {2:7s} {3:7s} {4:8s} {5:8s} {6:6s} |'.format('Particle chain', ' | Status','|   Px  ', ' |    Py  ', '|    Pz   ', '|  Energy ', '|  Mass ')
 		p=0
 		while ( p < evtInfo_numParticle ):
-			print '|-------------------------------------------------------------------------------|' 
-			print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:7.2f} | {5:6.2f} | {6:6.2f} |'.format(pids.showName(particleInfo_pid[p]), particleInfo_status[p], particleInfo_px[p], particleInfo_py[p], particleInfo_pz[p], particleInfo_energy[p], particleInfo_mass[p])
+			print '|----------------------------------------------------------------------------------|' 
+			print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format(pids.showName(particleInfo_pid[p]), particleInfo_status[p], particleInfo_px[p], particleInfo_py[p], particleInfo_pz[p], particleInfo_energy[p], particleInfo_mass[p])
 			dua1=particleInfo_dau1[p]
 			dua2=particleInfo_dau2[p]
 			dua3=particleInfo_dau3[p]
 			if particleInfo_Ndau[p] == 3:
-				print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:7.2f} | {5:6.2f} | {6:6.2f} |'.format('|-> '+pids.showName(particleInfo_pid[dua1]), particleInfo_status[dua1], particleInfo_px[dua1], particleInfo_py[dua1], particleInfo_pz[dua1], particleInfo_energy[dua1], particleInfo_mass[dua1])
-				print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:7.2f} | {5:6.2f} | {6:6.2f} |'.format('|-> '+pids.showName(particleInfo_pid[dua2]), particleInfo_status[dua2], particleInfo_px[dua2], particleInfo_py[dua2], particleInfo_pz[dua2], particleInfo_energy[dua2], particleInfo_mass[dua2])
-				print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:7.2f} | {5:6.2f} | {6:6.2f} |'.format('`-> '+pids.showName(particleInfo_pid[dua3]), particleInfo_status[dua3], particleInfo_px[dua3], particleInfo_py[dua3], particleInfo_pz[dua3], particleInfo_energy[dua3], particleInfo_mass[dua3])
+				print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format('|-> '+pids.showName(particleInfo_pid[dua1]), particleInfo_status[dua1], particleInfo_px[dua1], particleInfo_py[dua1], particleInfo_pz[dua1], particleInfo_energy[dua1], particleInfo_mass[dua1])
+				print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format('|-> '+pids.showName(particleInfo_pid[dua2]), particleInfo_status[dua2], particleInfo_px[dua2], particleInfo_py[dua2], particleInfo_pz[dua2], particleInfo_energy[dua2], particleInfo_mass[dua2])
+				print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format('`-> '+pids.showName(particleInfo_pid[dua3]), particleInfo_status[dua3], particleInfo_px[dua3], particleInfo_py[dua3], particleInfo_pz[dua3], particleInfo_energy[dua3], particleInfo_mass[dua3])
 			elif particleInfo_Ndau[p] == 2:
-				print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:7.2f} | {5:6.2f} | {6:6.2f} |'.format('|-> '+pids.showName(particleInfo_pid[dua1]), particleInfo_status[dua1], particleInfo_px[dua1], particleInfo_py[dua1], particleInfo_pz[dua1], particleInfo_energy[dua1], particleInfo_mass[dua1])
-				print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:7.2f} | {5:6.2f} | {6:6.2f} |'.format('`-> '+pids.showName(particleInfo_pid[dua2]), particleInfo_status[dua2], particleInfo_px[dua2], particleInfo_py[dua2], particleInfo_pz[dua2], particleInfo_energy[dua2], particleInfo_mass[dua2])
+				print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format('|-> '+pids.showName(particleInfo_pid[dua1]), particleInfo_status[dua1], particleInfo_px[dua1], particleInfo_py[dua1], particleInfo_pz[dua1], particleInfo_energy[dua1], particleInfo_mass[dua1])
+				print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format('`-> '+pids.showName(particleInfo_pid[dua2]), particleInfo_status[dua2], particleInfo_px[dua2], particleInfo_py[dua2], particleInfo_pz[dua2], particleInfo_energy[dua2], particleInfo_mass[dua2])
 			elif particleInfo_Ndau[p] == 1:
-				print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:7.2f} | {5:6.2f} | {6:6.2f} |'.format('`-> '+pids.showName(particleInfo_pid[dua1]), particleInfo_status[dua1], particleInfo_px[dua1], particleInfo_py[dua1], particleInfo_pz[dua1], particleInfo_energy[dua1], particleInfo_mass[dua1])
+				print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format('`-> '+pids.showName(particleInfo_pid[dua1]), particleInfo_status[dua1], particleInfo_px[dua1], particleInfo_py[dua1], particleInfo_pz[dua1], particleInfo_energy[dua1], particleInfo_mass[dua1])
 			p+=1
 
 		i+=1	
-		print '`-------------------------------------------------------------------------------\'' 
+		print '`----------------------------------------------------------------------------------\'' 
 
 
