@@ -20,12 +20,14 @@ lheFile = open('unweighted_events.lhe');
 LHEVersion=''
 MGVersion=''
 MG5ProcCard=''
+MGProcCard=''
 MGRunCard=''
 slha=''
 init=''
 evtTable=[]
 tags = { 'MGVersion':0, 
          'MG5ProcCard':0,
+         'MGProcCard':0,
          'MGRunCard':0,
          'slha':0,
          'init':0, 
@@ -37,6 +39,8 @@ def switchTag(line, tags):
 	if l.find('</MGVersion')  >= 0:  tags['MGVersion'] =-1
 	if l.find('<MG5ProcCard') >= 0:  tags['MG5ProcCard'] = 1
 	if l.find('</MG5ProcCard')>= 0:  tags['MG5ProcCard'] =-1
+	if l.find('<MGProcCard') >= 0:   tags['MGProcCard'] = 1
+	if l.find('</MGProcCard')>= 0:   tags['MGProcCard'] =-1
 	if l.find('<MGRunCard')   >= 0:  tags['MGRunCard'] = 1
 	if l.find('</MGRunCard')  >= 0:  tags['MGRunCard'] =-1
 	if l.find('<slha')  >= 0:        tags['slha'] = 1
@@ -47,6 +51,7 @@ def switchTag(line, tags):
 	if l.find('</event')>= 0:        tags['event'] =-1
 
 ###### * Load and store info from lhe file
+print 'Loading lhe...'
 numEvt=-1
 for line in lheFile:
 
@@ -62,6 +67,8 @@ for line in lheFile:
 		MGVersion = MGVersion + l + "\n"
 	if tags['MG5ProcCard'] == 1 and l.find('<MG5ProcCard') < 0:
 		MG5ProcCard = MG5ProcCard + l + "\n"
+	if tags['MGProcCard'] == 1 and l.find('<MGProcCard') < 0:
+		MGProcCard = MGProcCard + l + "\n"
 	if tags['MGRunCard'] == 1 and l.find('<MGRunCard') < 0:
 		MGRunCard = MGRunCard + l + "\n"
 	if tags['slha'] == 1 and l.find('<slha') < 0:
@@ -78,6 +85,15 @@ for line in lheFile:
 			evtTable[numEvt] = evtTable[numEvt] + "\n" + l 
 
 ###### * Load event table and print out
+#print MGProcCard
+GMProcess=[]
+for line in MGProcCard.splitlines():
+	if isComment(line): 
+		continue
+	if line.find('#Process') >= 0:
+		GMProcess.append(line.split('#')[0].strip())
+
+print 'Loading Events...'
 i=0
 while ( i < printEvt ):
 		evtInfo_numParticle = ''	
@@ -173,7 +189,11 @@ while ( i < printEvt ):
 		print '|          -2 : Intermediate space-like propagator, x and Q2 shell be preserved |' 
 		print '|          +2 : Intermediate resonance, Mass should be preserved                |' 				
 		print '|          +3 : Intermediate resonance, for documentation only                  |' 				
-		print '|          -9 : Incoming beam particles at time t = -oo                         |' 				
+		print '|          -9 : Incoming beam particles at time t = -oo                         |' 			
+
+		for pro in GMProcess:
+			print '| MG5 Process : %-64s|' % pro				
+				
 		print '| Number of particle : %2d                                                       |' % evtInfo_numParticle				
 		print '|-------------------------------------------------------------------------------|' 
 		print '| {0:20s}{1:6s} {2:7s} {3:7s} {4:7s} {5:6s} {6:6s} |'.format('Particle chain', ' | Status','|   Px  ', ' |    Py  ', '|    Pz  ', '| Energy', '|  Mass ')
@@ -196,6 +216,6 @@ while ( i < printEvt ):
 			p+=1
 
 		i+=1	
-		print '`-------------------------------------------------------------------------------\'\n' 
+		print '`-------------------------------------------------------------------------------\'' 
 
 
