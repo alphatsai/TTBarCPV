@@ -32,6 +32,7 @@ Results in "PROC_sm_#/Events/run_##/tag_#_delphes_events.root"
 	>> output Production/TTtoDiMuon
 	>> launch Production/TTtoDiMuon --name=Run_10K_Evts_01
 2) Mutil-jet channel
-	>> generate p p > t t~ > b b~ w+ w- ,( w+ > j j ),( w- > j j )
+	>> generate p p > t t~ > b b~ w+ w- ,( w+ > j j ),( w- > j j ) # Included un-pair top production 
+	>> generate p p > t t~ , ( t > b w+ , w+ > j j ) , ( t~ > b~ w- , w- > j j )
 	>> output Production/TTtoMutiJet
 	>> launch Production/TTtoMutiJet --name=Run_10K_Evts_01
