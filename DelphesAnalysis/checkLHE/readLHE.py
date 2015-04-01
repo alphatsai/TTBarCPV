@@ -192,7 +192,16 @@ class readLHE:
 			self.events.append(evtInfo())
 			self.events[i].fillEvtInfo(self.evtTable[i])
 
-	def showEvent(self, evt):
+	def showEvent(self, maxEvt):
+		if maxEvt <= self.numEvts:
+			i=0
+			while ( i <= maxEvt ):
+				self.showSpEvent(i)
+				i+=1
+		else:
+			print '|'
+			print '| [Error] Out of total events '+str(self.numEvts)
+			print '|'
 
 	def showSpEvent(self, evt):
 		if i <= self.numEvts:
@@ -216,7 +225,7 @@ class readLHE:
 			p=0
 			while ( p < self.events[i].evtInfo_numParticle ):
 				print '|----------------------------------------------------------------------------------|' 
-				print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format(self.pids.showName(self.events[i].particleInfo_pid[p]), particleInfo_status[p], particleInfo_px[p], particleInfo_py[p], particleInfo_pz[p], particleInfo_energy[p], particleInfo_mass[p])
+				print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format(self.pids.showName(self.events[i].particleInfo_pid[p]), self.events[i].particleInfo_status[p], particleInfo_px[p], self.events[i].particleInfo_py[p], self.events[i].particleInfo_pz[p], self.events[i].particleInfo_energy[p], self.events[i].particleInfo_mass[p])
 				dua1=self.events[i].particleInfo_dau1[p]
 				dua2=self.events[i].particleInfo_dau2[p]
 				dua3=self.events[i].particleInfo_dau3[p]
@@ -230,7 +239,9 @@ class readLHE:
 				elif self.events[i].particleInfo_Ndau[p] == 1:
 					print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format('`-> '+self.pids.showName(self.events[i].particleInfo_pid[dua1]), self.events[i].particleInfo_status[dua1], self.events[i].particleInfo_px[dua1], self.events[i].particleInfo_py[dua1], self.events[i].particleInfo_pz[dua1], self.events[i].particleInfo_energy[dua1], self.events[i].particleInfo_mass[dua1])
 				p+=1
-	
 			print '`----------------------------------------------------------------------------------\''
-
-
+		else:
+			print '|'
+			print '| [Error] Out of total events '+str(self.numEvts)
+			print '|'
+	
