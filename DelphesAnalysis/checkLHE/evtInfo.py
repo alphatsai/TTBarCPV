@@ -81,7 +81,7 @@ class evtInfo:
 		p=0
 		while ( p < self.evtInfo_numParticle ):
 			moth1 = self.particleInfo_moth1[p]
-			moth1 = self.particleInfo_moth2[p]
+			moth2 = self.particleInfo_moth2[p]
 			### Mother 1
 			if self.particleInfo_dau1[moth1] == -1 and self.particleInfo_Ndau[moth1] > 0:
 			   self.particleInfo_dau1[moth1] = p
