@@ -79,8 +79,8 @@ for line in lheFile:
 i=0
 #while ( i <= numEvt ):
 while ( i < printEvt ):
-		
-		print '| ** Event '+str(i)+' --------------------------------------------------------'
+		print '\n,------------------------------------------------------------------------' 
+		print '| *** Event '+str(i)+' **** ------------------------------------------------------'
 		print '| {0:20s} ({1:7s} {2:7s} {3:7s} {4:6s} {5:6s})'.format('Particle', '     Px,', '     Py,', '     Pz,', 'Energy,', '  Mass' )
 
 		evtInfo_numParticle = ''	
@@ -167,8 +167,7 @@ while ( i < printEvt ):
 		
 		p=0
 		while ( p < evtInfo_numParticle ):
-			print('|') 
-			#print('| '+pids.showName(particleInfo_pid[p])+' ( '+particleInfo_px[p]+', '+particleInfo_py[p]+', '++particleInfo_pz[p]+', '+particleInfo_energy[p]+', '+particleInfo_mass[p]+' )')
+			print '|------------------------------------------------------------------------' 
 			print '| {0:20s} ({1:7.2f}, {2:7.2f}, {3:7.2f}, {4:6.2f}, {5:6.2f})'.format(pids.showName(particleInfo_pid[p]), particleInfo_px[p], particleInfo_py[p], particleInfo_pz[p], particleInfo_energy[p], particleInfo_mass[p])
 			if particleInfo_Ndau[p] == 3:
 				print '| |-> '+pids.showName(particleInfo_pid[particleInfo_dau1[p]])
@@ -179,10 +178,11 @@ while ( i < printEvt ):
 				print '| `-> '+pids.showName(particleInfo_pid[particleInfo_dau2[p]])
 			elif particleInfo_Ndau[p] == 1:
 				print '| `-> '+pids.showName(particleInfo_pid[particleInfo_dau1[p]])
-			else:
-				print '|' 
+			#else:
+			#	print '|' 
 			p+=1
 
 		i+=1	
+		print '`------------------------------------------------------------------------\n' 
 
 
