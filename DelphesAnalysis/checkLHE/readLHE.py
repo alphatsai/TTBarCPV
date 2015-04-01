@@ -139,6 +139,7 @@ class readLHE:
 			print '|'
 			print '| [Error] Out of loaded events range '+str(self.maxEvts)
 			print '|'
+			sys.exit()
 
 	def showSpEvent(self, evt):
 		i=None
