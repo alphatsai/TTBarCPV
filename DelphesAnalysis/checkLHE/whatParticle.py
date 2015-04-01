@@ -9,7 +9,7 @@ from PIDs import PIDs
 # usage description
 usage = """
  Usage: """+sys.argv[0]+""" [options]
- Example: """+sys.argv[0]+""" --name mu+ 
+ Example: """+sys.argv[0]+""" --name mu+ --pid 16 
  For more help: """+sys.argv[0]+""" --help 
 """
 
@@ -27,13 +27,13 @@ parser.add_option("-d", "--data", dest="data", default='decayList.txt',
 if not options.pid and not options.name:
 	print usage
 	sys.exit()
-elif options.pid and not options.name:
+if options.pid:
 	pids = PIDs(options.data)
 	pids.loadDecayList()
 	print "|"
 	print "| Paritcle ID: "+str(options.pid)+" = "+pids.showName(options.pid)
 	print "|"
-elif not options.pid and options.name:
+if options.name:
 	pids = PIDs(options.data)
 	pids.loadDecayList()
 	print "|"
