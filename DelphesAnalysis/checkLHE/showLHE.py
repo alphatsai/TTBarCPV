@@ -21,6 +21,8 @@ parser.add_option("-m", "--max", dest="maxEvt", type="int",
                   help="Show events until maximum event")
 parser.add_option("-e", "--evt", dest="evt", type="int", 
                   help="Show spacial event")
+parser.add_option("-a", "--all", dest="showAll", default=False, 
+                  help="Show all events or not")
 parser.add_option("-d", "--data", dest="data", default='pid/decayList.txt',
                   help="Input particle decay list from pythia")
 parser.add_option("-l", "--lhe", dest="lheFile", 
@@ -31,10 +33,12 @@ parser.add_option("-l", "--lhe", dest="lheFile",
 if not options.lheFile:
 	print usage
 	sys.exit()
-if not options.maxEvt and not options.evt:
+
+if not options.maxEvt and not options.evt and not options.showAll:
 	print usage
 	sys.exit()
-elif options.maxEvt and not options.evt:
+
+if options.maxEvt and not options.evt:
 	lheInfo = readLHE( options.data, options.lheFile )
 	lheInfo.loadLHE()
 	lheInfo.loadEvents(options.maxEvt)
@@ -46,8 +50,14 @@ elif not options.maxEvt and options.evt:
 	lheInfo.loadSpEvents(options.evt) # Only load interested event 
 	#lheInfo.loadEvents()  # Without set limit, it will load all events
 	lheInfo.showSpEvent(options.evt)	
-else:
+elif options.maxEvt and options.evt:
 	print " [Error] Shell not use --max and --evt at the same time"
 	print usage
 	sys.exit()
+
+if options.showAll:
+	lheInfo = readLHE( options.data, options.lheFile )
+	lheInfo.loadLHE()
+	lheInfo.loadEvents()
+	lheInfo.showEvent(lheInfo.maxEvts)	
 	
