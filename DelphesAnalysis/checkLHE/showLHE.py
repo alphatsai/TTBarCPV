@@ -42,13 +42,11 @@ if options.maxEvt and not options.evt:
 	lheInfo = readLHE( options.data, options.lheFile )
 	lheInfo.loadLHE()
 	lheInfo.loadEvents(options.maxEvt)
-	#lheInfo.loadEvents()  # Without set limit, it will load all events
 	lheInfo.showEvent(options.maxEvt)	
 elif not options.maxEvt and options.evt:
 	lheInfo = readLHE( options.data, options.lheFile )
 	lheInfo.loadLHE()
 	lheInfo.loadSpEvents(options.evt) # Only load interested event 
-	#lheInfo.loadEvents()  # Without set limit, it will load all events
 	lheInfo.showSpEvent(options.evt)	
 elif options.maxEvt and options.evt:
 	print " [Error] Shell not use --max and --evt at the same time"
@@ -58,6 +56,6 @@ elif options.maxEvt and options.evt:
 if options.showAll:
 	lheInfo = readLHE( options.data, options.lheFile )
 	lheInfo.loadLHE()
-	lheInfo.loadEvents()
+	lheInfo.loadEvents()              # Load all events
 	lheInfo.showEvent(lheInfo.maxEvts)	
 	
