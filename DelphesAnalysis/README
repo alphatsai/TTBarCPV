@@ -36,3 +36,8 @@ Results in "PROC_sm_#/Events/run_##/tag_#_delphes_events.root"
 	>> generate p p > t t~ , ( t > b w+ , w+ > j j ) , ( t~ > b~ w- , w- > j j )
 	>> output Production/TTtoMutiJet
 	>> launch Production/TTtoMutiJet --name=Run_10K_Evts_01
+2) Lepton-jet channel
+	>> generate p p > t t~, ( t > b w+, w+ > l+ vl ),( t~ > b~ w-, w- > j j)  
+	>> add process p p > t t~, ( t > b w+, w+ > j j ),( t~ > b~ w-, w- > l- vl~)
+	>> output Production/TTtoLeptonJet
+	>> launch Production/TTtoLeptonJet --name=Run_10K_Evts_01
