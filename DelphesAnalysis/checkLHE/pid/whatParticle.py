@@ -12,13 +12,14 @@ usage = """
  For more help: """+sys.argv[0]+""" --help 
 """
 
+defaultDataPath = os.path.dirname(os.path.abspath(__file__))+'/decayList.txt'
 # Option parameters
 parser = OptionParser(usage=usage)
 parser.add_option("-p", "--pid", dest="pid", type="int", #action="store", #default=0
                   help="Input particle ID")
 parser.add_option("-n", "--name", dest="name", 
                   help="Input particle name based on pythia table")
-parser.add_option("-d", "--data", dest="data", default='decayList.txt',
+parser.add_option("-d", "--data", dest="data", default=defaultDataPath,
                   help="Input particle decay list from pythia")
 (options, args) = parser.parse_args()
 
