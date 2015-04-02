@@ -160,40 +160,53 @@ class readLHE:
 
 		if i < self.maxEvts:
 			## * Print out event information 
-			print '.----------------------------------------------------------------------------------.' 
-			print '| *** Event %-7s **** ----------------------------------------------------------|' % str(evt)
-			print '|----------------------------------------------------------------------------------|' 
-			print '| Status = -1 : Incoming particle                                                  |' 
-			print '|          +1 : Outgoing final state particle                                      |'
-			print '|          -2 : Intermediate space-like propagator, x and Q2 shell be preserved    |' 
-			print '|          +2 : Intermediate resonance, Mass should be preserved                   |' 				
-			print '|          +3 : Intermediate resonance, for documentation only                     |' 				
-			print '|          -9 : Incoming beam particles at time t = -oo                            |' 			
+			print '.----------------------------------------------------------------------------------------------------.' 
+			print '| *** Event %-7s **** ----------------------------------------------------------------------------|' % str(evt)
+			print '|----------------------------------------------------------------------------------------------------|' 
+			print '| Status = -1 : Incoming particle                                                                    |' 
+			print '|          +1 : Outgoing final state particle                                                        |'
+			print '|          -2 : Intermediate space-like propagator, x and Q2 shell be preserved                      |' 
+			print '|          +2 : Intermediate resonance, Mass should be preserved                                     |' 				
+			print '|          +3 : Intermediate resonance, for documentation only                                       |' 				
+			print '|          -9 : Incoming beam particles at time t = -oo                                              |' 			
 	
 			for pro in self.GMProcess:
-				print '| MG5 Process : %-67s|' % pro				
+				print '| MG5 Process : %-85s|' % pro				
 					
-			print '| Number of particle : %2d                                                          |' % self.events[i].evtInfo_numParticle				
-			print '|----------------------------------------------------------------------------------|' 
-			print '| {0:20s}{1:6s} {2:7s} {3:7s} {4:8s} {5:8s} {6:6s} |'.format('Particle chain', ' | Status','|   Px  ', ' |    Py  ', '|    Pz   ', '|  Energy ', '|  Mass ')
+			print '| Number of particle : %3d                                                                           |' % self.events[i].evtInfo_numParticle				
+			print '|----------------------------------------------------------------------------------------------------|' 
+			print '| {0:20s}{1:6s} {2:8s} {3:8s} {4:7s} {5:7s} {6:8s} {7:8s} {8:6s} |'.format('Particle chain', ' | Status', '| Moth1', '| Moth2', '|   Px  ', ' |    Py  ', '|    Pz   ', '|  Energy ', '|  Mass ')
 			p=0
 			while ( p < self.events[i].evtInfo_numParticle ):
-				print '|----------------------------------------------------------------------------------|' 
-				print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format(self.pids.showName(self.events[i].particleInfo_pid[p]), self.events[i].particleInfo_status[p], self.events[i].particleInfo_px[p], self.events[i].particleInfo_py[p], self.events[i].particleInfo_pz[p], self.events[i].particleInfo_energy[p], self.events[i].particleInfo_mass[p])
-				dua1=self.events[i].particleInfo_dau1[p]
-				dua2=self.events[i].particleInfo_dau2[p]
-				dua3=self.events[i].particleInfo_dau3[p]
+				moth1   = self.events[i].particleInfo_moth1[p]
+				moth2   = self.events[i].particleInfo_moth2[p]
+				dau1    = self.events[i].particleInfo_dau1[p]
+				dau2    = self.events[i].particleInfo_dau2[p]
+				dau3    = self.events[i].particleInfo_dau3[p]
+				dau1m1  = self.events[i].particleInfo_moth1[dau1]
+				dau1m2  = self.events[i].particleInfo_moth2[dau1]
+				dau2m1  = self.events[i].particleInfo_moth1[dau2]
+				dau2m2  = self.events[i].particleInfo_moth2[dau2]
+				dau3m1  = self.events[i].particleInfo_moth1[dau3]
+				dau3m2  = self.events[i].particleInfo_moth2[dau3]
+				print '|----------------------------------------------------------------------------------------------------|' 
+				print '| {0:20s} | {1:+4d}   |{2:8s}|{3:8s}| {4:7.2f} | {5:7.2f} | {6:8.2f} | {7:8.2f} | {8:6.2f} |'.format(self.pids.showName(self.events[i].particleInfo_pid(p)), self.events[i].particleInfo_status[p], self.pids.showName(self.events[i].particleInfo_pid(moth1)).center(8), self.pids.showName(self.events[i].particleInfo_pid(moth2)).center(8), self.events[i].particleInfo_px[p], self.events[i].particleInfo_py[p], self.events[i].particleInfo_pz[p], self.events[i].particleInfo_energy[p], self.events[i].particleInfo_mass[p])
 				if self.events[i].particleInfo_Ndau[p] == 3:
-					print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format('|-> '+self.pids.showName(self.events[i].particleInfo_pid[dua1]), self.events[i].particleInfo_status[dua1], self.events[i].particleInfo_px[dua1], self.events[i].particleInfo_py[dua1], self.events[i].particleInfo_pz[dua1], self.events[i].particleInfo_energy[dua1], self.events[i].particleInfo_mass[dua1])
-					print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format('|-> '+self.pids.showName(self.events[i].particleInfo_pid[dua2]), self.events[i].particleInfo_status[dua2], self.events[i].particleInfo_px[dua2], self.events[i].particleInfo_py[dua2], self.events[i].particleInfo_pz[dua2], self.events[i].particleInfo_energy[dua2], self.events[i].particleInfo_mass[dua2])
-					print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format('`-> '+self.pids.showName(self.events[i].particleInfo_pid[dua3]), self.events[i].particleInfo_status[dua3], self.events[i].particleInfo_px[dua3], self.events[i].particleInfo_py[dua3], self.events[i].particleInfo_pz[dua3], self.events[i].particleInfo_energy[dua3], self.events[i].particleInfo_mass[dua3])
+					print '| {0:20s} | {1:+4d}   |{2:8s}|{3:8s}| {4:7.2f} | {5:7.2f} | {6:8.2f} | {7:8.2f} | {8:6.2f} |'.format('|-> '+self.pids.showName(self.events[i].particleInfo_pid(dau1)), self.events[i].particleInfo_status[dau1], self.pids.showName(self.events[i].particleInfo_pid(dau1m1)).center(8), self.pids.showName(self.events[i].particleInfo_pid(dau1m2)).center(8), self.events[i].particleInfo_px[dau1], self.events[i].particleInfo_py[dau1], self.events[i].particleInfo_pz[dau1], self.events[i].particleInfo_energy[dau1], self.events[i].particleInfo_mass[dau1])
+					print '| {0:20s} | {1:+4d}   |{2:8s}|{3:8s}| {4:7.2f} | {5:7.2f} | {6:8.2f} | {7:8.2f} | {8:6.2f} |'.format('|-> '+self.pids.showName(self.events[i].particleInfo_pid(dau2)), self.events[i].particleInfo_status[dau2], self.pids.showName(self.events[i].particleInfo_pid(dau2m1)).center(8), self.pids.showName(self.events[i].particleInfo_pid(dau2m2)).center(8), self.events[i].particleInfo_px[dau2], self.events[i].particleInfo_py[dau2], self.events[i].particleInfo_pz[dau2], self.events[i].particleInfo_energy[dau2], self.events[i].particleInfo_mass[dau2])
+					print '| {0:20s} | {1:+4d}   |{2:8s}|{3:8s}| {4:7.2f} | {5:7.2f} | {6:8.2f} | {7:8.2f} | {8:6.2f} |'.format('`-> '+self.pids.showName(self.events[i].particleInfo_pid(dau3)), self.events[i].particleInfo_status[dau3], self.pids.showName(self.events[i].particleInfo_pid(dau3m1)).center(8), self.pids.showName(self.events[i].particleInfo_pid(dau3m2)).center(8), self.events[i].particleInfo_px[dau3], self.events[i].particleInfo_py[dau3], self.events[i].particleInfo_pz[dau3], self.events[i].particleInfo_energy[dau3], self.events[i].particleInfo_mass[dau3])
+					#print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format('|-> '+self.pids.showName(self.events[i].particleInfo_pid(dau2)), self.events[i].particleInfo_status[dau2], self.events[i].particleInfo_px[dau2], self.events[i].particleInfo_py[dau2], self.events[i].particleInfo_pz[dau2], self.events[i].particleInfo_energy[dau2], self.events[i].particleInfo_mass[dau2])
+					#print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format('`-> '+self.pids.showName(self.events[i].particleInfo_pid(dau3)), self.events[i].particleInfo_status[dau3], self.events[i].particleInfo_px[dau3], self.events[i].particleInfo_py[dau3], self.events[i].particleInfo_pz[dau3], self.events[i].particleInfo_energy[dau3], self.events[i].particleInfo_mass[dau3])
 				elif self.events[i].particleInfo_Ndau[p] == 2:
-					print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format('|-> '+self.pids.showName(self.events[i].particleInfo_pid[dua1]), self.events[i].particleInfo_status[dua1], self.events[i].particleInfo_px[dua1], self.events[i].particleInfo_py[dua1], self.events[i].particleInfo_pz[dua1], self.events[i].particleInfo_energy[dua1], self.events[i].particleInfo_mass[dua1])
-					print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format('`-> '+self.pids.showName(self.events[i].particleInfo_pid[dua2]), self.events[i].particleInfo_status[dua2], self.events[i].particleInfo_px[dua2], self.events[i].particleInfo_py[dua2], self.events[i].particleInfo_pz[dua2], self.events[i].particleInfo_energy[dua2], self.events[i].particleInfo_mass[dua2])
+					print '| {0:20s} | {1:+4d}   |{2:8s}|{3:8s}| {4:7.2f} | {5:7.2f} | {6:8.2f} | {7:8.2f} | {8:6.2f} |'.format('|-> '+self.pids.showName(self.events[i].particleInfo_pid(dau1)), self.events[i].particleInfo_status[dau1], self.pids.showName(self.events[i].particleInfo_pid(dau1m1)).center(8), self.pids.showName(self.events[i].particleInfo_pid(dau1m2)).center(8), self.events[i].particleInfo_px[dau1], self.events[i].particleInfo_py[dau1], self.events[i].particleInfo_pz[dau1], self.events[i].particleInfo_energy[dau1], self.events[i].particleInfo_mass[dau1])
+					print '| {0:20s} | {1:+4d}   |{2:8s}|{3:8s}| {4:7.2f} | {5:7.2f} | {6:8.2f} | {7:8.2f} | {8:6.2f} |'.format('`-> '+self.pids.showName(self.events[i].particleInfo_pid(dau2)), self.events[i].particleInfo_status[dau2], self.pids.showName(self.events[i].particleInfo_pid(dau2m1)).center(8), self.pids.showName(self.events[i].particleInfo_pid(dau2m2)).center(8), self.events[i].particleInfo_px[dau2], self.events[i].particleInfo_py[dau2], self.events[i].particleInfo_pz[dau2], self.events[i].particleInfo_energy[dau2], self.events[i].particleInfo_mass[dau2])
+					#print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format('|-> '+self.pids.showName(self.events[i].particleInfo_pid(dau1)), self.events[i].particleInfo_status[dau1], self.events[i].particleInfo_px[dau1], self.events[i].particleInfo_py[dau1], self.events[i].particleInfo_pz[dau1], self.events[i].particleInfo_energy[dau1], self.events[i].particleInfo_mass[dau1])
+					#print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format('`-> '+self.pids.showName(self.events[i].particleInfo_pid(dau2)), self.events[i].particleInfo_status[dau2], self.events[i].particleInfo_px[dau2], self.events[i].particleInfo_py[dau2], self.events[i].particleInfo_pz[dau2], self.events[i].particleInfo_energy[dau2], self.events[i].particleInfo_mass[dau2])
 				elif self.events[i].particleInfo_Ndau[p] == 1:
-					print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format('`-> '+self.pids.showName(self.events[i].particleInfo_pid[dua1]), self.events[i].particleInfo_status[dua1], self.events[i].particleInfo_px[dua1], self.events[i].particleInfo_py[dua1], self.events[i].particleInfo_pz[dua1], self.events[i].particleInfo_energy[dua1], self.events[i].particleInfo_mass[dua1])
+					print '| {0:20s} | {1:+4d}   |{2:8s}|{3:8s}| {4:7.2f} | {5:7.2f} | {6:8.2f} | {7:8.2f} | {8:6.2f} |'.format('`-> '+self.pids.showName(self.events[i].particleInfo_pid(dau1)), self.events[i].particleInfo_status[dau1], self.pids.showName(self.events[i].particleInfo_pid(dau1m1)).center(8), self.pids.showName(self.events[i].particleInfo_pid(dau1m2)).center(8), self.events[i].particleInfo_px[dau1], self.events[i].particleInfo_py[dau1], self.events[i].particleInfo_pz[dau1], self.events[i].particleInfo_energy[dau1], self.events[i].particleInfo_mass[dau1])
+					#print '| {0:20s} | {1:+4d}   | {2:7.2f} | {3:7.2f} | {4:8.2f} | {5:8.2f} | {6:6.2f} |'.format('`-> '+self.pids.showName(self.events[i].particleInfo_pid(dau1)), self.events[i].particleInfo_status[dau1], self.events[i].particleInfo_px[dau1], self.events[i].particleInfo_py[dau1], self.events[i].particleInfo_pz[dau1], self.events[i].particleInfo_energy[dau1], self.events[i].particleInfo_mass[dau1])
 				p+=1
-			print '`----------------------------------------------------------------------------------\''
+			print '`----------------------------------------------------------------------------------------------------\''
 		else:
 			print '|'
 			print '| [Error] Out of loaded events range '+str(self.maxEvts)

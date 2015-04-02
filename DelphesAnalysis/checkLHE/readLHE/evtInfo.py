@@ -14,7 +14,7 @@ class evtInfo:
 		self.evtInfo_scalePDF    = ''	
 		self.evtInfo_aQED    	 = ''	
 		self.evtInfo_aQCD    	 = ''	
-		self.particleInfo_pid  	 = []
+		self.particleInfo_pids   = []
 		self.particleInfo_status = []
 		self.particleInfo_moth1  = []
 		self.particleInfo_moth2  = []
@@ -32,6 +32,12 @@ class evtInfo:
 		self.particleInfo_mass   = []
 		self.particleInfo_invLifeTimie = [] # without secondary vertex, which depend on generating setup
 		self.particleInfo_helicity     = []
+
+	def particleInfo_pid(self, i):
+		if i == -1:
+			return '0'
+		else:
+			return self.particleInfo_pids[i]
 
 	def fillEvtInfo(self, evtTable):
 		p=0
@@ -54,7 +60,7 @@ class evtInfo:
 					k+=1	
 			## * Particle information 
 			elif len( row.split() ) == 13:                   
-				self.particleInfo_pid   .append(int(row.split()[0]))
+				self.particleInfo_pids   .append(int(row.split()[0]))
 				self.particleInfo_status.append(int(row.split()[1]))
 				self.particleInfo_moth1 .append(int(row.split()[2])-1)
 				self.particleInfo_moth2 .append(int(row.split()[3])-1)
