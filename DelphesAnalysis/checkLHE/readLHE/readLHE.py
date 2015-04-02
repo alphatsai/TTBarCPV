@@ -24,6 +24,7 @@ class readLHE:
 		self.maxEvts=0
 		self.numEvts=-1
 		self.GMProcess=[]
+		self.GM5Process=[]
 		self.evtTable=[]
 		self.events=[]
 		self.tags = { 'MGVersion'  :0, 
@@ -87,6 +88,28 @@ class readLHE:
 					self.evtTable.append(l)
 				else:
 					self.evtTable[self.numEvts] = self.evtTable[self.numEvts] + "\n" + l 
+
+		print '>> Getting MG5 process...'
+		l=0
+		nextline=True
+		for line in self.MG5ProcCard.splitlines():
+			if beautyLine.isComment(line): 
+				continue
+			inputline=''
+			if line.find('generate') >= 0 and nextline:
+				inputline = line.split('generate')[1].strip()
+				self.GM5Process.append(inputline)
+				l=+1
+			elif line.find('add process') >= 0 and nextline:
+				inputline = line.split('process')[1].strip()
+				self.GM5Process.append(inputline)
+				l=+1
+			elif not nextline:
+				self.GM5Process[l] = self.GM5Process[l].strip('\\') + line.strip()
+			if inputline.endswith('\\'): 
+				nextline=False
+			else:
+				nextline=True
 
 		print '>> Getting MG process...'
 		for line in self.MGProcCard.splitlines():
@@ -170,7 +193,8 @@ class readLHE:
 			print '|          +3 : Intermediate resonance, for documentation only                                       |' 				
 			print '|          -9 : Incoming beam particles at time t = -oo                                              |' 			
 	
-			for pro in self.GMProcess:
+			#for pro in self.GMProcess:
+			for pro in self.GM5Process:
 				print '| MG5 Process : %-85s|' % pro				
 					
 			print '| Number of particle : %3d                                                                           |' % self.events[i].evtInfo_numParticle				
