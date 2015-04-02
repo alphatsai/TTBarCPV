@@ -3,8 +3,9 @@ import os, re, sys, shutil
 import math, ROOT
 import numpy
 
-from fuctions import *
-from PIDs     import PIDs  
+sys.path.insert(1,os.path.dirname(os.path.abspath(__file__))+'/../')
+from functions import beautyLine
+from pid       import PIDs  
 
 class evtInfo: 
 	def __init__(self):
@@ -21,7 +22,7 @@ class evtInfo:
 		self.particleInfo_Nmoth  = []
 		self.particleInfo_dau1   = []
 		self.particleInfo_dau2   = []
-		self.particleInfo_dau3   = []               # Sometimes heppand
+		self.particleInfo_dau3   = []       # Sometimes heppand
 		self.particleInfo_Ndau   = []
 		self.particleInfo_color1 = []
 		self.particleInfo_color2 = []
@@ -30,7 +31,7 @@ class evtInfo:
 		self.particleInfo_pz     = []
 		self.particleInfo_energy = []
 		self.particleInfo_mass   = []
-		self.particleInfo_invLifeTimie = []         # without secondary vertex, which depend on generating setup
+		self.particleInfo_invLifeTimie = [] # without secondary vertex, which depend on generating setup
 		self.particleInfo_helicity     = []
 
 	def fillEvtInfo(self, evtTable):

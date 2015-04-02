@@ -21,24 +21,27 @@ parser.add_option("-n", "--name", dest="name", #action="store", #default=0
                   help="Input particle name based on pythia table")
 parser.add_option("-d", "--data", dest="data", default='decayList.txt',
                   help="Input particle decay list from pythia")
+#parser.add_option("-l", "--lib", dest="libaries", default='../',
+#                  help="Input path of main libaries")
 (options, args) = parser.parse_args()
+
+#sys.path.append(options.libaries)
+#from PIDs import PIDs  
 
 # Main progress
 if not options.pid and not options.name:
 	print usage
 	sys.exit()
+pids = PIDs(options.data)
+pids.loadDecayList()
 if options.pid:
-	pids = PIDs(options.data)
-	pids.loadDecayList()
-	print "|"
-	print "| Paritcle ID: "+str(options.pid)+" = "+pids.showName(options.pid)
-	print "|"
+	#print "|"
+	print ">> Paritcle ID   : "+str(options.pid)+" = "+pids.showName(options.pid)
+	#print "|"
 if options.name:
-	pids = PIDs(options.data)
-	pids.loadDecayList()
-	print "|"
-	print "| Paritcle: "+pids.correctName(options.name)+" = "+str(pids.showPID(options.name))
-	print "|"
+	#print "|"
+	print ">> Paritcle name : "+pids.correctName(options.name)+" = "+str(pids.showPID(options.name))
+	#print "|"
 	
 
 #print "|"

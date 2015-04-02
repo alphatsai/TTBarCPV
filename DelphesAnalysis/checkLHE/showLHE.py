@@ -4,8 +4,9 @@ import math, ROOT
 import numpy
 
 from optparse import OptionParser
-#from PIDs import PIDs  
-from readLHE import readLHE 
+
+sys.path.insert(1,os.path.dirname(os.path.abspath(__file__))+'/../')
+from readLHE  import readLHE 
 
 # usage description
 usage = """
@@ -20,7 +21,7 @@ parser.add_option("-m", "--max", dest="maxEvt", type="int",
                   help="Show events until maximum event")
 parser.add_option("-e", "--evt", dest="evt", type="int", 
                   help="Show spacial event")
-parser.add_option("-d", "--data", dest="data", default='decayList.txt',
+parser.add_option("-d", "--data", dest="data", default='pid/decayList.txt',
                   help="Input particle decay list from pythia")
 parser.add_option("-l", "--lhe", dest="lheFile", 
                   help="Input lhe file")
@@ -46,7 +47,7 @@ elif not options.maxEvt and options.evt:
 	#lheInfo.loadEvents()  # Without set limit, it will load all events
 	lheInfo.showSpEvent(options.evt)	
 else:
-	print " Shell not use --max and --evt at the same time"
+	print " [Error] Shell not use --max and --evt at the same time"
 	print usage
 	sys.exit()
 	

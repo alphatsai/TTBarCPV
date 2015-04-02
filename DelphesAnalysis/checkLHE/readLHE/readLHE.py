@@ -3,9 +3,10 @@ import os, re, sys, shutil
 import math, ROOT
 import numpy
 
-from fuctions import *
-from PIDs     import PIDs  
-from evtInfo  import evtInfo
+sys.path.insert(1,os.path.dirname(os.path.abspath(__file__))+'/../')
+from functions import beautyLine  
+from pid       import PIDs 
+from evtInfo   import *
 
 class readLHE:
 	def __init__(self, decayListFile, lheFile):
@@ -62,7 +63,7 @@ class readLHE:
 		self.numEvts=-1 # Initialize, in case
 		for line in self.lheFile:
 			l = line.strip()
-			if isEmpty(l):
+			if beautyLine.isEmpty(l):
 				continue
 			if l.find('<LesHouchesEvents') >= 0: 
 				LHEVersion = l.split('="')[1].split('">')[0]	
@@ -80,7 +81,7 @@ class readLHE:
 			if self.tags['init'] == 1 and l.find('<init') < 0:
 				self.init = self.init + l + "\n"
 			if self.tags['event'] == 1 and l.find('<event') < 0:
-				if isComment(l): 
+				if beautyLine.isComment(l): 
 					continue
 				if len(l.split()) == 6:
 					self.numEvts += 1	
@@ -90,7 +91,7 @@ class readLHE:
 
 		print '>> Getting MG process...'
 		for line in self.MGProcCard.splitlines():
-			if isComment(line): 
+			if beautyLine.isComment(line): 
 				continue
 			if line.find('#Process') >= 0:
 				self.GMProcess.append(line.split('#')[0].strip())
@@ -104,7 +105,7 @@ class readLHE:
 			sys.exit()
 		self.loadedEvts=True
 		self.maxEvts = maxEvt or self.numEvts+1
-		print 'Getting %d event informations...' % self.maxEvts
+		print '>> Getting %d event informations...' % self.maxEvts
 		i=0	
 		while ( i < self.maxEvts ):
 			self.events.append(evtInfo())
@@ -120,7 +121,7 @@ class readLHE:
 		self.loadedSpEvts=True
 		self.spEvt = evt
 		self.maxEvts = 1
-		print 'Getting No.%d event informations...' % self.spEvt
+		print '>> Getting No.%d event informations...' % self.spEvt
 		self.events.append(evtInfo())
 		self.events[0].fillEvtInfo(self.evtTable[self.spEvt])
 
@@ -135,6 +136,7 @@ class readLHE:
 			while ( i < maxEvt ):
 				self.showSpEvent(i)
 				i+=1
+				if i < maxEvt: print ''
 		else:
 			print '|'
 			print '| [Error] Out of loaded events range '+str(self.maxEvts)
@@ -159,7 +161,7 @@ class readLHE:
 
 		if i < self.maxEvts:
 			## * Print out event information 
-			print '\n.----------------------------------------------------------------------------------.' 
+			print '.----------------------------------------------------------------------------------.' 
 			print '| *** Event %-7s **** ----------------------------------------------------------|' % str(evt)
 			print '|----------------------------------------------------------------------------------|' 
 			print '| Status = -1 : Incoming particle                                                  |' 
