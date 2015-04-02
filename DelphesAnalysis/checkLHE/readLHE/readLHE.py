@@ -127,6 +127,9 @@ class readLHE:
 			sys.exit()
 		self.loadedEvts=True
 		self.maxEvts = maxEvt or self.numEvts+1
+		if self.maxEvts > self.numEvts+1:
+			print '>> [Warning] Over the total events range, will load all events'
+			self.maxEvts = self.numEvts+1
 		print '>> Getting %d event informations...' % self.maxEvts
 		i=0	
 		while ( i < self.maxEvts ):
@@ -153,17 +156,17 @@ class readLHE:
 			print '| [Error] Please loadEvents() before showEvent'
 			print '|'
 			sys.exit()
-		if maxEvt <= self.maxEvts:
-			i=0
-			while ( i < maxEvt ):
-				self.showSpEvent(i)
-				i+=1
-				if i < maxEvt: print ''
+		outmax=''
+		if maxEvt > self.maxEvts:
+			print '>> [Warning] Over the total events range, will print out all events'
+			outmax = self.maxEvts 
 		else:
-			print '|'
-			print '| [Error] Out of loaded events range '+str(self.maxEvts)
-			print '|'
-			sys.exit()
+			outmax = maxEvt 
+		i=0
+		while ( i < outmax ):
+			self.showSpEvent(i)
+			i+=1
+			if i < outmax: print ''
 
 	def showSpEvent(self, evt):
 		i=None
