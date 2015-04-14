@@ -29,7 +29,7 @@ if not os.path.isfile(options.anaCode):
 if not options.inPut:
 	print usage
 	sys.exit()
-if not options.writeInto and not os.path.isdir(options.writeInto):
+if options.writeInto and not os.path.isdir(options.writeInto):
 	os.system('mkdir -p '+options.writeInto)	
 	print '>> Created new directory: '+options.writeInto
 
