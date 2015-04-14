@@ -7,9 +7,13 @@ Format: https://cp3.irmp.ucl.ac.be/projects/delphes/wiki/WorkBook/RootTreeDescri
 2) Edit the Delphes path in env.csh
 3) source env.ch
 4) make
-5) ./ana_delphes input_file.root <output_file.root>
+5) ./analysis input_file.root <output_file.root>
 
-6) "root mkplot.cc" for making plots
+6) Play in examples
+ cd examples
+ make
+ ./ana_delphes TT2LepJet.root result.root
+ root mkplot.cc #for making plots
 
 [1] http://madgraph.hep.uiuc.edu
 Download Madgraph5

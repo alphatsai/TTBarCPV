@@ -3,5 +3,5 @@ CXXFLAGS = $(shell root-config --cflags) -Wno-write-strings -D_FILE_OFFSET_BITS=
 DELPHES_LIBS = $(shell root-config --libs) -lEG -LDelphes -lDelphes
 
 all:
-	g++ -c ana_delphes.cc $(CXXFLAGS)
-	g++ -o ana_delphes ana_delphes.o $(LDFLAGS) $(DELPHES_LIBS)
+	g++ -c analysis.cc $(CXXFLAGS)
+	g++ -o analysis analysis.o $(LDFLAGS) $(DELPHES_LIBS)
