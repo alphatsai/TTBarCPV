@@ -1,4 +1,4 @@
-
+using namespace std;
 bool argvOpts( char *argv[] )
 {
 	bool isVal=false;

@@ -1,47 +1,48 @@
 #include <iostream>
 #include <cmath>
 #include <string>
+#include <vector>
 
 #include "TFile.h"
 #include "TH1F.h"
 #include "TClonesArray.h"
 #include "TLorentzVector.h"
 
+#include "functions.C"
 #include "argvOpts.C"
 #include "classes/DelphesClasses.h"
 
 #include "ExRootAnalysis/ExRootTreeReader.h"
 #include "ExRootAnalysis/ExRootTreeBranch.h"
 
-GenParticle *getMatchedGenParticle(Jet *jet, TClonesArray *branchParticle, int PID = -1)
-{
-    GenParticle *gen_matched = NULL;
-    double dR_matched = 0.3; // threshold dR = 0.3
-    
-    for (int idx=0; idx<branchParticle->GetEntries(); idx++) {
-        GenParticle *gen = (GenParticle*)branchParticle->At(idx);
-        
-        if (gen->Status!=3) continue;
-
-        if (PID>0 && abs(gen->PID)!=PID) continue; //specific particle code
-        if (PID==0) { // any light-quark jet
-            if (abs(gen->PID)!=1 && abs(gen->PID)!=2 &&
-                abs(gen->PID)!=3 && abs(gen->PID)!=4) continue;
-        }
-        if (PID<0) { // any jet
-            if (abs(gen->PID)!=1 && abs(gen->PID)!=2 && abs(gen->PID)!=3 &&
-                abs(gen->PID)!=4 && abs(gen->PID)!=5 && abs(gen->PID)!=21) continue;
-        }
-
-        double dR = gen->P4().DeltaR(jet->P4());
-        if (dR<dR_matched) {
-            dR_matched = dR;
-            gen_matched = gen;
-        }
-    }
-    return gen_matched;
-}
-
+//GenParticle *getMatchedGenParticle(Jet *jet, TClonesArray *branchParticle, int PID = -1)
+//{
+//    GenParticle *gen_matched = NULL;
+//    double dR_matched = 0.3; // threshold dR = 0.3
+//    
+//    for (int idx=0; idx<branchParticle->GetEntries(); idx++) {
+//        GenParticle *gen = (GenParticle*)branchParticle->At(idx);
+//        
+//        if (gen->Status!=3) continue;
+//
+//        if (PID>0 && abs(gen->PID)!=PID) continue; //specific particle code
+//        if (PID==0) { // any light-quark jet
+//            if (abs(gen->PID)!=1 && abs(gen->PID)!=2 &&
+//                abs(gen->PID)!=3 && abs(gen->PID)!=4) continue;
+//        }
+//        if (PID<0) { // any jet
+//            if (abs(gen->PID)!=1 && abs(gen->PID)!=2 && abs(gen->PID)!=3 &&
+//                abs(gen->PID)!=4 && abs(gen->PID)!=5 && abs(gen->PID)!=21) continue;
+//        }
+//
+//        double dR = gen->P4().DeltaR(jet->P4());
+//        if (dR<dR_matched) {
+//            dR_matched = dR;
+//            gen_matched = gen;
+//        }
+//    }
+//    return gen_matched;
+//}
 using namespace std;
 int main( int argc, char *argv[] )
 {
@@ -72,6 +73,11 @@ int main( int argc, char *argv[] )
     TH1D *histR2_eta = new TH1D("histR2_eta", "", 5, 0.,2.5);
     TH1D *histC_eta = new TH1D("histC_eta", "", 5, 0.,2.5);
     
+	vector<double> ax, ay, az;
+	ax.push_back(1); ax.push_back(0); ax.push_back(0);
+	ay.push_back(0); ay.push_back(1); ay.push_back(0);
+	az.push_back(0); az.push_back(0); az.push_back(1);
+
     int n_entries = treeReader->GetEntries();
     for(int entry = 0; entry < n_entries; entry++) {
         treeReader->ReadEntry(entry);
