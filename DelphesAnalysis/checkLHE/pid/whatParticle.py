@@ -32,7 +32,7 @@ pids.loadDecayList()
 if options.pid:
 	print ">> Paritcle ID   : "+str(options.pid)+" = "+pids.showName(options.pid)
 if options.name:
-	print ">> Paritcle name : "+pids.correctName(options.name)+" = "+str(pids.showPID(options.name))
+	print ">> Paritcle name : "+pids.correctName(options.name, True)+" = "+str(pids.showPID(options.name))
 	
 
 #print "|"

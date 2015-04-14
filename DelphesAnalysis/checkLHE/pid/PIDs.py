@@ -42,7 +42,7 @@ class PIDs:
 
 	def showPID(self, name):
 		if not self.correctName(name) in self.NameToPID:
-			return 'Error '+self.correctName(name) 
+			return 'Unknown' 
 		else: 
 			return self.NameToPID[self.correctName(name)]
 
@@ -55,10 +55,12 @@ class PIDs:
 		else: 
 			return self.PIDToName[int(pid)]
 
-	def correctName(self, name):
+	def correctName(self, name, debug=False):
 		if not str(name).lower() in self.LowerToName:
-			#return 'Undefined Name - '+str(name) 
-			return 'Unknown' 
+			if debug:
+				return 'Undefined '+str(name) 
+			else:
+				return 'Unknown'
 		else: 
 			return self.LowerToName[str(name).lower()]
 		
