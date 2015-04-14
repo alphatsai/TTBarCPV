@@ -1,6 +1,7 @@
 void do_make_plot(char *name, char *xtitle, char *ytitle, char* option = "ratio")
 {
-    TFile *fin = new TFile("result.root");
+    //TFile *fin = new TFile("result.root");
+    TFile *fin = new TFile("result_TTtoLepJet.root");
     
     TCanvas *c1 = new TCanvas("c1","c1",0,0,700,500);
     c1->SetFrameFillColor(10);

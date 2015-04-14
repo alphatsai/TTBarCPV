@@ -12,7 +12,7 @@ Format: https://cp3.irmp.ucl.ac.be/projects/delphes/wiki/WorkBook/RootTreeDescri
 6) Play in examples
  cd examples
  make
- ./ana_delphes TT2LepJet.root result.root
+ ./ana_delphes tag_1_delphes_events.root result_TTtoLepJet.root
  root mkplot.cc #for making plots
 
 [1] http://madgraph.hep.uiuc.edu
