@@ -7,7 +7,6 @@ bool argvOpts( char *argv[] )
 		printf(">> Ex: %s tag_1_delphes_events.root\n", argv[0]);
         isVal=false;
     }else{
-		printf(">> Ex: %s tag_1_delphes_events.root\n", argv[0]);
 		printf(">> Loaded file: %s\n", argv[1]);
         isVal=true;
 	}
