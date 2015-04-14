@@ -7,7 +7,7 @@ Format: https://cp3.irmp.ucl.ac.be/projects/delphes/wiki/WorkBook/RootTreeDescri
 2) Edit the Delphes path in env.csh
 3) source env.ch
 4) make
-5) ./analysis input_file.root <output_file.root>
+5) ./analysis.py --help 
 
 6) Play in examples
  cd examples
