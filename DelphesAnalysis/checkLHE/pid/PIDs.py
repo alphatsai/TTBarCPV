@@ -50,13 +50,15 @@ class PIDs:
 		if int(pid) == 0:
 			return 'None' 
 		elif not int(pid) in self.PIDToName:
-			return 'Undefined PID - '+str(pid)
+			#return 'Undefined PID - '+str(pid)
+			return 'Unknown'
 		else: 
 			return self.PIDToName[int(pid)]
 
 	def correctName(self, name):
 		if not str(name).lower() in self.LowerToName:
-			return 'Undefined Name - '+str(name) 
+			#return 'Undefined Name - '+str(name) 
+			return 'Unknown' 
 		else: 
 			return self.LowerToName[str(name).lower()]
 		
