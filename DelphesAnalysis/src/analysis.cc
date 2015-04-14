@@ -7,6 +7,7 @@
 #include "TClonesArray.h"
 #include "TLorentzVector.h"
 
+#include "argvOpts.C"
 #include "classes/DelphesClasses.h"
 
 #include "ExRootAnalysis/ExRootTreeReader.h"
@@ -44,27 +45,7 @@ GenParticle *getMatchedGenParticle(Jet *jet, TClonesArray *branchParticle, int P
 using namespace std;
 int main( int argc, char *argv[] )
 {
-	////** Check input and output
-	printf("|\n");
-    if( argv[1] == NULL ){
-        printf("| Please input file.\n"); 
-		printf("| Ex: %s tag_1_delphes_events.root\n", argv[0]);
-		printf("|\n");
-        return 0;
-    }else{
-		cout<<"| Loaded file: "<<argv[1]<<endl;
-	} 
-    if( argv[2] == NULL ){
-		argv[2]="result.root";
-	}else{
-		string str(argv[2]);
-		if( str.find(".root") == std::string::npos){ 
-			printf("| [ERROR]: \"%s\" is not root file for output\n", argv[2]);
-			printf("| Please do like: %s %s result.root\n", argv[0], argv[1]);
-			printf("|\n");
-			return 0;
-		}
-	}
+	if( !argvOpts(argv) ) return 0;
 
 	////** Analysis 
     TFile *fout = new TFile(argv[2],"recreate");
@@ -190,7 +171,6 @@ int main( int argc, char *argv[] )
     
     fout->Write();
     fout->Close();
-	printf("| Done!\n");
-	printf("| Output file: %s\n", argv[2]);
-	printf("|\n");
+	printf(">> Done!\n");
+	printf(">> Output file: %s\n", argv[2]);
 }
