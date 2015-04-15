@@ -21,6 +21,8 @@ parser.add_option("-i", "--input", dest="inPut",
                   help="Input delphes root file")
 parser.add_option("-o", "--output", dest="outPut", default='result.root',
                   help="Input particle decay list from pythia")
+parser.add_option("-d", "--debug", dest="debug", default='False',
+                  help="Switch of debugging")
 (options, args) = parser.parse_args()
 
 if not os.path.isfile(options.anaCode):
@@ -34,5 +36,5 @@ if options.writeInto and not os.path.isdir(options.writeInto):
 	print '>> Created new directory: '+options.writeInto
 
 print '>> Writing into '+options.writeInto+'...'
-commands=options.anaCode+' '+options.inPut+' '+options.writeInto+'/'+options.outPut 
+commands=options.anaCode+' '+options.inPut+' '+options.writeInto+'/'+options.outPut+' '+options.debug 
 os.system(commands)	

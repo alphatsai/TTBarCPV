@@ -73,3 +73,4 @@ vector<double> addP3( TLorentzVector v1, TLorentzVector v2, int isSubtract=0 ){ 
 vector<double> addP3( TLorentzVector v1, vector<double> v2, int isSubtract=0 ){ return addP3( v1.Px(), v1.Py(), v1.Pz(), v2[0], v2[1], v2[2], isSubtract ); }
 vector<double> addP3( vector<double> v1, TLorentzVector v2, int isSubtract=0 ){ return addP3( v1[0], v1[1], v1[2], v2.Px(), v2.Py(), v2.Pz(), isSubtract ); }
 vector<double> addP3( vector<double> v1, vector<double> v2, int isSubtract=0 ){ return addP3( v1[0], v1[1], v1[2], v2[0], v2[1], v2[2], isSubtract ); }
+
