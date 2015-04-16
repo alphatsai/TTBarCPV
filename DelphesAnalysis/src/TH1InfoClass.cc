@@ -24,25 +24,46 @@ void TH1InfoClass<TH1>::defaultTH1Info()
 {
 	// Info.push_back( TH1Info( Name,		Title,			xTitle, 	yTitle, 	xUnit,	yUnit, 	Bin, Min, Max ) );
 	Info.push_back( TH1Info( "Evt_Events",	"Total events",	  		  "", 				"Events", 	"", 	"",		1, 1,   2) );
+	Info.push_back( TH1Info( "Evt_NLeptons",	 "Num. of leptons",	  		"N(lep)", 		  "Events", 	"", 	"",		10, 0,   10) );
+	Info.push_back( TH1Info( "Evt_NSelLeptons",	 "Num. of selected leptons","N(selected lep)","Events", 	"", 	"",		10, 0,   10) );
+	Info.push_back( TH1Info( "Evt_NMuons",		 "Num. of muon",	  		"N(#mu)", 		  "Events", 	"", 	"",		10, 0,   10) );
+	Info.push_back( TH1Info( "Evt_NSelMuons",	 "Num. of selected muon", 	"N(selected #mu)","Events", 	"", 	"",		10, 0,   10) );
+	Info.push_back( TH1Info( "Evt_NLooseMuIsoMu","Num. of loose muon", 		"N(loose #mu)",	  "Events", 	"", 	"",		10, 0,   10) );
+	Info.push_back( TH1Info( "Evt_NLooseElIsoMu","Num. of loose electron", 	"N(loose e)",	  "Events", 	"", 	"",		10, 0,   10) );
+	Info.push_back( TH1Info( "Evt_NElectrons",	 "Num. of electron",	  	"N(e)", 		  "Events", 	"", 	"",		10, 0,   10) );
+	Info.push_back( TH1Info( "Evt_NSelElectrons","Num. of selected electron","N(selected e)",  "Events", 	"", 	"",		10, 0,   10) );
+	Info.push_back( TH1Info( "Evt_NLooseMuIsoEl","Num. of loose muon", 		"N(loose #mu)",	  "Events", 	"", 	"",		10, 0,   10) );
+	Info.push_back( TH1Info( "Evt_NLooseElIsoEl","Num. of loose electron", 	"N(loose e)",	  "Events", 	"", 	"",		10, 0,   10) );
 	Info.push_back( TH1Info( "Evt_NJets",	"Num. of jets",	  		  "N(j)", 			"Events", 	"", 	"",		20, 0,   20) );
 	Info.push_back( TH1Info( "Evt_NSelJets","Num. of selected jets",  "N(selected j).", "Events", 	"", 	"",		20, 0,   20) );
 	Info.push_back( TH1Info( "Evt_NbJets",	"Num. of b-jets",	  	  "N(B-tagged j)", 	"Events", 	"", 	"",		20, 0,   20) );
+	Info.push_back( TH1Info( "Jet_Pt",		"pT of Jet",			  "p_{T}(j)", 		"Yields", 	"GeV", 	"",		500, 0,   500 ) );
+	Info.push_back( TH1Info( "Jet_Px",		"px of Jet",			  "p_{x}(j)", 		"Yields", 	"GeV", 	"",		500, 0,   500 ) );
+	Info.push_back( TH1Info( "Jet_Py",		"py of Jet",			  "p_{y}(j)", 		"Yields", 	"GeV", 	"",		500, 0,   500 ) );
+	Info.push_back( TH1Info( "Jet_Pz",		"pz of Jet",			  "p_{z}(j)", 		"Yields", 	"GeV", 	"",		500, 0,   500 ) );
+	Info.push_back( TH1Info( "Jet_M",		"Mass of Jet",			  "Mass(j)", 		"Yields", 	"GeV", 	"",		500, 0,   500 ) );
+	Info.push_back( TH1Info( "Jet_E",		"Energy of Jet",		  "Energy(j)",		"Yields", 	"GeV", 	"",		500, 0,   500 ) );
+	Info.push_back( TH1Info( "Jet_Eta",		"Eta of Jet",	 		  "#eta(j)", 		"Yields", 	"", 	"",		100, -5, 5 ) );
+	Info.push_back( TH1Info( "Jet_Phi",		"Phi of Jet",	 		  "#phi(j)", 		"Yields", 	"", 	"",		64, -3.2,   3.2 ) );
+	Info.push_back( TH1Info( "Jet_BTag",	"Jet b-tagged",	 		  "bTag", 		    "Yields", 	"", 	"",		2, 0,   2 ) );
 	Info.push_back( TH1Info( "SelJet_Pt",	"pT of selected Jet",	  "p_{T}(selected j)", 	"Yields", 	"GeV", 	"",		500, 0,   500 ) );
 	Info.push_back( TH1Info( "SelJet_Px",	"px of selected Jet",	  "p_{x}(selected j)", 	"Yields", 	"GeV", 	"",		500, 0,   500 ) );
 	Info.push_back( TH1Info( "SelJet_Py",	"py of selected Jet",	  "p_{y}(selected j)", 	"Yields", 	"GeV", 	"",		500, 0,   500 ) );
 	Info.push_back( TH1Info( "SelJet_Pz",	"pz of selected Jet",	  "p_{z}(selected j)", 	"Yields", 	"GeV", 	"",		500, 0,   500 ) );
 	Info.push_back( TH1Info( "SelJet_M",	"Mass of selected Jet",	  "Mass(selected j)", 	"Yields", 	"GeV", 	"",		500, 0,   500 ) );
 	Info.push_back( TH1Info( "SelJet_E",	"Energy of selected Jet", "Energy(selected j)",	"Yields", 	"GeV", 	"",		500, 0,   500 ) );
-	Info.push_back( TH1Info( "SelJet_Eta",	"Eta of selected Jet",	  "#eta(selected j)", 	"Yields", 	"", 	"",		50, 0, 5 ) );
+	Info.push_back( TH1Info( "SelJet_Eta",	"Eta of selected Jet",	  "#eta(selected j)", 	"Yields", 	"", 	"",		100, -5, 5 ) );
 	Info.push_back( TH1Info( "SelJet_Phi",	"Phi of selected Jet",	  "#phi(selected j)", 	"Yields", 	"", 	"",		64, -3.2,   3.2 ) );
+	Info.push_back( TH1Info( "SelJet_BTag",	"Selected Jet b-tagged",  "bTag", 		    "Yields", 	"", 	"",		2, 0,   2 ) );
 	Info.push_back( TH1Info( "bJet_Pt",     "pT of b-Jet",	  "p_{T}(B-tagged j)", 	"Yields", 	"GeV", 	"",		500, 0,   500 ) );
 	Info.push_back( TH1Info( "bJet_Px",     "px of b-Jet",	  "p_{x}(B-tagged j)", 	"Yields", 	"GeV", 	"",		500, 0,   500 ) );
 	Info.push_back( TH1Info( "bJet_Py",     "py of b-Jet",	  "p_{y}(B-tagged j)", 	"Yields", 	"GeV", 	"",		500, 0,   500 ) );
 	Info.push_back( TH1Info( "bJet_Pz",     "pz of b-Jet",	  "p_{z}(B-tagged j)", 	"Yields", 	"GeV", 	"",		500, 0,   500 ) );
 	Info.push_back( TH1Info( "bJet_M",		"Mass of b-Jet",  "Mass(B-tagged j)", 	"Yields", 	"GeV", 	"",		500, 0,   500 ) );
 	Info.push_back( TH1Info( "bJet_E",		"Energy of b-Jet","Energy(B-tagged j)",	"Yields", 	"GeV", 	"",		500, 0,   500 ) );
-	Info.push_back( TH1Info( "bJet_Eta",	"Eta of b-Jet",	  "#eta(B-tagged j)", 	"Yields", 	"", 	"",		50, 0, 5 ) );
+	Info.push_back( TH1Info( "bJet_Eta",	"Eta of b-Jet",	  "#eta(B-tagged j)", 	"Yields", 	"", 	"",		100, -5, 5 ) );
 	Info.push_back( TH1Info( "bJet_Phi",	"Phi of b-Jet",	  "#phi(B-tagged j)", 	"Yields", 	"", 	"",		64, -3.2,   3.2 ) );
+	Info.push_back( TH1Info( "bJet_BTag",	"b-Jet b-tagged",  "bTag", 		    "Yields", 	"", 	"",		2, 0,   2 ) );
 }
 
 //* Create Histogram
