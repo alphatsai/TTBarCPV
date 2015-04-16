@@ -8,7 +8,7 @@ using namespace std;
 class argvOpts{
 	public:
 		argvOpts();
-		argvOpts(char *argv[]);
+		argvOpts( int argc, char *argv[]);
 		void usage(std::string comments="");
 		void checking();
 		std::string excFile; //argv[0]
@@ -19,5 +19,6 @@ class argvOpts{
 
 	private:
 		std::string debugstr;//argv[3]
+		int argvSize;
 };
 #endif

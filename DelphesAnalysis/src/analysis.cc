@@ -21,7 +21,7 @@ using namespace std;
 
 int main( int argc, char *argv[] )
 {
-	argvOpts opts(argv);
+	argvOpts opts( argc, argv);
 	if( !opts.isVal ) return 0;
 
 	////** Analysis 

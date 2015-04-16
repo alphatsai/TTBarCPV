@@ -1,10 +1,12 @@
 #include <string>
+#include <cstring>
 #include "../interface/argvOpts.h"
 
 using namespace std;
 
-argvOpts::argvOpts( char *argv[] )
+argvOpts::argvOpts( int argc, char *argv[] )
 {
+	argvSize = argc;
 	excFile  = argv[0];
 	input    = ( argv[1] == NULL ) ? "" : argv[1];
 	output   = ( argv[2] == NULL ) ? "" : argv[2];
