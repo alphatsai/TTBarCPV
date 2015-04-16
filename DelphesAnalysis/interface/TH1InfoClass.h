@@ -10,7 +10,8 @@ class TH1InfoClass{
 	public:
 		TH1InfoClass( bool deBug=0 );
 		void addNewTH1(std::string name, std::string title, std::string xtitle, std::string ytitle, std::string xunit, std::string yunit, int bin, double min, double max);
-		void initTH1Info(); // Be writen in custumer way
+		//void initTH1Info(); // Be writen in custumer way
+		void defaultTH1Info(); 
 		void CreateTH1();
 		void CreateTH1(TFile* f, std::string dir_name=""); 
 		void SetTitles(); 

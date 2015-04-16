@@ -8,7 +8,7 @@ template<typename TH1>
 TH1InfoClass<TH1>::TH1InfoClass( bool deBug )
 {
 	debug=deBug;	
-	//initTH1Info();
+	defaultTH1Info();
 	size=Info.size();
 	if( debug ) printf(">> [DEBUG] TH1InfoClass constructed, %d TH1s are prepared!\n", size);
 }
@@ -19,17 +19,13 @@ void TH1InfoClass<TH1>::addNewTH1(std::string name, std::string title, std::stri
 	size=Info.size();
 	if( debug ) printf(">> [DEBUG] Add new TH1 %s bin/min/max:%d/%.2f/%.2f, new size is %d\n", name.c_str(), bin, min, max, size);
 }
-/*
-// This is example:
 template<typename TH1>
-void TH1InfoClass<TH1>::initTH1Info()
+void TH1InfoClass<TH1>::defaultTH1Info()
 {
 	// Info.push_back( TH1Info( Name,		Title,			xTitle, 	yTitle, 	xUnit,	yUnit, 	Bin, Min, Max ) );
-	// Info.push_back( TH1Info( "JetPt",		"pT of Jet",	"p_{T}", 	"Yields", 	"GeV", 	"",		500, 0,   500 ) );
-	//Info.push_back( TH1Info( "JetPt",		"pT of Jet",	"p_{T}", 	"Yields", 	"GeV", 	"",		500, 0,   500 ) );
-	//Info.push_back( TH1Info( "JetMass",		"Mass of Jet",	"Mass", 	"Yields", 	"GeV", 	"",		500, 0,   500 ) );
+	Info.push_back( TH1Info( "JetPt",		"pT of Jet",	"p_{T}", 	"Yields", 	"GeV", 	"",		500, 0,   500 ) );
+	Info.push_back( TH1Info( "JetMass",		"Mass of Jet",	"Mass", 	"Yields", 	"GeV", 	"",		500, 0,   500 ) );
 }
-*/
 
 //* Create Histogram
 template<typename TH1> 

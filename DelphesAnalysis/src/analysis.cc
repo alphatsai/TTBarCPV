@@ -12,8 +12,8 @@
 #include "ExRootAnalysis/ExRootTreeReader.h"
 #include "ExRootAnalysis/ExRootTreeBranch.h"
 
-//#include "TH1InfoClass.cc"
-#include "myTH1.cc"
+#include "TH1InfoClass.cc"
+//#include "myTH1.cc"
 #include "argvOpts.cc"
 #include "functions.C"
 
@@ -35,8 +35,8 @@ int main( int argc, char *argv[] )
 	TClonesArray *branchParticle = treeReader->UseBranch("Particle");
 	
 	TH1InfoClass<TH1D> h1(opts.debug);
-	h1.initTH1Info();
 	h1.CreateTH1();
+	h1.Sumw2();
 
 	TH1D *histMass1 = new TH1D("histMass1", "M(j_{1}, j_{2})", 80, 40.0, 200.0);
 	TH1D *histMass2 = new TH1D("histMass2", "M(gen b_{1}, gen b_{2})", 80, 40.0, 200.0);
