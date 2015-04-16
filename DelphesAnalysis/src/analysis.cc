@@ -35,23 +35,12 @@ int main( int argc, char *argv[] )
 	TClonesArray *branchParticle = treeReader->UseBranch("Particle");
 	
 	TH1InfoClass<TH1D> h1(opts.debug);
+	h1.addNewTH1("Top_Mass3Jets",        "M(3j)",         "Mass", "Yields", "GeV", "", 350, 0, 350 );
+	h1.addNewTH1("Top_Mass3MatchedJets", "M(matched 3j)", "Mass", "Yields", "GeV", "", 350, 0, 350 );
+	h1.addNewTH1("Top_Mass3GenJets",      "M(gen 3j)",     "Mass", "Yields", "GeV", "", 350, 0, 350 );
+
 	h1.CreateTH1();
 	h1.Sumw2();
-
-	TH1D *histMass1 = new TH1D("histMass1", "M(j_{1}, j_{2})", 80, 40.0, 200.0);
-	TH1D *histMass2 = new TH1D("histMass2", "M(gen b_{1}, gen b_{2})", 80, 40.0, 200.0);
-
-	TH1D *histMass3 = new TH1D("histMass3", "M(3j)", 140, 50.0, 330.0);
-	TH1D *histMass4 = new TH1D("histMass4", "M(matched 3j)", 140, 50.0, 330.0);
-	TH1D *histMass5 = new TH1D("histMass5", "M(gen 3j)", 140, 50.0, 330.0);
-
-	TH1D *histR_pt  = new TH1D("histR_pt", "Pt(gen b)/Pt(j) versus Pt(j)", 10, 20.,120.);
-	TH1D *histR2_pt  = new TH1D("histR2_pt", "", 10, 20.,120.);
-	TH1D *histC_pt  = new TH1D("histC_pt", "", 10, 20.,120.);
-
-	TH1D *histR_eta = new TH1D("histR_eta", "Pt(gen b)/Pt(j) versus Eta(j)", 5, 0.,2.5);
-	TH1D *histR2_eta = new TH1D("histR2_eta", "", 5, 0.,2.5);
-	TH1D *histC_eta = new TH1D("histC_eta", "", 5, 0.,2.5);
 
 	vector<double> ax, ay, az;
 	ax.push_back(1); ax.push_back(0); ax.push_back(0);
@@ -72,33 +61,6 @@ int main( int argc, char *argv[] )
 			GenParticle *gen = getMatchedGenParticle(jet,branchParticle,5);
 			if (gen==NULL) continue;
 
-			double R = jet->PT/gen->PT;
-
-			histR_pt->Fill(jet->PT,R);
-			histR2_pt->Fill(jet->PT,R*R);
-			histC_pt->Fill(jet->PT,1.);
-
-			histR_eta->Fill(fabs(jet->Eta),R);
-			histR2_eta->Fill(fabs(jet->Eta),R*R);
-			histC_eta->Fill(fabs(jet->Eta),1.);
-		}
-
-		for (int idx1=0; idx1<branchJet->GetEntries(); idx1++) {
-			for (int idx2=idx1+1; idx2<branchJet->GetEntries(); idx2++) {
-				Jet *jet1 = (Jet*)branchJet->At(idx1);
-				Jet *jet2 = (Jet*)branchJet->At(idx2);
-
-				if (!jet1->BTag) continue;
-				if (!jet2->BTag) continue;
-
-				GenParticle *gen1 = getMatchedGenParticle(jet1,branchParticle,5);
-				GenParticle *gen2 = getMatchedGenParticle(jet2,branchParticle,5);
-
-				histMass1->Fill(((jet1->P4())+(jet2->P4())).Mag());
-
-				if (gen1!=NULL && gen2!=NULL && gen1!=gen2)
-					histMass2->Fill(((gen1->P4())+(gen2->P4())).Mag());
-			}
 		}
 
 		// one b-jet and two non b-jet -> top decay
@@ -125,7 +87,7 @@ int main( int argc, char *argv[] )
 					GenParticle *gen1 = getMatchedGenParticle(jet1,branchParticle,0);
 					GenParticle *gen2 = getMatchedGenParticle(jet2,branchParticle,0);
 
-					histMass3->Fill(((jet1->P4())+(jet2->P4())+(bjet->P4())).Mag());
+					h1.GetTH1("Top_Mass3Jets")->Fill(((jet1->P4())+(jet2->P4())+(bjet->P4())).Mag());
 
 					// Matching to Top quark, t->bw
 					bool isFullMatched = false;
@@ -138,24 +100,14 @@ int main( int argc, char *argv[] )
 					}
 
 					if (isFullMatched) {
-						histMass4->Fill(((jet1->P4())+(jet2->P4())+(bjet->P4())).Mag());
-						histMass5->Fill(((gen1->P4())+(gen2->P4())+(genb->P4())).Mag());
+						h1.GetTH1("Top_Mass3MatchedJets")->Fill(((jet1->P4())+(jet2->P4())+(bjet->P4())).Mag());
+						h1.GetTH1("Top_Mass3GenJets")->Fill(((gen1->P4())+(gen2->P4())+(genb->P4())).Mag());
 					}
 				}
 			}
 		}
 
 	}
-
-	histR_pt->Divide(histC_pt);
-	histR2_pt->Divide(histC_pt);
-	for(int i=1;i<=histR2_pt->GetNbinsX();i++)
-		histR_pt->SetBinError(i,sqrt(histR2_pt->GetBinContent(i)-histR_pt->GetBinContent(i)*histR_pt->GetBinContent(i)));
-
-	histR_eta->Divide(histC_eta);
-	histR2_eta->Divide(histC_eta);
-	for(int i=1;i<=histR2_eta->GetNbinsX();i++)
-		histR_eta->SetBinError(i,sqrt(histR2_eta->GetBinContent(i)-histR_eta->GetBinContent(i)*histR_eta->GetBinContent(i)));
 
 	fout->Write();
 	fout->Close();
