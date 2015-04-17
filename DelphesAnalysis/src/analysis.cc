@@ -404,8 +404,8 @@ int main( int argc, char *argv[] )
 				vector<double> O2_1v = addP3( bjet1.P4(), bjet2.P4() );
 				vector<double> O2_2v = crossP3( isoMu.P4(), jet1.P4() );
 				double O2 = dotP3( O2_1v, O2_2v );
-				h1.GetTH1("Evt_O2")->Fill(O2/MT3);	
-				h1.GetTH1("Evt_O2_Mu")->Fill(O2/MT3);
+				h1.GetTH1("Evt_O2")->Fill(O2/MT4);	
+				h1.GetTH1("Evt_O2_Mu")->Fill(O2/MT4);
 				if( O2 > 0 ){
 					h1.GetTH1("Evt_O2Asym")->Fill("O_{2}>0",1);
 					h1.GetTH1("Evt_O2Asym_Mu")->Fill("O_{2}>0",1);
@@ -432,14 +432,14 @@ int main( int argc, char *argv[] )
 				vector<double> O2_1v = addP3( bjet1.P4(), bjet2.P4() );
 				vector<double> O2_2v = crossP3( isoEl.P4(), jet1.P4() );
 				double O2 = dotP3( O2_1v, O2_2v );
-				h1.GetTH1("Evt_O2")->Fill(O2/MT3);	
-				h1.GetTH1("Evt_O2_Mu")->Fill(O2/MT3);
+				h1.GetTH1("Evt_O2")->Fill(O2/MT4);	
+				h1.GetTH1("Evt_O2_El")->Fill(O2/MT4);
 				if( O2 > 0 ){
 					h1.GetTH1("Evt_O2Asym")->Fill("O_{2}>0",1);
-					h1.GetTH1("Evt_O2Asym_Mu")->Fill("O_{2}>0",1);
+					h1.GetTH1("Evt_O2Asym_El")->Fill("O_{2}>0",1);
 				}else{
 					h1.GetTH1("Evt_O2Asym")->Fill("O_{2}<0",1);
-					h1.GetTH1("Evt_O2Asym_Mu")->Fill("O_{2}<0",1);
+					h1.GetTH1("Evt_O2Asym_El")->Fill("O_{2}<0",1);
 				}
 
 				double O7_1z = dotP3(az, addP3(bjet1.P4(), bjet2.P4(),-1));
