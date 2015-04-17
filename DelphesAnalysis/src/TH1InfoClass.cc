@@ -37,11 +37,14 @@ void TH1InfoClass<TH1>::defaultTH1Info()
 	Info.push_back( TH1Info( "Evt_NJets",	"Num. of jets",	  		  "N(j)", 			"Events", 	"", 	"",		20, 0,   20) );
 	Info.push_back( TH1Info( "Evt_NSelJets","Num. of selected jets",  "N(selected j).", "Events", 	"", 	"",		20, 0,   20) );
 	Info.push_back( TH1Info( "Evt_NbJets",	"Num. of b-jets",	  	  "N(B-tagged j)", 	"Events", 	"", 	"",		20, 0,   20) );
-	Info.push_back( TH1Info( "Evt_O7",		"O7",	  "O_{7}", 	"Events", 	"", 	"",		40, -2,   2) );
-	Info.push_back( TH1Info( "Evt_O7_term1","Pz(pbj1-pbj2)",	"GeV", 	"Events", 	"", 	"",		500, 0,   500) );
-	Info.push_back( TH1Info( "Evt_O7_term2","Pz(pbj1xpbj2)",	"GeV", 	"Events", 	"", 	"",		500, 0,   500) );
+	Info.push_back( TH1Info( "Evt_O7",		"O7",	  			"O_{7}", 	"Events", 	"", 	"",		40, -2,   2) );
+	Info.push_back( TH1Info( "Evt_O7Asym",	"O7 Asymetric",	  	"", 	"Events", 	"", 	"",		2, 0,   2) );
+	Info.push_back( TH1Info( "Evt_O7_term1","Pz(pbj1-pbj2)",	"GeV", 	"Events", 	"", 	"",		1000, -500,   500) );
+	Info.push_back( TH1Info( "Evt_O7_term2","Pz(pbj1xpbj2)",	"GeV", 	"Events", 	"", 	"",		1000, -500,   500) );
 	Info.push_back( TH1Info( "Evt_O7_Mu",	"O7",	  "O_{7}", 	"Events", 	"", 	"",		40, -2,   2) );
+	Info.push_back( TH1Info( "Evt_O7Asym_Mu","O7 Asymetric",	  	"", 	"Events", 	"", 	"",		2, 0,   2) );
 	Info.push_back( TH1Info( "Evt_O7_El",	"O7",	  "O_{7}", 	"Events", 	"", 	"",		40, -2,   2) );
+	Info.push_back( TH1Info( "Evt_O7Asym_El","O7 Asymetric",	  	"", 	"Events", 	"", 	"",		2, 0,   2) );
 	Info.push_back( TH1Info( "Jet_Pt",		"pT of Jet",			  "p_{T}(j)", 		"Yields", 	"GeV", 	"",		500, 0,   500 ) );
 	Info.push_back( TH1Info( "Jet_Px",		"px of Jet",			  "p_{x}(j)", 		"Yields", 	"GeV", 	"",		1000, -500,   500 ) );
 	Info.push_back( TH1Info( "Jet_Py",		"py of Jet",			  "p_{y}(j)", 		"Yields", 	"GeV", 	"",		1000, -500,   500 ) );

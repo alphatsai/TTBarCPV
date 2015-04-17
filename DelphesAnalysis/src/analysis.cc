@@ -17,6 +17,11 @@
 #include "argvOpts.cc"
 #include "functions.C"
 
+const double MT=173.0;
+const double MT2=MT*MT;
+const double MT3=MT*MT*MT;
+const double MT4=MT*MT*MT*MT;
+
 using namespace std;
 
 int main( int argc, char *argv[] )
@@ -48,7 +53,12 @@ int main( int argc, char *argv[] )
 
 	h1.CreateTH1();
 	h1.Sumw2();
-
+	h1.GetTH1("Evt_O7Asym")->GetXaxis()->SetBinLabel(1,"O_{7}<0");
+	h1.GetTH1("Evt_O7Asym")->GetXaxis()->SetBinLabel(2,"O_{7}>0");
+	h1.GetTH1("Evt_O7Asym_Mu")->GetXaxis()->SetBinLabel(1,"O_{7}<0");
+	h1.GetTH1("Evt_O7Asym_Mu")->GetXaxis()->SetBinLabel(2,"O_{7}>0");
+	h1.GetTH1("Evt_O7Asym_El")->GetXaxis()->SetBinLabel(1,"O_{7}<0");
+	h1.GetTH1("Evt_O7Asym_El")->GetXaxis()->SetBinLabel(2,"O_{7}>0");
 	h1.GetTH1("Evt_CutFlow")->GetXaxis()->SetBinLabel(1,"All");
 	h1.GetTH1("Evt_CutFlow")->GetXaxis()->SetBinLabel(2,"1 isoLep");
 	h1.GetTH1("Evt_CutFlow")->GetXaxis()->SetBinLabel(3,"veto(Loose #mu)");
@@ -288,7 +298,8 @@ int main( int argc, char *argv[] )
 							h1.GetTH1("Evt_CutFlow")->Fill("#geq3 Jets", 1);
 							h1.GetTH1("Evt_CutFlow_El")->Fill("#geq3 Jets", 1);
 						}
-						if( bjetCol.size() >= 2 ){ 	
+						if( bjetCol.size() >= 2 ){ 
+							isElCh=true;	
 							h1.GetTH1("Evt_CutFlow")->Fill("#geq2 bjets", 1);
 							h1.GetTH1("Evt_CutFlow_El")->Fill("#geq2 bjets", 1);
 
@@ -359,24 +370,40 @@ int main( int argc, char *argv[] )
 			double O7_1z = dotP3(az, addP3(isoMu_bjet1.P4(), isoMu_bjet2.P4(),-1));
 			double O7_2z = dotP3(az, crossP3(isoMu_bjet1.P4(), isoMu_bjet2.P4()));
 			double O7 = O7_1z*O7_2z;
-			h1.GetTH1("Evt_O7")->Fill(O7);	
-			h1.GetTH1("Evt_O7_Mu")->Fill(O7);
+			h1.GetTH1("Evt_O7")->Fill(O7/MT3);	
+			h1.GetTH1("Evt_O7_Mu")->Fill(O7/MT3);
 			h1.GetTH1("Evt_O7_term1")->Fill(O7_1z);
 			h1.GetTH1("Evt_O7_term2")->Fill(O7_2z);
+			if( O7 > 0 ){
+				h1.GetTH1("Evt_O7Asym")->Fill("O_{7}>0",1);
+				h1.GetTH1("Evt_O7Asym_Mu")->Fill("O_{7}>0",1);
+			}else{
+				h1.GetTH1("Evt_O7Asym")->Fill("O_{7}<0",1);
+				h1.GetTH1("Evt_O7Asym_Mu")->Fill("O_{7}<0",1);
+			}
 			/*
 			double O7_1  = addP3(isoMu_bjet1.P4(), isoMu_bjet2.P4(),-1)[2];
 			double O7_2  = crossP3(isoMu_bjet1.P4(), isoMu_bjet2.P4())[2];
-			printf("bj1 %f, bj2 %f, O7_1 %f, O7_1z %f, O7_2 %f, O7_2z %f, O7 %f\n ", isoMu_bjet1.P4().Pz(), isoMu_bjet2.P4().Pz(), O7_1, O7_1z, O7_2, O7_2z, O7);	
+			printf("bj1( %f, %f, %f )\n ", isoMu_bjet1.P4().Px(), isoMu_bjet1.P4().Py(), isoMu_bjet1.P4().Pz());	
+			printf("bj2( %f, %f, %f )\n ", isoMu_bjet2.P4().Px(), isoMu_bjet2.P4().Py(), isoMu_bjet2.P4().Pz());	
+			printf("O7_1 %f, O7_1z %f, O7_2 %f, O7_2z %f, O7 %f\n ", O7_1, O7_1z, O7_2, O7_2z, O7);	
 			*/
 		}else if( !isMuCh && isElCh){
 			double O7_1z = dotP3(az, addP3(isoEl_bjet1.P4(), isoEl_bjet2.P4(),-1));
 			double O7_2z = dotP3(az, crossP3(isoEl_bjet1.P4(), isoEl_bjet2.P4()));
 			double O7 = O7_1z*O7_2z;
-			h1.GetTH1("Evt_O7")->Fill(O7);	
-			h1.GetTH1("Evt_O7_El")->Fill(O7);	
+			h1.GetTH1("Evt_O7")->Fill(O7/MT3);	
+			h1.GetTH1("Evt_O7_El")->Fill(O7/MT3);	
 			h1.GetTH1("Evt_O7_term1")->Fill(O7_1z);
 			h1.GetTH1("Evt_O7_term2")->Fill(O7_2z);
-			printf("O7 %f\n", O7);	
+			//printf("O7 %f\n", O7);	
+			if( O7 > 0 ){
+				h1.GetTH1("Evt_O7Asym")->Fill("O_{7}>0", 1);
+				h1.GetTH1("Evt_O7Asym_El")->Fill("O_{7}>0",1);
+			}else{
+				h1.GetTH1("Evt_O7Asym")->Fill("O_{7}<0",1);
+				h1.GetTH1("Evt_O7Asym_El")->Fill("O_{7}<0",1);
+			}
 		}
 	}
 
