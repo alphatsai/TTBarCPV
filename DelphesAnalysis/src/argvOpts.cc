@@ -10,7 +10,10 @@ argvOpts::argvOpts( int argc, char *argv[] )
 	excFile  = argv[0];
 	input    = ( argv[1] == NULL ) ? "" : argv[1];
 	output   = ( argv[2] == NULL ) ? "" : argv[2];
-	debugstr = ( argv[3] == NULL ) ? "" : argv[3];
+	channel  = ( argv[3] == NULL ) ? "" : argv[3];
+	debugstr = ( argv[4] == NULL ) ? "" : argv[4];
+	isLepJets=false;
+	isMultiJets=false;
 	debug=false;
 	isVal=false;
 	checking();
@@ -36,6 +39,8 @@ void argvOpts::checking()
 		}
 	}
 	if( debugstr.compare("True") == 0 ||  debugstr.compare("true") == 0 || debugstr.compare("1") == 0 ) debug=true;
+	if( channel.compare("LepJets") == 0 ) isLepJets=true;
+	if( channel.compare("MultiJets") == 0 ) isMultiJets=true;
 }
 
 void argvOpts::usage(std::string comments)

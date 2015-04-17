@@ -15,10 +15,13 @@ class argvOpts{
 		std::string input;   //argv[1]
 		std::string output;  //argv[2]
 		bool isVal;
+		bool isLepJets;
+		bool isMultiJets;
 		bool debug;         
 
 	private:
 		std::string debugstr;//argv[3]
+		std::string channel; //argv[4]
 		int argvSize;
 };
 #endif
