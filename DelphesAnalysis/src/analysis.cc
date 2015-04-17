@@ -54,19 +54,22 @@ int main( int argc, char *argv[] )
 	h1.GetTH1("Evt_CutFlow")->GetXaxis()->SetBinLabel(3,"veto(Loose #mu)");
 	h1.GetTH1("Evt_CutFlow")->GetXaxis()->SetBinLabel(4,"veto(Loose e)");
 	h1.GetTH1("Evt_CutFlow")->GetXaxis()->SetBinLabel(5,"#geq3 Jets");
-	h1.GetTH1("Evt_CutFlow")->GetXaxis()->SetBinLabel(6,"=2 bjets");
+	h1.GetTH1("Evt_CutFlow")->GetXaxis()->SetBinLabel(6,"#geq2 bjets");
+	h1.GetTH1("Evt_CutFlow")->GetXaxis()->SetBinLabel(7,"=2 bjets");
 	h1.GetTH1("Evt_CutFlow_Mu")->GetXaxis()->SetBinLabel(1,"All");
 	h1.GetTH1("Evt_CutFlow_Mu")->GetXaxis()->SetBinLabel(2,"1 isoMu");
 	h1.GetTH1("Evt_CutFlow_Mu")->GetXaxis()->SetBinLabel(3,"veto(Loose #mu)");
 	h1.GetTH1("Evt_CutFlow_Mu")->GetXaxis()->SetBinLabel(4,"veto(Loose e)");
 	h1.GetTH1("Evt_CutFlow_Mu")->GetXaxis()->SetBinLabel(5,"#geq3 Jets");
-	h1.GetTH1("Evt_CutFlow_Mu")->GetXaxis()->SetBinLabel(6,"=2 bjets");
+	h1.GetTH1("Evt_CutFlow_Mu")->GetXaxis()->SetBinLabel(6,"#geq2 bjets");
+	h1.GetTH1("Evt_CutFlow_Mu")->GetXaxis()->SetBinLabel(7,"=2 bjets");
 	h1.GetTH1("Evt_CutFlow_El")->GetXaxis()->SetBinLabel(1,"All");
 	h1.GetTH1("Evt_CutFlow_El")->GetXaxis()->SetBinLabel(2,"1 isoEl");
 	h1.GetTH1("Evt_CutFlow_El")->GetXaxis()->SetBinLabel(3,"veto(Loose #mu)");
 	h1.GetTH1("Evt_CutFlow_El")->GetXaxis()->SetBinLabel(4,"veto(Loose e)");
 	h1.GetTH1("Evt_CutFlow_El")->GetXaxis()->SetBinLabel(5,"#geq3 Jets");
-	h1.GetTH1("Evt_CutFlow_El")->GetXaxis()->SetBinLabel(6,"=2 bjets");
+	h1.GetTH1("Evt_CutFlow_El")->GetXaxis()->SetBinLabel(6,"#geq2 bjets");
+	h1.GetTH1("Evt_CutFlow_El")->GetXaxis()->SetBinLabel(7,"=2 bjets");
 	h1.GetTH1("Evt_MuCut")->GetXaxis()->SetBinLabel(1,"1:0:0");
 	h1.GetTH1("Evt_MuCut")->GetXaxis()->SetBinLabel(2,"0:1:0");
 	h1.GetTH1("Evt_MuCut")->GetXaxis()->SetBinLabel(3,"0:0:1");
@@ -218,6 +221,10 @@ int main( int argc, char *argv[] )
 		h1.GetTH1("Evt_NbJets")->Fill(bjetCol.size());
 
 		//* Fill cut flow
+		bool isMuCh=false; 
+		bool isElCh=false;
+		Jet isoMu_bjet1, isoMu_bjet2, isoEl_bjet1, isoEl_bjet2;
+
 		h1.GetTH1("Evt_CutFlow")->Fill("All", 1);
 		h1.GetTH1("Evt_CutFlow_Mu")->Fill("All", 1);
 		h1.GetTH1("Evt_CutFlow_El")->Fill("All", 1);
@@ -234,6 +241,34 @@ int main( int argc, char *argv[] )
 						if( seljetCol.size() >= 3 ){ 	
 							h1.GetTH1("Evt_CutFlow")->Fill("#geq3 Jets", 1);
 							h1.GetTH1("Evt_CutFlow_Mu")->Fill("#geq3 Jets", 1);
+						}
+						if( bjetCol.size() >= 2 ){
+							isMuCh=true;	
+							h1.GetTH1("Evt_CutFlow")->Fill("#geq2 bjets", 1);
+							h1.GetTH1("Evt_CutFlow_Mu")->Fill("#geq2 bjets", 1);
+	
+							int bj1, bj2;
+							double pt1, pt2;	
+							pt1=pt2=0;
+							for( int i=0; i<bjetCol.size(); i++){
+								if( pt1 < bjetCol[i].PT ){
+									pt2=pt1;
+									pt1=bjetCol[i].PT;
+									bj2=bj1;
+									bj1=i;
+								}else if( pt2 < bjetCol[i].PT ){
+									pt2=bjetCol[i].PT;
+									bj2=i;
+								}
+							}
+							isoMu_bjet1=bjetCol[bj1];	
+							isoMu_bjet2=bjetCol[bj2];	
+							h1.GetTH1("bJet12_Px")->Fill(isoMu_bjet1.P4().Px());
+							h1.GetTH1("bJet12_Px")->Fill(isoMu_bjet2.P4().Px());
+							h1.GetTH1("bJet12_Py")->Fill(isoMu_bjet1.P4().Py());
+							h1.GetTH1("bJet12_Py")->Fill(isoMu_bjet2.P4().Py());
+							h1.GetTH1("bJet12_Pz")->Fill(isoMu_bjet1.P4().Pz());
+							h1.GetTH1("bJet12_Pz")->Fill(isoMu_bjet2.P4().Pz());
 						}
 						if( bjetCol.size() == 2 ){	
 							h1.GetTH1("Evt_CutFlow")->Fill("=2 bjets", 1);
@@ -252,6 +287,33 @@ int main( int argc, char *argv[] )
 						if( seljetCol.size() >= 3 ){ 	
 							h1.GetTH1("Evt_CutFlow")->Fill("#geq3 Jets", 1);
 							h1.GetTH1("Evt_CutFlow_El")->Fill("#geq3 Jets", 1);
+						}
+						if( bjetCol.size() >= 2 ){ 	
+							h1.GetTH1("Evt_CutFlow")->Fill("#geq2 bjets", 1);
+							h1.GetTH1("Evt_CutFlow_El")->Fill("#geq2 bjets", 1);
+
+							int bj1, bj2;
+							double pt1, pt2;	
+							pt1=pt2=0;
+							for( int i=0; i<bjetCol.size(); i++){
+								if( pt1 < bjetCol[i].PT ){
+									pt2=pt1;
+									pt1=bjetCol[i].PT;
+									bj2=bj1;
+									bj1=i;
+								}else if( pt2 < bjetCol[i].PT ){
+									pt2=bjetCol[i].PT;
+									bj2=i;
+								}
+							}
+							isoEl_bjet1=bjetCol[bj1];	
+							isoEl_bjet2=bjetCol[bj2];
+							h1.GetTH1("bJet12_Px")->Fill(isoEl_bjet1.P4().Px());
+							h1.GetTH1("bJet12_Px")->Fill(isoEl_bjet2.P4().Px());
+							h1.GetTH1("bJet12_Py")->Fill(isoEl_bjet1.P4().Py());
+							h1.GetTH1("bJet12_Py")->Fill(isoEl_bjet2.P4().Py());
+							h1.GetTH1("bJet12_Pz")->Fill(isoEl_bjet1.P4().Pz());
+							h1.GetTH1("bJet12_Pz")->Fill(isoEl_bjet2.P4().Pz());
 						}
 						if( bjetCol.size() == 2 ){	
 							h1.GetTH1("Evt_CutFlow")->Fill("=2 bjets", 1);
@@ -290,6 +352,31 @@ int main( int argc, char *argv[] )
 				h1.GetTH1("Evt_ElCut")->Fill("0:1:1", 1);
 			if( selElCol.size() == 1 && looseMuCol_isoEl.size() == 1 && looseElCol_isoEl.size() == 1 )
 				h1.GetTH1("Evt_ElCut")->Fill("1:1:1", 1);
+		}
+
+		//* Fill O7
+		if( isMuCh && !isElCh){
+			double O7_1z = dotP3(az, addP3(isoMu_bjet1.P4(), isoMu_bjet2.P4(),-1));
+			double O7_2z = dotP3(az, crossP3(isoMu_bjet1.P4(), isoMu_bjet2.P4()));
+			double O7 = O7_1z*O7_2z;
+			h1.GetTH1("Evt_O7")->Fill(O7);	
+			h1.GetTH1("Evt_O7_Mu")->Fill(O7);
+			h1.GetTH1("Evt_O7_term1")->Fill(O7_1z);
+			h1.GetTH1("Evt_O7_term2")->Fill(O7_2z);
+			/*
+			double O7_1  = addP3(isoMu_bjet1.P4(), isoMu_bjet2.P4(),-1)[2];
+			double O7_2  = crossP3(isoMu_bjet1.P4(), isoMu_bjet2.P4())[2];
+			printf("bj1 %f, bj2 %f, O7_1 %f, O7_1z %f, O7_2 %f, O7_2z %f, O7 %f\n ", isoMu_bjet1.P4().Pz(), isoMu_bjet2.P4().Pz(), O7_1, O7_1z, O7_2, O7_2z, O7);	
+			*/
+		}else if( !isMuCh && isElCh){
+			double O7_1z = dotP3(az, addP3(isoEl_bjet1.P4(), isoEl_bjet2.P4(),-1));
+			double O7_2z = dotP3(az, crossP3(isoEl_bjet1.P4(), isoEl_bjet2.P4()));
+			double O7 = O7_1z*O7_2z;
+			h1.GetTH1("Evt_O7")->Fill(O7);	
+			h1.GetTH1("Evt_O7_El")->Fill(O7);	
+			h1.GetTH1("Evt_O7_term1")->Fill(O7_1z);
+			h1.GetTH1("Evt_O7_term2")->Fill(O7_2z);
+			printf("O7 %f\n", O7);	
 		}
 	}
 
