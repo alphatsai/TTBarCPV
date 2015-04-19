@@ -40,23 +40,25 @@ template<class TH1>
 void setCutFlow(TH1* h, string channel){
 	if( channel.compare("lj") == 0 || channel.compare("ljm") == 0 || channel.compare("lje") == 0){
 		h->GetXaxis()->SetBinLabel(1,"All");
-		if( channel.compare("lj") == 0  ) h->GetXaxis()->SetBinLabel(2,"1 isoLep");
-		if( channel.compare("ljm") == 0 ) h->GetXaxis()->SetBinLabel(2,"1 isoMu");
-		if( channel.compare("lje") == 0 ) h->GetXaxis()->SetBinLabel(2,"1 isoEl");
-		h->GetXaxis()->SetBinLabel(3,"veto(Loose #mu)");
-		h->GetXaxis()->SetBinLabel(4,"veto(Loose e)");
-		h->GetXaxis()->SetBinLabel(5,"#geq3 Jets");
-		h->GetXaxis()->SetBinLabel(6,"#geq2 bjets");
-		h->GetXaxis()->SetBinLabel(7,"=2 bjets");
+		h->GetXaxis()->SetBinLabel(2,"#geq1 goodVtx");
+		if( channel.compare("lj") == 0  ) h->GetXaxis()->SetBinLabel(3,"1 isoLep");
+		if( channel.compare("ljm") == 0 ) h->GetXaxis()->SetBinLabel(3,"1 isoMu");
+		if( channel.compare("lje") == 0 ) h->GetXaxis()->SetBinLabel(3,"1 isoEl");
+		h->GetXaxis()->SetBinLabel(4,"veto(Loose #mu)");
+		h->GetXaxis()->SetBinLabel(5,"veto(Loose e)");
+		h->GetXaxis()->SetBinLabel(6,"#geq3 Jets");
+		h->GetXaxis()->SetBinLabel(7,"#geq2 bjets");
+		h->GetXaxis()->SetBinLabel(8,"=2 bjets");
 	}
 	if( channel.compare("mj") == 0 ){
 		h->GetXaxis()->SetBinLabel(1,"All");
-		h->GetXaxis()->SetBinLabel(2,"1 isoLep");
-		h->GetXaxis()->SetBinLabel(3,"veto(Loose #mu)");
-		h->GetXaxis()->SetBinLabel(4,"veto(Loose e)");
-		h->GetXaxis()->SetBinLabel(5,"#geq3 Jets");
-		h->GetXaxis()->SetBinLabel(6,"#geq2 bjets");
-		h->GetXaxis()->SetBinLabel(7,"=2 bjets");
+		h->GetXaxis()->SetBinLabel(2,"#geq1 goodVtx");
+		h->GetXaxis()->SetBinLabel(3,"veto(Hard Lep)");
+		h->GetXaxis()->SetBinLabel(4,"#geq6 pT40 jets");
+		h->GetXaxis()->SetBinLabel(5,"#geq5 pT50 jets");
+		h->GetXaxis()->SetBinLabel(6,"#geq4 pT60 jets");
+		h->GetXaxis()->SetBinLabel(7,"#geq2 bjets");
+		h->GetXaxis()->SetBinLabel(8,"#=2 bjets");
 	}
 }
 int main( int argc, char *argv[] )
@@ -103,6 +105,8 @@ int main( int argc, char *argv[] )
 		h1.addNewTH1( "Evt_CutFlow_El",    "",         	  "",     "Evetns", "", "",    7, 0, 7 );
 		h1.addNewTH1( "Evt_MuCut",     	 "isoMu:looseMu:looseEl",       	  "",     "Evetns", "", "",    7, 0, 7 );
 		h1.addNewTH1( "Evt_ElCut",     	 "isoEl:looseMu:looseEl",         	  "",     "Evetns", "", "",    7, 0, 7 );
+	}
+	if( opts.isMultiJets ){
 	}
 
 	h1.CreateTH1();
@@ -156,35 +160,57 @@ int main( int argc, char *argv[] )
 			h1.GetTH1("Jet_Phi")->Fill(jet->P4().Phi());			
 			h1.GetTH1("Jet_BTag")->Fill(jet->BTag);			
 
-			if( jet->PT<30.) continue;
 			if( abs(jet->Eta)>=2.4) continue;
-			seljetCol.push_back(*jet);
-			h1.GetTH1("SelJet_Pt")->Fill(jet->P4().Pt());			
-			h1.GetTH1("SelJet_Px")->Fill(jet->P4().Px());			
-			h1.GetTH1("SelJet_Py")->Fill(jet->P4().Py());			
-			h1.GetTH1("SelJet_Pz")->Fill(jet->P4().Pz());			
-			h1.GetTH1("SelJet_M")->Fill(jet->P4().M());			
-			h1.GetTH1("SelJet_E")->Fill(jet->P4().E());			
-			h1.GetTH1("SelJet_Eta")->Fill(jet->P4().Eta());			
-			h1.GetTH1("SelJet_Phi")->Fill(jet->P4().Phi());			
-			h1.GetTH1("SelJet_BTag")->Fill(jet->BTag);
+			if( ( opts.isLepJets && jet->PT>30. )|| ( opts.isMultiJets && jet->PT>40. )){ 
+				seljetCol.push_back(*jet);
+				h1.GetTH1("SelJet_Pt")->Fill(jet->P4().Pt());			
+				h1.GetTH1("SelJet_Px")->Fill(jet->P4().Px());			
+				h1.GetTH1("SelJet_Py")->Fill(jet->P4().Py());			
+				h1.GetTH1("SelJet_Pz")->Fill(jet->P4().Pz());			
+				h1.GetTH1("SelJet_M")->Fill(jet->P4().M());			
+				h1.GetTH1("SelJet_E")->Fill(jet->P4().E());			
+				h1.GetTH1("SelJet_Eta")->Fill(jet->P4().Eta());			
+				h1.GetTH1("SelJet_Phi")->Fill(jet->P4().Phi());			
+				h1.GetTH1("SelJet_BTag")->Fill(jet->BTag);
+			}
 
-			if (!jet->BTag) continue;
-			Jet *bjet = (Jet*)branchJet->At(idx);
-			bjetCol.push_back(*bjet);
-			h1.GetTH1("bJet_Pt")->Fill(bjet->P4().Pt());			
-			h1.GetTH1("bJet_Px")->Fill(bjet->P4().Px());			
-			h1.GetTH1("bJet_Py")->Fill(bjet->P4().Py());			
-			h1.GetTH1("bJet_Pz")->Fill(bjet->P4().Pz());			
-			h1.GetTH1("bJet_M")->Fill(bjet->P4().M());			
-			h1.GetTH1("bJet_E")->Fill(bjet->P4().E());			
-			h1.GetTH1("bJet_Eta")->Fill(bjet->P4().Eta());			
-			h1.GetTH1("bJet_Phi")->Fill(bjet->P4().Phi());			
-			h1.GetTH1("bJet_BTag")->Fill(bjet->BTag);
+			if (  ( opts.isLepJets && jet->PT>30. && jet->BTag)
+				||( opts.isMultiJets && jet->PT>40. && jet->BTag) 
+			){ 
+				Jet *bjet = (Jet*)branchJet->At(idx);
+				bjetCol.push_back(*bjet);
+				h1.GetTH1("bJet_Pt")->Fill(bjet->P4().Pt());			
+				h1.GetTH1("bJet_Px")->Fill(bjet->P4().Px());			
+				h1.GetTH1("bJet_Py")->Fill(bjet->P4().Py());			
+				h1.GetTH1("bJet_Pz")->Fill(bjet->P4().Pz());			
+				h1.GetTH1("bJet_M")->Fill(bjet->P4().M());			
+				h1.GetTH1("bJet_E")->Fill(bjet->P4().E());			
+				h1.GetTH1("bJet_Eta")->Fill(bjet->P4().Eta());			
+				h1.GetTH1("bJet_Phi")->Fill(bjet->P4().Phi());			
+				h1.GetTH1("bJet_BTag")->Fill(bjet->BTag);
+			}
 		}
 		h1.GetTH1("Evt_NJets")->Fill(branchJet->GetEntries());	
 		h1.GetTH1("Evt_NSelJets")->Fill(seljetCol.size());	
 		h1.GetTH1("Evt_NbJets")->Fill(bjetCol.size());
+
+		vector<Jet> seljetCol2, seljetCol3, bjetCol2, bjetCol3;
+		if( opts.isMultiJets ){
+			for( int j=0; j<seljetCol.size(); j++){
+				Jet jet = seljetCol.at(j);
+				if( jet.PT<50. ) continue;
+				seljetCol2.push_back(jet);
+				if( jet.PT<60. ) continue;
+				seljetCol3.push_back(jet);
+			}
+			for( int j=0; j<bjetCol.size(); j++){
+				Jet bjet = bjetCol.at(j);
+				if( bjet.PT<50. ) continue;
+				bjetCol2.push_back(bjet);
+				if( bjet.PT<60. ) continue;
+				bjetCol3.push_back(bjet);
+			}
+		}
 
 		/////* Lepton + Jets Channel ------------------------------------------------------
 		if( opts.isLepJets ){

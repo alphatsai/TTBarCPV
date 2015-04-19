@@ -55,7 +55,7 @@ void TH1InfoClass<TH1>::defaultTH1Info()
 	Info.push_back( TH1Info( "bJet12_Pz",     "pz of b-Jet",	  "p_{z}(B-tagged j)", 	"Yields", 	"GeV", 	"",		1000, -500,   500 ) );
 	Info.push_back( TH1Info( "Evt_Events",	"",	  		  "", 				"Events", 	"", 	"",		1, 1,   2) );
 	Info.push_back( TH1Info( "Evt_Channel",	"",	  		  "", 				"", 		"", 	"",		2, 0,   2) );
-	Info.push_back( TH1Info( "Evt_CutFlow", "",        	  "",     			"Evetns", 	"", 	"",     7, 0, 7 ));
+	Info.push_back( TH1Info( "Evt_CutFlow", "",        	  "",     			"Evetns", 	"", 	"",     8, 0, 8 ));
 	//Info.push_back( TH1Info( "Evt_NLeptons",	 "Num. of leptons",	  		"N(lep)", 		  "Events", 	"", 	"",		10, 0,   10) );
 	//Info.push_back( TH1Info( "Evt_NSelLeptons",	 "Num. of selected leptons","N(selected lep)","Events", 	"", 	"",		10, 0,   10) );
 	//Info.push_back( TH1Info( "Evt_NMuons",		 "Num. of muon",	  		"N(#mu)", 		  "Events", 	"", 	"",		10, 0,   10) );
