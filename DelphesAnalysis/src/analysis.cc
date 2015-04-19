@@ -40,25 +40,25 @@ template<class TH1>
 void setCutFlow(TH1* h, string channel){
 	if( channel.compare("lj") == 0 || channel.compare("ljm") == 0 || channel.compare("lje") == 0){
 		h->GetXaxis()->SetBinLabel(1,"All");
-		h->GetXaxis()->SetBinLabel(2,"#geq1 goodVtx");
-		if( channel.compare("lj") == 0  ) h->GetXaxis()->SetBinLabel(3,"1 isoLep");
-		if( channel.compare("ljm") == 0 ) h->GetXaxis()->SetBinLabel(3,"1 isoMu");
-		if( channel.compare("lje") == 0 ) h->GetXaxis()->SetBinLabel(3,"1 isoEl");
-		h->GetXaxis()->SetBinLabel(4,"veto(Loose #mu)");
-		h->GetXaxis()->SetBinLabel(5,"veto(Loose e)");
-		h->GetXaxis()->SetBinLabel(6,"#geq3 Jets");
-		h->GetXaxis()->SetBinLabel(7,"#geq2 bjets");
-		h->GetXaxis()->SetBinLabel(8,"=2 bjets");
+		//h->GetXaxis()->SetBinLabel(2,"#geq1 goodVtx");
+		if( channel.compare("lj") == 0  ) h->GetXaxis()->SetBinLabel(2,"1 isoLep");
+		if( channel.compare("ljm") == 0 ) h->GetXaxis()->SetBinLabel(2,"1 isoMu");
+		if( channel.compare("lje") == 0 ) h->GetXaxis()->SetBinLabel(2,"1 isoEl");
+		h->GetXaxis()->SetBinLabel(3,"veto(Loose #mu)");
+		h->GetXaxis()->SetBinLabel(4,"veto(Loose e)");
+		h->GetXaxis()->SetBinLabel(5,"#geq3 Jets");
+		h->GetXaxis()->SetBinLabel(6,"#geq2 bjets");
+		h->GetXaxis()->SetBinLabel(7,"=2 bjets");
 	}
 	if( channel.compare("mj") == 0 ){
 		h->GetXaxis()->SetBinLabel(1,"All");
-		h->GetXaxis()->SetBinLabel(2,"#geq1 goodVtx");
-		h->GetXaxis()->SetBinLabel(3,"veto(Hard Lep)");
-		h->GetXaxis()->SetBinLabel(4,"#geq6 pT40 jets");
-		h->GetXaxis()->SetBinLabel(5,"#geq5 pT50 jets");
-		h->GetXaxis()->SetBinLabel(6,"#geq4 pT60 jets");
-		h->GetXaxis()->SetBinLabel(7,"#geq2 bjets");
-		h->GetXaxis()->SetBinLabel(8,"#=2 bjets");
+		//h->GetXaxis()->SetBinLabel(2,"#geq1 goodVtx");
+		h->GetXaxis()->SetBinLabel(2,"veto(Hard Lep)");
+		h->GetXaxis()->SetBinLabel(3,"#geq6 pT40 jets");
+		h->GetXaxis()->SetBinLabel(4,"#geq5 pT50 jets");
+		h->GetXaxis()->SetBinLabel(5,"#geq4 pT60 jets");
+		h->GetXaxis()->SetBinLabel(6,"#geq2 bjets");
+		h->GetXaxis()->SetBinLabel(7,"#=2 bjets");
 	}
 }
 int main( int argc, char *argv[] )
@@ -73,6 +73,7 @@ int main( int argc, char *argv[] )
 
 	ExRootTreeReader *treeReader = new ExRootTreeReader(chain);
 
+	TClonesArray *branchVtx = treeReader->UseBranch("Vertex");
 	TClonesArray *branchJet = treeReader->UseBranch("Jet");
 	TClonesArray *branchMuon = treeReader->UseBranch("Muon");
 	TClonesArray *branchElectron = treeReader->UseBranch("Electron");
@@ -145,7 +146,17 @@ int main( int argc, char *argv[] )
 
 		if (((entry+1) % 100)==0 || entry+1==n_entries)
 			printf("| processing %d/%d.\n",entry+1,n_entries);
-		
+
+		/*// Vertex selection
+		vector<Vertex> selVertex;
+		for( int idx=0; idx<branchVtx->GetEntries(); idx++){
+			Vertex *vtx = (Vertex*)branchVtx->At(idx);
+			if( abs(vtx->Z)>24 ) continue;
+			if( sqrt((vtx->X*vtx->X)+(vtx->Y*vtx->Y))>2 ) continue;
+			selVertex.push_back(*vtx);
+		}
+		*/
+
 		//* Jets selections
 		vector<Jet> seljetCol, bjetCol;
 		for( int idx=0; idx<branchJet->GetEntries(); idx++){
@@ -266,134 +277,135 @@ int main( int argc, char *argv[] )
 			h1.GetTH1("Evt_CutFlow_Mu")->Fill("All", 1);
 			h1.GetTH1("Evt_CutFlow_El")->Fill("All", 1);
 
-			if( (selMuCol.size()+selElCol.size()) == 1  ){
-				h1.GetTH1("Evt_CutFlow")->Fill("1 isoLep", 1);
+			//if( selVertex.size() >= 1 ){
+			//	h1.GetTH1("Evt_CutFlow")->Fill("#geq1 goodVtx", 1);
+				if( (selMuCol.size()+selElCol.size()) == 1  ){
+					h1.GetTH1("Evt_CutFlow")->Fill("1 isoLep", 1);
+					if( selMuCol.size() == 1 ){
+						isoMu=selMuCol[0];
+						h1.GetTH1("Evt_CutFlow_Mu")->Fill("1 isoMu", 1);
 
-				if( selMuCol.size() == 1 ){
-					isoMu=selMuCol[0];
-					h1.GetTH1("Evt_CutFlow_Mu")->Fill("1 isoMu", 1);
+						if( looseMuCol_isoMu.size() == 0 ){
+							h1.GetTH1("Evt_CutFlow")->Fill("veto(Loose #mu)", 1);
+							h1.GetTH1("Evt_CutFlow_Mu")->Fill("veto(Loose #mu)", 1);
 
-					if( looseMuCol_isoMu.size() == 0 ){
-						h1.GetTH1("Evt_CutFlow")->Fill("veto(Loose #mu)", 1);
-						h1.GetTH1("Evt_CutFlow_Mu")->Fill("veto(Loose #mu)", 1);
+							if( looseElCol_isoMu.size() == 0 ){
+								h1.GetTH1("Evt_CutFlow")->Fill("veto(Loose e)", 1);
+								h1.GetTH1("Evt_CutFlow_Mu")->Fill("veto(Loose e)", 1);
 
-						if( looseElCol_isoMu.size() == 0 ){
-							h1.GetTH1("Evt_CutFlow")->Fill("veto(Loose e)", 1);
-							h1.GetTH1("Evt_CutFlow_Mu")->Fill("veto(Loose e)", 1);
-
-							if( seljetCol.size() >= 3 ){ 	
-								h1.GetTH1("Evt_CutFlow")->Fill("#geq3 Jets", 1);
-								h1.GetTH1("Evt_CutFlow_Mu")->Fill("#geq3 Jets", 1);
-								// Lable the hardest non_bjet 
-								int j1;
-								double pt1=0;	
-								for( int i=0; i<seljetCol.size(); i++){
-									if( !seljetCol[i].BTag && pt1<seljetCol[i].PT ){
-										j1=i;
-										pt1=seljetCol[i].PT;
+								if( seljetCol.size() >= 3 ){ 	
+									h1.GetTH1("Evt_CutFlow")->Fill("#geq3 Jets", 1);
+									h1.GetTH1("Evt_CutFlow_Mu")->Fill("#geq3 Jets", 1);
+									// Lable the hardest non_bjet 
+									int j1;
+									double pt1=0;	
+									for( int i=0; i<seljetCol.size(); i++){
+										if( !seljetCol[i].BTag && pt1<seljetCol[i].PT ){
+											j1=i;
+											pt1=seljetCol[i].PT;
+										}
 									}
+									jet1=seljetCol[j1];
 								}
-								jet1=seljetCol[j1];
-							}
 
-							if( bjetCol.size() >= 2 ){
-								isMuCh=true;	
-								h1.GetTH1("Evt_CutFlow")->Fill("#geq2 bjets", 1);
-								h1.GetTH1("Evt_CutFlow_Mu")->Fill("#geq2 bjets", 1);
-								// Lable bjet by Pt
-								int bj1, bj2;
-								double pt1, pt2;	
-								pt1=pt2=0;
-								for( int i=0; i<bjetCol.size(); i++){
-									if( pt1 < bjetCol[i].PT ){
-										pt2=pt1;
-										pt1=bjetCol[i].PT;
-										bj2=bj1;
-										bj1=i;
-									}else if( pt2 < bjetCol[i].PT ){
-										pt2=bjetCol[i].PT;
-										bj2=i;
+								if( bjetCol.size() >= 2 ){
+									isMuCh=true;	
+									h1.GetTH1("Evt_CutFlow")->Fill("#geq2 bjets", 1);
+									h1.GetTH1("Evt_CutFlow_Mu")->Fill("#geq2 bjets", 1);
+									// Lable bjet by Pt
+									int bj1, bj2;
+									double pt1, pt2;	
+									pt1=pt2=0;
+									for( int i=0; i<bjetCol.size(); i++){
+										if( pt1 < bjetCol[i].PT ){
+											pt2=pt1;
+											pt1=bjetCol[i].PT;
+											bj2=bj1;
+											bj1=i;
+										}else if( pt2 < bjetCol[i].PT ){
+											pt2=bjetCol[i].PT;
+											bj2=i;
+										}
 									}
+									bjet1=bjetCol[bj1];	
+									bjet2=bjetCol[bj2];	
+									h1.GetTH1("bJet12_Px")->Fill(bjet1.P4().Px());
+									h1.GetTH1("bJet12_Px")->Fill(bjet2.P4().Px());
+									h1.GetTH1("bJet12_Py")->Fill(bjet1.P4().Py());
+									h1.GetTH1("bJet12_Py")->Fill(bjet2.P4().Py());
+									h1.GetTH1("bJet12_Pz")->Fill(bjet1.P4().Pz());
+									h1.GetTH1("bJet12_Pz")->Fill(bjet2.P4().Pz());
 								}
-								bjet1=bjetCol[bj1];	
-								bjet2=bjetCol[bj2];	
-								h1.GetTH1("bJet12_Px")->Fill(bjet1.P4().Px());
-								h1.GetTH1("bJet12_Px")->Fill(bjet2.P4().Px());
-								h1.GetTH1("bJet12_Py")->Fill(bjet1.P4().Py());
-								h1.GetTH1("bJet12_Py")->Fill(bjet2.P4().Py());
-								h1.GetTH1("bJet12_Pz")->Fill(bjet1.P4().Pz());
-								h1.GetTH1("bJet12_Pz")->Fill(bjet2.P4().Pz());
-							}
 
-							if( bjetCol.size() == 2 ){	
-								h1.GetTH1("Evt_CutFlow")->Fill("=2 bjets", 1);
-								h1.GetTH1("Evt_CutFlow_Mu")->Fill("=2 bjets", 1);
-							}
-						}	
+								if( bjetCol.size() == 2 ){	
+									h1.GetTH1("Evt_CutFlow")->Fill("=2 bjets", 1);
+									h1.GetTH1("Evt_CutFlow_Mu")->Fill("=2 bjets", 1);
+								}
+							}	
+						}
+					}else{
+						isoEl=selElCol[0];
+						h1.GetTH1("Evt_CutFlow_El")->Fill("1 isoEl", 1);
+
+						if( looseMuCol_isoEl.size() == 0 ){
+							h1.GetTH1("Evt_CutFlow")->Fill("veto(Loose #mu)", 1);
+							h1.GetTH1("Evt_CutFlow_El")->Fill("veto(Loose #mu)", 1);
+
+							if( looseElCol_isoEl.size() == 0 ){
+								h1.GetTH1("Evt_CutFlow")->Fill("veto(Loose e)", 1);
+								h1.GetTH1("Evt_CutFlow_El")->Fill("veto(Loose e)", 1);
+
+								if( seljetCol.size() >= 3 ){ 	
+									h1.GetTH1("Evt_CutFlow")->Fill("#geq3 Jets", 1);
+									h1.GetTH1("Evt_CutFlow_El")->Fill("#geq3 Jets", 1);
+									// Lable the hardest non_bjet 
+									int j1;
+									double pt1=0;	
+									for( int i=0; i<seljetCol.size(); i++){
+										if( !seljetCol[i].BTag && pt1<seljetCol[i].PT ){
+											j1=i;
+											pt1=seljetCol[i].PT;
+										}
+									}
+									jet1=seljetCol[j1];
+								}
+
+								if( bjetCol.size() >= 2 ){ 
+									isElCh=true;	
+									h1.GetTH1("Evt_CutFlow")->Fill("#geq2 bjets", 1);
+									h1.GetTH1("Evt_CutFlow_El")->Fill("#geq2 bjets", 1);
+									// Lable bjet by Pt
+									int bj1, bj2;
+									double pt1, pt2;	
+									pt1=pt2=0;
+									for( int i=0; i<bjetCol.size(); i++){
+										if( pt1 < bjetCol[i].PT ){
+											pt2=pt1;
+											pt1=bjetCol[i].PT;
+											bj2=bj1;
+											bj1=i;
+										}else if( pt2 < bjetCol[i].PT ){
+											pt2=bjetCol[i].PT;
+											bj2=i;
+										}
+									}
+									bjet1=bjetCol[bj1];	
+									bjet2=bjetCol[bj2];
+									h1.GetTH1("bJet12_Px")->Fill(bjet1.P4().Px());
+									h1.GetTH1("bJet12_Px")->Fill(bjet2.P4().Px());
+									h1.GetTH1("bJet12_Py")->Fill(bjet1.P4().Py());
+									h1.GetTH1("bJet12_Py")->Fill(bjet2.P4().Py());
+									h1.GetTH1("bJet12_Pz")->Fill(bjet1.P4().Pz());
+									h1.GetTH1("bJet12_Pz")->Fill(bjet2.P4().Pz());
+								}
+								if( bjetCol.size() == 2 ){	
+									h1.GetTH1("Evt_CutFlow")->Fill("=2 bjets", 1);
+									h1.GetTH1("Evt_CutFlow_El")->Fill("=2 bjets", 1);
+								}
+							}	
+						}				
 					}
-				}else{
-					isoEl=selElCol[0];
-					h1.GetTH1("Evt_CutFlow_El")->Fill("1 isoEl", 1);
-
-					if( looseMuCol_isoEl.size() == 0 ){
-						h1.GetTH1("Evt_CutFlow")->Fill("veto(Loose #mu)", 1);
-						h1.GetTH1("Evt_CutFlow_El")->Fill("veto(Loose #mu)", 1);
-
-						if( looseElCol_isoEl.size() == 0 ){
-							h1.GetTH1("Evt_CutFlow")->Fill("veto(Loose e)", 1);
-							h1.GetTH1("Evt_CutFlow_El")->Fill("veto(Loose e)", 1);
-
-							if( seljetCol.size() >= 3 ){ 	
-								h1.GetTH1("Evt_CutFlow")->Fill("#geq3 Jets", 1);
-								h1.GetTH1("Evt_CutFlow_El")->Fill("#geq3 Jets", 1);
-								// Lable the hardest non_bjet 
-								int j1;
-								double pt1=0;	
-								for( int i=0; i<seljetCol.size(); i++){
-									if( !seljetCol[i].BTag && pt1<seljetCol[i].PT ){
-										j1=i;
-										pt1=seljetCol[i].PT;
-									}
-								}
-								jet1=seljetCol[j1];
-							}
-
-							if( bjetCol.size() >= 2 ){ 
-								isElCh=true;	
-								h1.GetTH1("Evt_CutFlow")->Fill("#geq2 bjets", 1);
-								h1.GetTH1("Evt_CutFlow_El")->Fill("#geq2 bjets", 1);
-								// Lable bjet by Pt
-								int bj1, bj2;
-								double pt1, pt2;	
-								pt1=pt2=0;
-								for( int i=0; i<bjetCol.size(); i++){
-									if( pt1 < bjetCol[i].PT ){
-										pt2=pt1;
-										pt1=bjetCol[i].PT;
-										bj2=bj1;
-										bj1=i;
-									}else if( pt2 < bjetCol[i].PT ){
-										pt2=bjetCol[i].PT;
-										bj2=i;
-									}
-								}
-								bjet1=bjetCol[bj1];	
-								bjet2=bjetCol[bj2];
-								h1.GetTH1("bJet12_Px")->Fill(bjet1.P4().Px());
-								h1.GetTH1("bJet12_Px")->Fill(bjet2.P4().Px());
-								h1.GetTH1("bJet12_Py")->Fill(bjet1.P4().Py());
-								h1.GetTH1("bJet12_Py")->Fill(bjet2.P4().Py());
-								h1.GetTH1("bJet12_Pz")->Fill(bjet1.P4().Pz());
-								h1.GetTH1("bJet12_Pz")->Fill(bjet2.P4().Pz());
-							}
-							if( bjetCol.size() == 2 ){	
-								h1.GetTH1("Evt_CutFlow")->Fill("=2 bjets", 1);
-								h1.GetTH1("Evt_CutFlow_El")->Fill("=2 bjets", 1);
-							}
-						}	
-					}				
-				}
-
+				//}
 				//* Lepton cut
 				if( selMuCol.size() == 1 && looseMuCol_isoMu.size() == 0 && looseElCol_isoMu.size() == 0 )
 					h1.GetTH1("Evt_MuCut")->Fill("1:0:0", 1);
