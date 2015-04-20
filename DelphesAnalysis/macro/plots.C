@@ -4,8 +4,6 @@ void drawObservable( TFile* f, std::string output=".", std::string histName="Evt
    if( CHname.compare("LepJets") == 0 ) isLepJets=true;
    if( CHname.compare("MultiJets") == 0 ) isMultiJets=true;
 
-   //TCanvas *c1 = new TCanvas("c1", "c1",113,93,1099,750);
-   //c1->Range(-0.25,1247.471,2.25,1397.296);
    TCanvas *c1 = new TCanvas("c1", "c1",57,97,1099,752);
    gStyle->SetOptStat(0);
    c1->Range(-2.530337,-153.6535,2.391011,1015.73);
@@ -20,7 +18,7 @@ void drawObservable( TFile* f, std::string output=".", std::string histName="Evt
 	
    TH1D* Oh0 = (TH1D*)f->Get(histName.c_str());
    TH1D* Oh = (TH1D*)Oh0->Clone("CopyOriginal");
-   TH1D* Oh_mu, *Oh_el;
+   TH1D* Oh_mu, *Oh_el, *Oh_p5, *Oh_p6;
    Oh->SetLineColor(4);
    Oh->SetLineWidth(3);
    Oh->GetXaxis()->SetTitle(unit.c_str());
@@ -38,7 +36,7 @@ void drawObservable( TFile* f, std::string output=".", std::string histName="Evt
    Oh->GetZaxis()->SetTitleSize(0.035);
    Oh->GetZaxis()->SetTitleFont(62);
    Oh->Draw("HISTE");
-   if( isLepJets )
+   if( isLepJets ){
     Oh_mu = (TH1D*)f->Get((histName+"_Mu").c_str());
     Oh_el = (TH1D*)f->Get((histName+"_El").c_str());
     Oh_mu->SetLineColor(kOrange+4);
@@ -47,10 +45,21 @@ void drawObservable( TFile* f, std::string output=".", std::string histName="Evt
     Oh_el->SetLineWidth(3);
     Oh_mu->Draw("SAMEHISTE");
     Oh_el->Draw("SAMEHISTE");
-	
+   }	
+   if( isMultiJets ){
+    Oh_p5 = (TH1D*)f->Get((histName+"_PT50").c_str());
+    Oh_p6 = (TH1D*)f->Get((histName+"_PT60").c_str());
+    Oh_p5->SetLineColor(kOrange+4);
+    Oh_p6->SetLineColor(kGreen+3);
+    Oh_p5->SetLineWidth(3);
+    Oh_p6->SetLineWidth(3);
+    Oh_p5->Draw("SAMEHISTE");
+    Oh_p6->Draw("SAMEHISTE");
+   }
    TLegend *leg;
    if( legX == 0 ) //Left 
-   	leg = new TLegend(0.173516,0.6726768,0.4310502,0.8363384,NULL,"brNDC");
+   	//leg = new TLegend(0.173516,0.6726768,0.4310502,0.8363384,NULL,"brNDC");
+   	leg = new TLegend(0.153516,0.6726768,0.4110502,0.8363384,NULL,"brNDC");
    else //right
     leg = new TLegend(0.6283105,0.7026279,0.9324201,0.8990318,NULL,"brNDC");
 	
@@ -59,12 +68,16 @@ void drawObservable( TFile* f, std::string output=".", std::string histName="Evt
    leg->SetLineWidth(0);
    leg->SetFillColor(0);
    leg->SetFillStyle(0);
-   if( isMultiJets )
-    leg->AddEntry(Oh,"Multi-Jets channel","l");
-   if( isLepJets )
+   if( isMultiJets ){
+    leg->AddEntry(Oh,"Multi-Jets, p_{T}(Bjet)>40 GeV","l");
+    leg->AddEntry(Oh_p5,"Multi-Jets, p_{T}(Bjet)>50 GeV","l");
+    leg->AddEntry(Oh_p6,"Multi-Jets, p_{T}(Bjet)>60 GeV","l");
+   }
+   if( isLepJets ){
     leg->AddEntry(Oh,"Combined channel","l");
     leg->AddEntry(Oh_mu,"Muon+Jets channel","l");
     leg->AddEntry(Oh_el,"Electron+Jets channel","l");
+   }
    leg->Draw();
    c1->SaveAs((output+"/"+histName+".pdf").c_str());
 }
@@ -132,9 +145,9 @@ void drawACP( TFile* f, std::string output=".", std::string histName, std::strin
    leg->SetFillStyle(0);
    leg->AddEntry(ACP1Sigma,"1#sigma stat.","f");
    if( CHname.size() == 0 ){
-   	leg->AddEntry(ACP1,Oname.c_str(),"l");
+   	leg->AddEntry(ACP,Oname.c_str(),"l");
    }else{
-	std::string legs=Oname+" in "+CHname+" channel";
+	std::string legs=Oname+", "+CHname+" channel";
    	leg->AddEntry(ACP,legs.c_str(),"l");
    }
    leg->Draw();

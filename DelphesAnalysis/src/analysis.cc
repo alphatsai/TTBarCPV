@@ -588,10 +588,10 @@ int main( int argc, char *argv[] )
 			h1.GetTH1("Evt_NSelJets_PT50")->Fill(seljetCol2.size());
 			h1.GetTH1("Evt_NSelJets_PT60")->Fill(seljetCol3.size());
 			//* Fill cut flow
-			bool isMutijetCh1, isMutijetCh2, isMutijetCh3;
-			bool isMutijet2bCh1, isMutijet2bCh2, isMutijet2bCh3;
-			isMutijetCh1=isMutijetCh2=isMutijetCh3=false;
-			isMutijet2bCh1=isMutijet2bCh2=isMutijet2bCh3=false;
+			bool isMutijetPT40, isMutijetPT50, isMutijetPT60;
+			bool isMutijet2bPT40, isMutijet2bPT50, isMutijet2bPT60;
+			isMutijetPT40=isMutijetPT50=isMutijetPT60=false;
+			isMutijet2bPT40=isMutijet2bPT50=isMutijet2bPT60=false;
 
 			Jet bjet1pT40, bjet2pT40;
 			Jet bjet1pT50, bjet2pT50;
@@ -615,37 +615,106 @@ int main( int argc, char *argv[] )
 							h1.GetTH1("Evt_NbJets_PT50_evtSelNJets")->Fill(bjetCol2.size());
 							h1.GetTH1("Evt_NbJets_PT60_evtSelNJets")->Fill(bjetCol3.size());
 							if( bjetCol.size() >= 2 ){
-								isMutijetCh1=true;
+								isMutijetPT40=true;
 								sort2HighPt( bjetCol, bjet1pT40, bjet2pT40);
 								h1.GetTH1("Evt_CutFlow")->Fill("#geq2 pT40 bjets", 1);
 
 								if( bjetCol.size() == 2 ){
-									isMutijet2bCh1=true;
+									isMutijet2bPT40=true;
 									h1.GetTH1("Evt2b_CutFlow")->Fill("==2 pT40 bjets", 1);
 								}
 							}	
 							if( bjetCol2.size() >= 2 ){
-								isMutijetCh2=true;
+								isMutijetPT50=true;
 								sort2HighPt( bjetCol2, bjet1pT50, bjet2pT50);
 								h1.GetTH1("Evt_CutFlow")->Fill("#geq2 pT50 bjets", 1);
 
 								if( bjetCol2.size() == 2 ){
-									isMutijet2bCh2=true;
+									isMutijet2bPT50=true;
 									h1.GetTH1("Evt2b_CutFlow")->Fill("==2 pT50 bjets", 1);
 								}
 							}		
 							if( bjetCol3.size() >= 2 ){
-								isMutijetCh3=true;
+								isMutijetPT60=true;
 								sort2HighPt( bjetCol3, bjet1pT60, bjet2pT60);
 								h1.GetTH1("Evt_CutFlow")->Fill("#geq2 pT60 bjets", 1);
 
 								if( bjetCol3.size() == 2 ){
-									isMutijet2bCh3=true;
+									isMutijet2bPT60=true;
 									h1.GetTH1("Evt2b_CutFlow")->Fill("==2 pT60 bjets", 1);
 								}
 							}
 						}
 					}
+				}
+			}
+
+			//* Fill observables O7 and O
+			//* 
+			if( isMutijetPT40 ){
+				double O7_1z = dotP3( az, addP3( bjet1pT40.P4(), bjet2pT40.P4(),-1 ));
+				double O7_2z = dotP3( az, crossP3( bjet1pT40.P4(), bjet2pT40.P4() ));
+				double O7 = O7_1z*O7_2z;
+				h1.GetTH1("Evt_O7")->Fill(O7/MT3);	
+				if( O7 > 0 ){
+					h1.GetTH1("Evt_O7Asym")->Fill("O_{7}>0",1);
+				}else{
+					h1.GetTH1("Evt_O7Asym")->Fill("O_{7}<0",1);
+				}
+			}
+			if( isMutijetPT50 ){
+				double O7_1z = dotP3( az, addP3( bjet1pT50.P4(), bjet2pT50.P4(),-1 ));
+				double O7_2z = dotP3( az, crossP3( bjet1pT50.P4(), bjet2pT50.P4() ));
+				double O7 = O7_1z*O7_2z;
+				h1.GetTH1("Evt_O7_PT50")->Fill(O7/MT3);	
+				if( O7 > 0 ){
+					h1.GetTH1("Evt_O7Asym_PT50")->Fill("O_{7}>0",1);
+				}else{
+					h1.GetTH1("Evt_O7Asym_PT50")->Fill("O_{7}<0",1);
+				}
+			}
+			if( isMutijetPT60 ){
+				double O7_1z = dotP3( az, addP3( bjet1pT60.P4(), bjet2pT60.P4(),-1 ));
+				double O7_2z = dotP3( az, crossP3( bjet1pT60.P4(), bjet2pT60.P4() ));
+				double O7 = O7_1z*O7_2z;
+				h1.GetTH1("Evt_O7_PT60")->Fill(O7/MT3);	
+				if( O7 > 0 ){
+					h1.GetTH1("Evt_O7Asym_PT60")->Fill("O_{7}>0",1);
+				}else{
+					h1.GetTH1("Evt_O7Asym_PT60")->Fill("O_{7}<0",1);
+				}
+			}
+			if( isMutijet2bPT40 ){
+				double O7_1z = dotP3( az, addP3( bjetCol[0].P4(), bjetCol[1].P4(),-1 ));
+				double O7_2z = dotP3( az, crossP3( bjetCol[0].P4(), bjetCol[1].P4() ));
+				double O7 = O7_1z*O7_2z;
+				h1.GetTH1("Evt2b_O7")->Fill(O7/MT3);	
+				if( O7 > 0 ){
+					h1.GetTH1("Evt2b_O7Asym")->Fill("O_{7}>0",1);
+				}else{
+					h1.GetTH1("Evt2b_O7Asym")->Fill("O_{7}<0",1);
+				}
+			}
+			if( isMutijet2bPT50 ){
+				double O7_1z = dotP3( az, addP3( bjetCol2[0].P4(), bjetCol2[1].P4(),-1 ));
+				double O7_2z = dotP3( az, crossP3( bjetCol2[0].P4(), bjetCol2[1].P4() ));
+				double O7 = O7_1z*O7_2z;
+				h1.GetTH1("Evt2b_O7_PT50")->Fill(O7/MT3);	
+				if( O7 > 0 ){
+					h1.GetTH1("Evt2b_O7Asym_PT50")->Fill("O_{7}>0",1);
+				}else{
+					h1.GetTH1("Evt2b_O7Asym_PT50")->Fill("O_{7}<0",1);
+				}
+			}
+			if( isMutijet2bPT60 ){
+				double O7_1z = dotP3( az, addP3( bjetCol3[0].P4(), bjetCol3[1].P4(),-1 ));
+				double O7_2z = dotP3( az, crossP3( bjetCol3[0].P4(), bjetCol3[1].P4() ));
+				double O7 = O7_1z*O7_2z;
+				h1.GetTH1("Evt2b_O7_PT60")->Fill(O7/MT3);	
+				if( O7 > 0 ){
+					h1.GetTH1("Evt2b_O7Asym_PT60")->Fill("O_{7}>0",1);
+				}else{
+					h1.GetTH1("Evt2b_O7Asym_PT60")->Fill("O_{7}<0",1);
 				}
 			}
 		 }//* Multi-Jets Channel END
