@@ -18,7 +18,8 @@ void drawObservable( TFile* f, std::string output=".", std::string histName="Evt
    c1->SetFrameBorderMode(0);
    c1->SetFrameBorderMode(0);
 	
-   TH1D* Oh = (TH1D*)f->Get(histName.c_str());
+   TH1D* Oh0 = (TH1D*)f->Get(histName.c_str());
+   TH1D* Oh = (TH1D*)Oh0->Clone("CopyOriginal");
    TH1D* Oh_mu, *Oh_el;
    Oh->SetLineColor(4);
    Oh->SetLineWidth(3);
@@ -77,7 +78,8 @@ void drawACP( TFile* f, std::string output=".", std::string histName, std::strin
    c1->SetFrameBorderMode(0);
    c1->SetFrameBorderMode(0);
 	
-   TH1D* ACP1Sigma = (TH1D*)f->Get(histName.c_str());
+   TH1D* ACP1Sigma0 = (TH1D*)f->Get(histName.c_str());
+   TH1D* ACP1Sigma = (TH1D*)ACP1Sigma0->Clone("CopyOriginal");
    TH1D *ACP = (TH1D*)ACP1Sigma->Clone("ACP");
    Int_t ci;      // for color index setting
    TColor *color; // for color definition with alpha
