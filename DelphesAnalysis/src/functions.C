@@ -3,6 +3,26 @@
 #include "classes/DelphesClasses.h"
 using namespace std;
 //Matching functions
+template <class delphesObj>
+void sort2HighPt( vector<delphesObj> col, delphesObj &obj1, delphesObj &obj2 )
+{
+	int o1, o2;
+	double pt1, pt2;	
+	pt1=pt2=0;
+	for( int i=0; i<col.size(); i++){
+		if( pt1 < col[i].PT ){
+			pt2=pt1;
+			pt1=col[i].PT;
+			o2=o1;
+			o1=i;
+		}else if( pt2 < col[i].PT ){
+			pt2=col[i].PT;
+			o2=i;
+		}
+	}
+	obj1=col[o1];	
+	obj2=col[o2];
+}
 GenParticle *getMatchedGenParticle(Jet *jet, TClonesArray *branchParticle, int PID = -1)
 {
     GenParticle *gen_matched = NULL;

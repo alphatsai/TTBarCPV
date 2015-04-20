@@ -50,16 +50,19 @@ void setCutFlow(TH1* h, string channel){
 		h->GetXaxis()->SetBinLabel(6,"#geq2 bjets");
 		h->GetXaxis()->SetBinLabel(7,"=2 bjets");
 	}
-	if( channel.compare("mj") == 0 ){
+	if( channel.compare("mj") == 0 || channel.compare("mj2b") ){
+		std::string bjAlg;
+		if( channel.compare("mj") == 0 ) bjAlg="#geq2"; 
+		else if( channel.compare("mj2b") == 0 ) bjAlg="==2";
 		h->GetXaxis()->SetBinLabel(1,"All");
 		//h->GetXaxis()->SetBinLabel(2,"#geq1 goodVtx");
 		h->GetXaxis()->SetBinLabel(2,"veto(Hard Lep)");
 		h->GetXaxis()->SetBinLabel(3,"#geq4 pT60 jets");
 		h->GetXaxis()->SetBinLabel(4,"#geq5 pT50 jets");
 		h->GetXaxis()->SetBinLabel(5,"#geq6 pT40 jets");
-		h->GetXaxis()->SetBinLabel(6,"#geq2 pT40 bjets");
-		h->GetXaxis()->SetBinLabel(7,"#geq2 pT50 bjets");
-		h->GetXaxis()->SetBinLabel(8,"#geq2 pT60 bjets");
+		h->GetXaxis()->SetBinLabel(6,(bjAlg+" pT40 bjets").c_str());
+		h->GetXaxis()->SetBinLabel(7,(bjAlg+" pT50 bjets").c_str());
+		h->GetXaxis()->SetBinLabel(8,(bjAlg+" pT60 bjets").c_str());
 		//h->GetXaxis()->SetBinLabel(7,"#=2 bjets");
 	}
 }
@@ -122,9 +125,23 @@ int main( int argc, char *argv[] )
 		h1.addNewTH1( "Evt_ElCut",     	 "isoEl:looseMu:looseEl",         	  "",     "Evetns", "", "",    7, 0, 7 );
 	}
 	if( opts.isMultiJets ){
+		h1.addNewTH1( "Evt_O7_PT50",		"O7",	  	"O_{7}", "Events", 	"", 	"",		40, -2,   2) ;
+		h1.addNewTH1( "Evt_O7_PT60",		"O7",	  	"O_{7}", "Events", 	"", 	"",		40, -2,   2) ;
+		h1.addNewTH1( "Evt_O7Asym_PT50",	"A_{O7}",	"", 	 "Events", 	"", 	"",		2, 0,   2) ;
+		h1.addNewTH1( "Evt_O7Asym_PT60",	"A_{O7}",	"", 	 "Events", 	"", 	"",		2, 0,   2) ;
 		h1.addNewTH1( "Evt_NSelJets_PT40",	"Num. of jets pT>40",	  	  "N(j)", 	"Events", 	"", 	"",		20, 0,   20) ;
 		h1.addNewTH1( "Evt_NSelJets_PT50",	"Num. of jets pT>50",	  	  "N(j)", 	"Events", 	"", 	"",		20, 0,   20) ;
 		h1.addNewTH1( "Evt_NSelJets_PT60",	"Num. of jets pT>60",	  	  "N(j)", 	"Events", 	"", 	"",		20, 0,   20) ;
+		h1.addNewTH1( "Evt_NbJets_PT40_evtSelNJets",	"Num. of jets pT>60",	  	  "N(j)", 	"Events", 	"", 	"",		20, 0,   20) ;
+		h1.addNewTH1( "Evt_NbJets_PT50_evtSelNJets",	"Num. of jets pT>60",	  	  "N(j)", 	"Events", 	"", 	"",		20, 0,   20) ;
+		h1.addNewTH1( "Evt_NbJets_PT60_evtSelNJets",	"Num. of jets pT>60",	  	  "N(j)", 	"Events", 	"", 	"",		20, 0,   20) ;
+		h1.addNewTH1( "Evt2b_CutFlow", "",        	  "",     			"Evetns", 	"", 	"",     8, 0, 8 );
+		h1.addNewTH1( "Evt2b_O7",		"O7",	  	"O_{7}", "Events", 	"", 	"",		40, -2,   2) ;
+		h1.addNewTH1( "Evt2b_O7_PT50",		"O7",	  	"O_{7}", "Events", 	"", 	"",		40, -2,   2) ;
+		h1.addNewTH1( "Evt2b_O7_PT60",		"O7",	  	"O_{7}", "Events", 	"", 	"",		40, -2,   2) ;
+		h1.addNewTH1( "Evt2b_O7Asym",		"A_{O7}",	"", 	 "Events", 	"", 	"",		2, 0,   2) ;
+		h1.addNewTH1( "Evt2b_O7Asym_PT50",	"A_{O7}",	"", 	 "Events", 	"", 	"",		2, 0,   2) ;
+		h1.addNewTH1( "Evt2b_O7Asym_PT60",	"A_{O7}",	"", 	 "Events", 	"", 	"",		2, 0,   2) ;
 	
 		h1.addNewTH1( "SelJet_PT40_Pt",	"pT of selected Jet pT>40",	  "p_{T}(selected j)", 	"Yields", 	"GeV", 	"",		500, 0,   500 );
 		h1.addNewTH1( "SelJet_PT50_Pt",	"pT of selected Jet pT>50",	  "p_{T}(selected j)", 	"Yields", 	"GeV", 	"",		500, 0,   500 );
@@ -160,7 +177,13 @@ int main( int argc, char *argv[] )
 	if( opts.isMultiJets ){
 		h1.GetTH1("Evt_Channel")->Fill("MultiJets", 1);
 		setCutFlow(h1.GetTH1("Evt_CutFlow"),    "mj");
+		setCutFlow(h1.GetTH1("Evt2b_CutFlow"),    "mj2b");
 		setObservableHist(h1.GetTH1("Evt_O7Asym"),    "O_{7}");
+		setObservableHist(h1.GetTH1("Evt_O7Asym_PT50"),    "O_{7}");
+		setObservableHist(h1.GetTH1("Evt_O7Asym_PT60"),    "O_{7}");
+		setObservableHist(h1.GetTH1("Evt2b_O7Asym"),    "O_{7}");
+		setObservableHist(h1.GetTH1("Evt2b_O7Asym_PT50"),    "O_{7}");
+		setObservableHist(h1.GetTH1("Evt2b_O7Asym_PT60"),    "O_{7}");
 	}
 
 	vector<double> ax, ay, az;
@@ -325,22 +348,8 @@ int main( int argc, char *argv[] )
 										h1.GetTH1("Evt_CutFlow")->Fill("#geq2 bjets", 1);
 										h1.GetTH1("Evt_CutFlow_Mu")->Fill("#geq2 bjets", 1);
 										// Lable bjet by Pt
-										int bj1, bj2;
-										double pt1, pt2;	
-										pt1=pt2=0;
-										for( int i=0; i<bjetCol.size(); i++){
-											if( pt1 < bjetCol[i].PT ){
-												pt2=pt1;
-												pt1=bjetCol[i].PT;
-												bj2=bj1;
-												bj1=i;
-											}else if( pt2 < bjetCol[i].PT ){
-												pt2=bjetCol[i].PT;
-												bj2=i;
-											}
-										}
-										bjet1=bjetCol[bj1];	
-										bjet2=bjetCol[bj2];	
+										sort2HighPt( bjetCol, bjet1, bjet2 );
+
 										h1.GetTH1("bJet12_Px")->Fill(bjet1.P4().Px());
 										h1.GetTH1("bJet12_Px")->Fill(bjet2.P4().Px());
 										h1.GetTH1("bJet12_Py")->Fill(bjet1.P4().Py());
@@ -388,22 +397,7 @@ int main( int argc, char *argv[] )
 										h1.GetTH1("Evt_CutFlow")->Fill("#geq2 bjets", 1);
 										h1.GetTH1("Evt_CutFlow_El")->Fill("#geq2 bjets", 1);
 										// Lable bjet by Pt
-										int bj1, bj2;
-										double pt1, pt2;	
-										pt1=pt2=0;
-										for( int i=0; i<bjetCol.size(); i++){
-											if( pt1 < bjetCol[i].PT ){
-												pt2=pt1;
-												pt1=bjetCol[i].PT;
-												bj2=bj1;
-												bj1=i;
-											}else if( pt2 < bjetCol[i].PT ){
-												pt2=bjetCol[i].PT;
-												bj2=i;
-											}
-										}
-										bjet1=bjetCol[bj1];	
-										bjet2=bjetCol[bj2];
+										sort2HighPt( bjetCol, bjet1, bjet2 );
 										h1.GetTH1("bJet12_Px")->Fill(bjet1.P4().Px());
 										h1.GetTH1("bJet12_Px")->Fill(bjet2.P4().Px());
 										h1.GetTH1("bJet12_Py")->Fill(bjet1.P4().Py());
@@ -595,54 +589,65 @@ int main( int argc, char *argv[] )
 			h1.GetTH1("Evt_NSelJets_PT60")->Fill(seljetCol3.size());
 			//* Fill cut flow
 			bool isMutijetCh1, isMutijetCh2, isMutijetCh3;
+			bool isMutijet2bCh1, isMutijet2bCh2, isMutijet2bCh3;
 			isMutijetCh1=isMutijetCh2=isMutijetCh3=false;
+			isMutijet2bCh1=isMutijet2bCh2=isMutijet2bCh3=false;
 
+			Jet bjet1pT40, bjet2pT40;
+			Jet bjet1pT50, bjet2pT50;
+			Jet bjet1pT60, bjet2pT60;
+ 
 			h1.GetTH1("Evt_CutFlow")->Fill("All", 1);
+			h1.GetTH1("Evt2b_CutFlow")->Fill("All", 1);
 			if( ( selMuCol.size() + selElCol.size() ) == 0 ){
 				h1.GetTH1("Evt_CutFlow")->Fill("veto(Hard Lep)", 1);
+				h1.GetTH1("Evt2b_CutFlow")->Fill("veto(Hard Lep)", 1);
 				if( seljetCol3.size() >= 4 ){
 					h1.GetTH1("Evt_CutFlow")->Fill("#geq4 pT60 jets", 1);
+					h1.GetTH1("Evt2b_CutFlow")->Fill("#geq4 pT60 jets", 1);
 					if( seljetCol2.size() >= 5 ){
 						h1.GetTH1("Evt_CutFlow")->Fill("#geq5 pT50 jets", 1);
+						h1.GetTH1("Evt2b_CutFlow")->Fill("#geq5 pT50 jets", 1);
 						if( seljetCol.size() >= 6 ){
 							h1.GetTH1("Evt_CutFlow")->Fill("#geq6 pT40 jets", 1);
+							h1.GetTH1("Evt2b_CutFlow")->Fill("#geq6 pT50 jets", 1);
+							h1.GetTH1("Evt_NbJets_PT40_evtSelNJets")->Fill(bjetCol.size());
+							h1.GetTH1("Evt_NbJets_PT50_evtSelNJets")->Fill(bjetCol2.size());
+							h1.GetTH1("Evt_NbJets_PT60_evtSelNJets")->Fill(bjetCol3.size());
 							if( bjetCol.size() >= 2 ){
 								isMutijetCh1=true;
+								sort2HighPt( bjetCol, bjet1pT40, bjet2pT40);
 								h1.GetTH1("Evt_CutFlow")->Fill("#geq2 pT40 bjets", 1);
-								if( bjetCol2.size() >= 2 ){
-									isMutijetCh2=true;
-									h1.GetTH1("Evt_CutFlow")->Fill("#geq2 pT50 bjets", 1);
-									if( bjetCol3.size() >= 2 ){
-										isMutijetCh3=true;
-										h1.GetTH1("Evt_CutFlow")->Fill("#geq2 pT60 bjets", 1);
-									}
+
+								if( bjetCol.size() == 2 ){
+									isMutijet2bCh1=true;
+									h1.GetTH1("Evt2b_CutFlow")->Fill("==2 pT40 bjets", 1);
+								}
+							}	
+							if( bjetCol2.size() >= 2 ){
+								isMutijetCh2=true;
+								sort2HighPt( bjetCol2, bjet1pT50, bjet2pT50);
+								h1.GetTH1("Evt_CutFlow")->Fill("#geq2 pT50 bjets", 1);
+
+								if( bjetCol2.size() == 2 ){
+									isMutijet2bCh2=true;
+									h1.GetTH1("Evt2b_CutFlow")->Fill("==2 pT50 bjets", 1);
+								}
+							}		
+							if( bjetCol3.size() >= 2 ){
+								isMutijetCh3=true;
+								sort2HighPt( bjetCol3, bjet1pT60, bjet2pT60);
+								h1.GetTH1("Evt_CutFlow")->Fill("#geq2 pT60 bjets", 1);
+
+								if( bjetCol3.size() == 2 ){
+									isMutijet2bCh3=true;
+									h1.GetTH1("Evt2b_CutFlow")->Fill("==2 pT60 bjets", 1);
 								}
 							}
 						}
 					}
 				}
 			}
-//			if( ( selMuCol.size() + selElCol.size() ) == 0 ){
-//				h1.GetTH1("Evt_CutFlow")->Fill("veto(Hard Lep)", 1);
-//			}
-//			if( seljetCol.size() >= 6 ){
-//				h1.GetTH1("Evt_CutFlow")->Fill("#geq6 pT40 jets", 1);
-//			}
-//			if( seljetCol2.size() >= 5 ){
-//				h1.GetTH1("Evt_CutFlow")->Fill("#geq5 pT50 jets", 1);
-//			}
-//			if( seljetCol3.size() >= 4 ){
-//				h1.GetTH1("Evt_CutFlow")->Fill("#geq4 pT60 jets", 1);
-//			}
-//			if( bjetCol.size() >= 2 ){
-//				h1.GetTH1("Evt_CutFlow")->Fill("#geq2 pT40 bjets", 1);
-//			}
-//			if( bjetCol2.size() >= 2 ){
-//				h1.GetTH1("Evt_CutFlow")->Fill("#geq2 pT50 bjets", 1);
-//			}
-//			if( bjetCol3.size() >= 2 ){
-//				h1.GetTH1("Evt_CutFlow")->Fill("#geq2 pT60 bjets", 1);
-//			}
 		 }//* Multi-Jets Channel END
 	}//* Events end
 
