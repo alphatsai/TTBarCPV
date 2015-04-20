@@ -350,6 +350,7 @@ int main( int argc, char *argv[] )
 									}
 
 									if( bjetCol.size() == 2 ){	
+										is2bMuCh=true;	
 										h1.GetTH1("Evt_CutFlow")->Fill("=2 bjets", 1);
 										h1.GetTH1("Evt_CutFlow_Mu")->Fill("=2 bjets", 1);
 									}
@@ -410,7 +411,8 @@ int main( int argc, char *argv[] )
 										h1.GetTH1("bJet12_Pz")->Fill(bjet1.P4().Pz());
 										h1.GetTH1("bJet12_Pz")->Fill(bjet2.P4().Pz());
 									}
-									if( bjetCol.size() == 2 ){	
+									if( bjetCol.size() == 2 ){
+										is2bElCh=true;	
 										h1.GetTH1("Evt_CutFlow")->Fill("=2 bjets", 1);
 										h1.GetTH1("Evt_CutFlow_El")->Fill("=2 bjets", 1);
 									}
@@ -451,6 +453,7 @@ int main( int argc, char *argv[] )
 			}
 
 			//* Fill observables O7 and O2
+			//* bJets >= 2
 			if( isMuCh && !isElCh){
 				vector<double> O2_1v = addP3( bjet1.P4(), bjet2.P4() );
 				vector<double> O2_2v = crossP3( isoMu.P4(), jet1.P4() );
@@ -506,6 +509,60 @@ int main( int argc, char *argv[] )
 				}else{
 					h1.GetTH1("Evt_O7Asym")->Fill("O_{7}<0",1);
 					h1.GetTH1("Evt_O7Asym_El")->Fill("O_{7}<0",1);
+				}
+			}
+			//* bJets == 2
+			if( is2bMuCh && !is2bElCh){
+				vector<double> O2_1v = addP3( bjetCol[0].P4(), bjetCol[1].P4() );
+				vector<double> O2_2v = crossP3( isoMu.P4(), jet1.P4() );
+				double O2 = dotP3( O2_1v, O2_2v );
+				h1.GetTH1("Evt2b_O2")->Fill(O2/MT3);	
+				h1.GetTH1("Evt2b_O2_Mu")->Fill(O2/MT3);
+				if( O2 > 0 ){
+					h1.GetTH1("Evt2b_O2Asym")->Fill("O_{2}>0",1);
+					h1.GetTH1("Evt2b_O2Asym_Mu")->Fill("O_{2}>0",1);
+				}else{
+					h1.GetTH1("Evt2b_O2Asym")->Fill("O_{2}<0",1);
+					h1.GetTH1("Evt2b_O2Asym_Mu")->Fill("O_{2}<0",1);
+				}
+
+				double O7_1z = dotP3( az, addP3( bjetCol[0].P4(), bjetCol[1].P4(),-1 ));
+				double O7_2z = dotP3( az, crossP3( bjetCol[0].P4(), bjetCol[1].P4() ));
+				double O7 = O7_1z*O7_2z;
+				h1.GetTH1("Evt2b_O7")->Fill(O7/MT3);	
+				h1.GetTH1("Evt2b_O7_Mu")->Fill(O7/MT3);
+				if( O7 > 0 ){
+					h1.GetTH1("Evt2b_O7Asym")->Fill("O_{7}>0",1);
+					h1.GetTH1("Evt2b_O7Asym_Mu")->Fill("O_{7}>0",1);
+				}else{
+					h1.GetTH1("Evt2b_O7Asym")->Fill("O_{7}<0",1);
+					h1.GetTH1("Evt2b_O7Asym_Mu")->Fill("O_{7}<0",1);
+				}
+			}else if( !is2bMuCh && is2bElCh){
+				vector<double> O2_1v = addP3( bjetCol[0].P4(), bjetCol[1].P4() );
+				vector<double> O2_2v = crossP3( isoEl.P4(), jet1.P4() );
+				double O2 = dotP3( O2_1v, O2_2v );
+				h1.GetTH1("Evt2b_O2")->Fill(O2/MT3);	
+				h1.GetTH1("Evt2b_O2_El")->Fill(O2/MT3);
+				if( O2 > 0 ){
+					h1.GetTH1("Evt2b_O2Asym")->Fill("O_{2}>0",1);
+					h1.GetTH1("Evt2b_O2Asym_El")->Fill("O_{2}>0",1);
+				}else{
+					h1.GetTH1("Evt2b_O2Asym")->Fill("O_{2}<0",1);
+					h1.GetTH1("Evt2b_O2Asym_El")->Fill("O_{2}<0",1);
+				}
+
+				double O7_1z = dotP3(az, addP3( bjetCol[0].P4(), bjetCol[1].P4(),-1));
+				double O7_2z = dotP3(az, crossP3( bjetCol[0].P4(), bjetCol[1].P4()));
+				double O7 = O7_1z*O7_2z;
+				h1.GetTH1("Evt2b_O7")->Fill(O7/MT3);	
+				h1.GetTH1("Evt2b_O7_El")->Fill(O7/MT3);	
+				if( O7 > 0 ){
+					h1.GetTH1("Evt2b_O7Asym")->Fill("O_{7}>0", 1);
+					h1.GetTH1("Evt2b_O7Asym_El")->Fill("O_{7}>0",1);
+				}else{
+					h1.GetTH1("Evt2b_O7Asym")->Fill("O_{7}<0",1);
+					h1.GetTH1("Evt2b_O7Asym_El")->Fill("O_{7}<0",1);
 				}
 			}
 		} //* Lepton + Jets Channel END
