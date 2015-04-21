@@ -129,6 +129,12 @@ int main( int argc, char *argv[] )
 		h1.addNewTH1( "Evt_O7_PT60",		"O7",	  	"O_{7}", "Events", 	"", 	"",		40, -2,   2) ;
 		h1.addNewTH1( "Evt_O7Asym_PT50",	"A_{O7}",	"", 	 "Events", 	"", 	"",		2, 0,   2) ;
 		h1.addNewTH1( "Evt_O7Asym_PT60",	"A_{O7}",	"", 	 "Events", 	"", 	"",		2, 0,   2) ;
+		h1.addNewTH1( "Evt_O5",			"O5",	  	"O_{5}", "Events", 	"", 	"",		40, -2,   2) ;
+		h1.addNewTH1( "Evt_O5_PT50",		"O5",	  	"O_{5}", "Events", 	"", 	"",		40, -2,   2) ;
+		h1.addNewTH1( "Evt_O5_PT60",		"O5",	  	"O_{5}", "Events", 	"", 	"",		40, -2,   2) ;
+		h1.addNewTH1( "Evt_O5Asym",		"A_{O5}",	"", 	 "Events", 	"", 	"",		2, 0,   2) ;
+		h1.addNewTH1( "Evt_O5Asym_PT50",	"A_{O5}",	"", 	 "Events", 	"", 	"",		2, 0,   2) ;
+		h1.addNewTH1( "Evt_O5Asym_PT60",	"A_{O5}",	"", 	 "Events", 	"", 	"",		2, 0,   2) ;
 		h1.addNewTH1( "Evt_NSelJets_PT40",	"Num. of jets pT>40",	  	  "N(j)", 	"Events", 	"", 	"",		20, 0,   20) ;
 		h1.addNewTH1( "Evt_NSelJets_PT50",	"Num. of jets pT>50",	  	  "N(j)", 	"Events", 	"", 	"",		20, 0,   20) ;
 		h1.addNewTH1( "Evt_NSelJets_PT60",	"Num. of jets pT>60",	  	  "N(j)", 	"Events", 	"", 	"",		20, 0,   20) ;
@@ -142,6 +148,12 @@ int main( int argc, char *argv[] )
 		h1.addNewTH1( "Evt2b_O7Asym",		"A_{O7}",	"", 	 "Events", 	"", 	"",		2, 0,   2) ;
 		h1.addNewTH1( "Evt2b_O7Asym_PT50",	"A_{O7}",	"", 	 "Events", 	"", 	"",		2, 0,   2) ;
 		h1.addNewTH1( "Evt2b_O7Asym_PT60",	"A_{O7}",	"", 	 "Events", 	"", 	"",		2, 0,   2) ;
+		h1.addNewTH1( "Evt2b_O5",			"O5",	  	"O_{5}", "Events", 	"", 	"",		40, -2,   2) ;
+		h1.addNewTH1( "Evt2b_O5_PT50",		"O5",	  	"O_{5}", "Events", 	"", 	"",		40, -2,   2) ;
+		h1.addNewTH1( "Evt2b_O5_PT60",		"O5",	  	"O_{5}", "Events", 	"", 	"",		40, -2,   2) ;
+		h1.addNewTH1( "Evt2b_O5Asym",		"A_{O5}",	"", 	 "Events", 	"", 	"",		2, 0,   2) ;
+		h1.addNewTH1( "Evt2b_O5Asym_PT50",	"A_{O5}",	"", 	 "Events", 	"", 	"",		2, 0,   2) ;
+		h1.addNewTH1( "Evt2b_O5Asym_PT60",	"A_{O5}",	"", 	 "Events", 	"", 	"",		2, 0,   2) ;
 	
 		h1.addNewTH1( "SelJet_PT40_Pt",	"pT of selected Jet pT>40",	  "p_{T}(selected j)", 	"Yields", 	"GeV", 	"",		500, 0,   500 );
 		h1.addNewTH1( "SelJet_PT50_Pt",	"pT of selected Jet pT>50",	  "p_{T}(selected j)", 	"Yields", 	"GeV", 	"",		500, 0,   500 );
@@ -178,12 +190,18 @@ int main( int argc, char *argv[] )
 		h1.GetTH1("Evt_Channel")->Fill("MultiJets", 1);
 		setCutFlow(h1.GetTH1("Evt_CutFlow"),    "mj");
 		setCutFlow(h1.GetTH1("Evt2b_CutFlow"),    "mj2b");
-		setObservableHist(h1.GetTH1("Evt_O7Asym"),    "O_{7}");
-		setObservableHist(h1.GetTH1("Evt_O7Asym_PT50"),    "O_{7}");
-		setObservableHist(h1.GetTH1("Evt_O7Asym_PT60"),    "O_{7}");
-		setObservableHist(h1.GetTH1("Evt2b_O7Asym"),    "O_{7}");
-		setObservableHist(h1.GetTH1("Evt2b_O7Asym_PT50"),    "O_{7}");
-		setObservableHist(h1.GetTH1("Evt2b_O7Asym_PT60"),    "O_{7}");
+		setObservableHist(h1.GetTH1("Evt_O7Asym"),       "O_{7}");
+		setObservableHist(h1.GetTH1("Evt_O7Asym_PT50"),  "O_{7}");
+		setObservableHist(h1.GetTH1("Evt_O7Asym_PT60"),  "O_{7}");
+		setObservableHist(h1.GetTH1("Evt_O5Asym"),    	 "O_{5}");
+		setObservableHist(h1.GetTH1("Evt_O5Asym_PT50"),  "O_{5}");
+		setObservableHist(h1.GetTH1("Evt_O5Asym_PT60"),  "O_{5}");
+		setObservableHist(h1.GetTH1("Evt2b_O7Asym"),     "O_{7}");
+		setObservableHist(h1.GetTH1("Evt2b_O7Asym_PT50"),"O_{7}");
+		setObservableHist(h1.GetTH1("Evt2b_O7Asym_PT60"),"O_{7}");
+		setObservableHist(h1.GetTH1("Evt2b_O5Asym"),     "O_{5}");
+		setObservableHist(h1.GetTH1("Evt2b_O5Asym_PT50"),"O_{5}");
+		setObservableHist(h1.GetTH1("Evt2b_O5Asym_PT60"),"O_{5}");
 	}
 
 	vector<double> ax, ay, az;
@@ -588,15 +606,14 @@ int main( int argc, char *argv[] )
 			h1.GetTH1("Evt_NSelJets_PT50")->Fill(seljetCol2.size());
 			h1.GetTH1("Evt_NSelJets_PT60")->Fill(seljetCol3.size());
 			//* Fill cut flow
+			vector<Jet> bjet12pT40, bjet12pT50, bjet12pT60;
+			vector<Jet> nonbjetColPT40, nonbjetColPT50, nonbjetColPT60; 
+
 			bool isMutijetPT40, isMutijetPT50, isMutijetPT60;
 			bool isMutijet2bPT40, isMutijet2bPT50, isMutijet2bPT60;
 			isMutijetPT40=isMutijetPT50=isMutijetPT60=false;
 			isMutijet2bPT40=isMutijet2bPT50=isMutijet2bPT60=false;
 
-			Jet bjet1pT40, bjet2pT40;
-			Jet bjet1pT50, bjet2pT50;
-			Jet bjet1pT60, bjet2pT60;
- 
 			h1.GetTH1("Evt_CutFlow")->Fill("All", 1);
 			h1.GetTH1("Evt2b_CutFlow")->Fill("All", 1);
 			if( ( selMuCol.size() + selElCol.size() ) == 0 ){
@@ -616,7 +633,9 @@ int main( int argc, char *argv[] )
 							h1.GetTH1("Evt_NbJets_PT60_evtSelNJets")->Fill(bjetCol3.size());
 							if( bjetCol.size() >= 2 ){
 								isMutijetPT40=true;
-								sort2HighPt( bjetCol, bjet1pT40, bjet2pT40);
+								sort2HighPt( bjetCol, bjet12pT40 );
+								//sort2HighPt( bjetCol, bjet1pT40, bjet2pT40);
+								extractNonTopBjet( seljetCol, bjet12pT40, nonbjetColPT40 );
 								h1.GetTH1("Evt_CutFlow")->Fill("#geq2 pT40 bjets", 1);
 
 								if( bjetCol.size() == 2 ){
@@ -626,7 +645,9 @@ int main( int argc, char *argv[] )
 							}	
 							if( bjetCol2.size() >= 2 ){
 								isMutijetPT50=true;
-								sort2HighPt( bjetCol2, bjet1pT50, bjet2pT50);
+								sort2HighPt( bjetCol2, bjet12pT50 );
+								//sort2HighPt( bjetCol2, bjet1pT50, bjet2pT50);
+								extractNonTopBjet( seljetCol, bjet12pT50, nonbjetColPT50 );
 								h1.GetTH1("Evt_CutFlow")->Fill("#geq2 pT50 bjets", 1);
 
 								if( bjetCol2.size() == 2 ){
@@ -636,7 +657,9 @@ int main( int argc, char *argv[] )
 							}		
 							if( bjetCol3.size() >= 2 ){
 								isMutijetPT60=true;
-								sort2HighPt( bjetCol3, bjet1pT60, bjet2pT60);
+								sort2HighPt( bjetCol3, bjet12pT60 );
+								//sort2HighPt( bjetCol3, bjet1pT60, bjet2pT60);
+								extractNonTopBjet( seljetCol, bjet12pT60, nonbjetColPT60 );
 								h1.GetTH1("Evt_CutFlow")->Fill("#geq2 pT60 bjets", 1);
 
 								if( bjetCol3.size() == 2 ){
@@ -648,12 +671,13 @@ int main( int argc, char *argv[] )
 					}
 				}
 			}
-
 			//* Fill observables O7 and O
 			//* 
 			if( isMutijetPT40 ){
-				double O7_1z = dotP3( az, addP3( bjet1pT40.P4(), bjet2pT40.P4(),-1 ));
-				double O7_2z = dotP3( az, crossP3( bjet1pT40.P4(), bjet2pT40.P4() ));
+					
+
+				double O7_1z = dotP3( az, addP3( bjet12pT40[0].P4(), bjet12pT40[1].P4(),-1 ));
+				double O7_2z = dotP3( az, crossP3( bjet12pT40[0].P4(), bjet12pT40[1].P4() ));
 				double O7 = O7_1z*O7_2z;
 				h1.GetTH1("Evt_O7")->Fill(O7/MT3);	
 				if( O7 > 0 ){
@@ -663,8 +687,8 @@ int main( int argc, char *argv[] )
 				}
 			}
 			if( isMutijetPT50 ){
-				double O7_1z = dotP3( az, addP3( bjet1pT50.P4(), bjet2pT50.P4(),-1 ));
-				double O7_2z = dotP3( az, crossP3( bjet1pT50.P4(), bjet2pT50.P4() ));
+				double O7_1z = dotP3( az, addP3( bjet12pT50[0].P4(), bjet12pT50[1].P4(),-1 ));
+				double O7_2z = dotP3( az, crossP3( bjet12pT50[0].P4(), bjet12pT50[1].P4() ));
 				double O7 = O7_1z*O7_2z;
 				h1.GetTH1("Evt_O7_PT50")->Fill(O7/MT3);	
 				if( O7 > 0 ){
@@ -674,8 +698,8 @@ int main( int argc, char *argv[] )
 				}
 			}
 			if( isMutijetPT60 ){
-				double O7_1z = dotP3( az, addP3( bjet1pT60.P4(), bjet2pT60.P4(),-1 ));
-				double O7_2z = dotP3( az, crossP3( bjet1pT60.P4(), bjet2pT60.P4() ));
+				double O7_1z = dotP3( az, addP3( bjet12pT60[0].P4(), bjet12pT60[1].P4(),-1 ));
+				double O7_2z = dotP3( az, crossP3( bjet12pT60[0].P4(), bjet12pT60[1].P4() ));
 				double O7 = O7_1z*O7_2z;
 				h1.GetTH1("Evt_O7_PT60")->Fill(O7/MT3);	
 				if( O7 > 0 ){
