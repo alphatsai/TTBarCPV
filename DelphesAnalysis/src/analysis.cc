@@ -695,7 +695,7 @@ int main( int argc, char *argv[] )
 				bjet1.Boost(bbCM); // bjet2.Boost(bbCM); // In CM(b,b~), b and b~ will back-to-back, i.e vector(b)=-vector(b~)
 				 jet1.Boost(bbCM);  jet2.Boost(bbCM);
 				double O5 = dotP3( bjet1, crossP3( jet1, jet2 ));
-				// O5_1 will always be the same with O5_2
+				// * O5_1 will always be the same with O5_2.
 				// double O5_1 = dotP3( bjet1, crossP3( jet1, jet2 )); 
 				// double O5_2 = dotP3( bjet2, crossP3( jet2, jet1 ));
 				// printf("bjet1 ( %6.2f, %6.2f, %6.2f ) -> ( %6.2f, %6.2f, %6.2f )\n", bjet12pT40[0].P4().Px(), bjet12pT40[0].P4().Py(), bjet12pT40[0].P4().Pz(), bjet1.Px(), bjet1.Py(), bjet1.Pz());
@@ -709,38 +709,46 @@ int main( int argc, char *argv[] )
 
 				// fill histo
 				if( isMutijetPT40 ){
-					h1.GetTH1("Evt_O5")->Fill(O5/MT3);	
-					h1.GetTH1("Evt_O7")->Fill(O7/MT3);	
-					if( O5 > 0 )
-						h1.GetTH1("Evt_O5Asym")->Fill("O_{5}>0",1);
-					else if( O5 < 0 )
-						h1.GetTH1("Evt_O5Asym")->Fill("O_{5}<0",1);
-					else
+					if( O5 != 0 ){ 
+						h1.GetTH1("Evt_O5")->Fill(O5/MT3);	
+						if( O5 > 0 )
+							h1.GetTH1("Evt_O5Asym")->Fill("O_{5}>0",1);
+						else
+							h1.GetTH1("Evt_O5Asym")->Fill("O_{5}<0",1);
+					}else{
 						h1.GetTH1("Evt_O5DiscardEvt")->Fill("PT40, O_{5}==0",1);
+					}
 
-					if( O7 > 0 )
-						h1.GetTH1("Evt_O7Asym")->Fill("O_{7}>0",1);
-					else if( O7 < 0)
-						h1.GetTH1("Evt_O7Asym")->Fill("O_{7}<0",1);
-					else
+					if( O7 != 0 ){ 
+						h1.GetTH1("Evt_O7")->Fill(O7/MT3);	
+						if( O7 > 0 )
+							h1.GetTH1("Evt_O7Asym")->Fill("O_{7}>0",1);
+						else
+							h1.GetTH1("Evt_O7Asym")->Fill("O_{7}<0",1);
+					}else{
 						h1.GetTH1("Evt_O7DiscardEvt")->Fill("PT40, O_{7}==0",1);
+					}
 				}
 				if( isMutijet2bPT40 ){
-					h1.GetTH1("Evt2b_O5")->Fill(O5/MT3);	
-					h1.GetTH1("Evt2b_O7")->Fill(O7/MT3);	
-					if( O5 > 0 )
-						h1.GetTH1("Evt2b_O5Asym")->Fill("O_{5}>0",1);
-					else if( O5 < 0 )
-						h1.GetTH1("Evt2b_O5Asym")->Fill("O_{5}<0",1);
-					else
+					if( O5 != 0 ){ 
+						h1.GetTH1("Evt2b_O5")->Fill(O5/MT3);	
+						if( O5 > 0 )
+							h1.GetTH1("Evt2b_O5Asym")->Fill("O_{5}>0",1);
+						else
+							h1.GetTH1("Evt2b_O5Asym")->Fill("O_{5}<0",1);
+					}else{
 						h1.GetTH1("Evt2b_O5DiscardEvt")->Fill("PT40, O_{5}==0",1);
-					
-					if( O7 > 0 )
-						h1.GetTH1("Evt2b_O7Asym")->Fill("O_{7}>0",1);
-					else if( O7 < 0 )
-						h1.GetTH1("Evt2b_O7Asym")->Fill("O_{7}<0",1);
-					else
+					}
+
+					if( O7 != 0 ){ 
+						h1.GetTH1("Evt2b_O7")->Fill(O7/MT3);	
+						if( O7 > 0 )
+							h1.GetTH1("Evt2b_O7Asym")->Fill("O_{7}>0",1);
+						else
+							h1.GetTH1("Evt2b_O7Asym")->Fill("O_{7}<0",1);
+					}else{
 						h1.GetTH1("Evt2b_O7DiscardEvt")->Fill("PT40, O_{7}==0",1);
+					}
 				}	
 			}
 			//* bjets PT>50 
@@ -762,38 +770,46 @@ int main( int argc, char *argv[] )
 
 				// fill histo
 				if( isMutijetPT50 ){
-					h1.GetTH1("Evt_O5_PT50")->Fill(O5/MT3);	
-					h1.GetTH1("Evt_O7_PT50")->Fill(O7/MT3);	
-					if( O5 > 0 )
-						h1.GetTH1("Evt_O5Asym_PT50")->Fill("O_{5}>0",1);
-					else if( O5 < 0 )
-						h1.GetTH1("Evt_O5Asym_PT50")->Fill("O_{5}<0",1);
-					else
+					if( O5 != 0 ){ 
+						h1.GetTH1("Evt_O5_PT50")->Fill(O5/MT3);	
+						if( O5 > 0 )
+							h1.GetTH1("Evt_O5Asym_PT50")->Fill("O_{5}>0",1);
+						else
+							h1.GetTH1("Evt_O5Asym_PT50")->Fill("O_{5}<0",1);
+					}else{
 						h1.GetTH1("Evt_O5DiscardEvt")->Fill("PT50, O_{5}==0",1);
+					}
 
-					if( O7 > 0 )
-						h1.GetTH1("Evt_O7Asym_PT50")->Fill("O_{7}>0",1);
-					else if( O7 < 0 )
-						h1.GetTH1("Evt_O7Asym_PT50")->Fill("O_{7}<0",1);
-					else
+					if( O7 != 0 ){ 
+						h1.GetTH1("Evt_O7_PT50")->Fill(O7/MT3);	
+						if( O7 > 0 )
+							h1.GetTH1("Evt_O7Asym_PT50")->Fill("O_{7}>0",1);
+						else
+							h1.GetTH1("Evt_O7Asym_PT50")->Fill("O_{7}<0",1);
+					}else{
 						h1.GetTH1("Evt_O7DiscardEvt")->Fill("PT50, O_{7}==0",1);
+					}
 				}
 				if( isMutijet2bPT50 ){
-					h1.GetTH1("Evt2b_O5_PT50")->Fill(O5/MT3);	
-					h1.GetTH1("Evt2b_O7_PT50")->Fill(O7/MT3);	
-					if( O5 > 0 )
-						h1.GetTH1("Evt2b_O5Asym_PT50")->Fill("O_{5}>0",1);
-					else if( O5 < 0 )
-						h1.GetTH1("Evt2b_O5Asym_PT50")->Fill("O_{5}<0",1);
-					else
+					if( O5 != 0 ){ 
+						h1.GetTH1("Evt2b_O5_PT50")->Fill(O5/MT3);	
+						if( O5 > 0 )
+							h1.GetTH1("Evt2b_O5Asym_PT50")->Fill("O_{5}>0",1);
+						else 
+							h1.GetTH1("Evt2b_O5Asym_PT50")->Fill("O_{5}<0",1);
+					}else{
 						h1.GetTH1("Evt2b_O5DiscardEvt")->Fill("PT50, O_{5}==0",1);
+					}
 
-					if( O7 > 0 )
-						h1.GetTH1("Evt2b_O7Asym_PT50")->Fill("O_{7}>0",1);
-					else if( O7 < 0 )
-						h1.GetTH1("Evt2b_O7Asym_PT50")->Fill("O_{7}<0",1);
-					else
+					if( O7 != 0 ){ 
+						h1.GetTH1("Evt2b_O7_PT50")->Fill(O7/MT3);	
+						if( O7 > 0 )
+							h1.GetTH1("Evt2b_O7Asym_PT50")->Fill("O_{7}>0",1);
+						else 
+							h1.GetTH1("Evt2b_O7Asym_PT50")->Fill("O_{7}<0",1);
+					}else{
 						h1.GetTH1("Evt2b_O7DiscardEvt")->Fill("PT50, O_{7}==0",1);
+					}
 				}
 			}
 			//* bjets PT>60 
@@ -813,38 +829,46 @@ int main( int argc, char *argv[] )
 				double O7_2z = dotP3( az, crossP3( bjet12pT60[0].P4(), bjet12pT60[1].P4() ));
 				double O7 = O7_1z*O7_2z;
 				if( isMutijetPT60 ){
-					h1.GetTH1("Evt_O5_PT60")->Fill(O5/MT3);					
-					h1.GetTH1("Evt_O7_PT60")->Fill(O7/MT3);					
-					if( O5 > 0 )
-						h1.GetTH1("Evt_O5Asym_PT60")->Fill("O_{5}>0",1);
-					else if( O5 < 0 )
-						h1.GetTH1("Evt_O5Asym_PT60")->Fill("O_{5}<0",1);
-					else
+					if( O5 != 0 ){ 
+						h1.GetTH1("Evt_O5_PT60")->Fill(O5/MT3);					
+						if( O5 > 0 )
+							h1.GetTH1("Evt_O5Asym_PT60")->Fill("O_{5}>0",1);
+						else
+							h1.GetTH1("Evt_O5Asym_PT60")->Fill("O_{5}<0",1);
+					}else{
 						h1.GetTH1("Evt_O5DiscardEvt")->Fill("PT60, O_{5}==0",1);
+					}
 
-					if( O7 > 0 )
-						h1.GetTH1("Evt_O7Asym_PT60")->Fill("O_{7}>0",1);
-					else if( O7 < 0 )
-						h1.GetTH1("Evt_O7Asym_PT60")->Fill("O_{7}<0",1);
-					else
+					if( O7 != 0 ){ 
+						h1.GetTH1("Evt_O7_PT60")->Fill(O7/MT3);					
+						if( O7 > 0 )
+							h1.GetTH1("Evt_O7Asym_PT60")->Fill("O_{7}>0",1);
+						else 
+							h1.GetTH1("Evt_O7Asym_PT60")->Fill("O_{7}<0",1);
+					}else{
 						h1.GetTH1("Evt_O7DiscardEvt")->Fill("PT60, O_{7}==0",1);
+					}
 				}
 				if( isMutijet2bPT60 ){
-					h1.GetTH1("Evt2b_O5_PT60")->Fill(O5/MT3);	
-					h1.GetTH1("Evt2b_O7_PT60")->Fill(O7/MT3);	
-					if( O5 > 0 )
-						h1.GetTH1("Evt2b_O5Asym_PT60")->Fill("O_{5}>0",1);
-					else if( O5 < 0 )
-						h1.GetTH1("Evt2b_O5Asym_PT60")->Fill("O_{5}<0",1);
-					else
+					if( O5 != 0 ){ 
+						h1.GetTH1("Evt2b_O5_PT60")->Fill(O5/MT3);	
+						if( O5 > 0 )
+							h1.GetTH1("Evt2b_O5Asym_PT60")->Fill("O_{5}>0",1);
+						else 
+							h1.GetTH1("Evt2b_O5Asym_PT60")->Fill("O_{5}<0",1);
+					}else{
 						h1.GetTH1("Evt2b_O5DiscardEvt")->Fill("PT60, O_{5}==0",1);
+					}
 
-					if( O7 > 0 )
-						h1.GetTH1("Evt2b_O7Asym_PT60")->Fill("O_{7}>0",1);
-					else if( O7 < 0 )
-						h1.GetTH1("Evt2b_O7Asym_PT60")->Fill("O_{7}<0",1);
-					else
+					if( O7 != 0 ){ 
+						h1.GetTH1("Evt2b_O7_PT60")->Fill(O7/MT3);	
+						if( O7 > 0 )
+							h1.GetTH1("Evt2b_O7Asym_PT60")->Fill("O_{7}>0",1);
+						else 
+							h1.GetTH1("Evt2b_O7Asym_PT60")->Fill("O_{7}<0",1);
+					}else{
 						h1.GetTH1("Evt2b_O7DiscardEvt")->Fill("PT60, O_{7}==0",1);
+					}
 				}
 			}
 		 }//* Multi-Jets Channel END
