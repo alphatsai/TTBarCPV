@@ -43,7 +43,7 @@ void sort2HighPt( vector<delphesObj> col, vector<delphesObj>& obj12 )
 	obj12.push_back(col[o1]);	
 	obj12.push_back(col[o2]);	
 }
-void extractNonTopBjet( vector<Jet> jetCol1, vector<Jet> bjetCol, vector<Jet> newjetCol)
+void extractNonTopBjet( vector<Jet> jetCol1, vector<Jet> bjetCol, vector<Jet>& newjetCol)
 {
 	for( int i=0; i<jetCol1.size(); i++){
 		bool isbjet=false;
@@ -72,6 +72,26 @@ Jet compareDeltaRHighPt( Jet jet, vector<Jet> jetCol )
 	}
 	if( jetCol[j1].PT > jetCol[j2].PT ) return jetCol[j1];
 	else return jetCol[j2];
+}
+TLorentzVector compareDeltaRHighPt( TLorentzVector jetP4, vector<Jet> jetCol )
+{
+	double dR1=10000, dR2=10000;
+	int j1, j2;
+	for( int i=0; i<jetCol.size(); i++){
+		if( jetP4 == jetCol[i].P4() ) continue;
+		if( jetP4.DeltaR(jetCol[i].P4()) < dR1 )
+		{ 
+			dR2 = dR1;
+			dR1 = jetP4.DeltaR( jetCol[i].P4() );
+			j2 = j1;
+			j1 = i;
+		}else if( jetP4.DeltaR(jetCol[i].P4()) < dR2 ) {
+			dR2 = jetP4.DeltaR( jetCol[i].P4() );
+			j2 = i;
+		}
+	}
+	if( jetCol[j1].PT > jetCol[j2].PT ) return jetCol[j1].P4();
+	else return jetCol[j2].P4();
 }
 GenParticle *getMatchedGenParticle(Jet *jet, TClonesArray *branchParticle, int PID = -1)
 {
