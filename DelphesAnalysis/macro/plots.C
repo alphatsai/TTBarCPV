@@ -1,4 +1,5 @@
-void drawObservable( TFile* f, std::string output=".", std::string histName="Evt_O", std::string unit="O/M_{top}^{3}", std::string CHname="LepJets", bool legX=1 ){
+void drawObservableDist( TFile* f, std::string output=".", std::string histName="Evt_O", std::string unit="O/M_{top}^{3}", std::string CHname="LepJets", bool legX=1 )
+{
    bool isLepJets=false;
    bool isMultiJets=false;
    if( CHname.compare("LepJets") == 0 ) isLepJets=true;
@@ -81,7 +82,9 @@ void drawObservable( TFile* f, std::string output=".", std::string histName="Evt
    leg->Draw();
    c1->SaveAs((output+"/"+histName+".pdf").c_str());
 }
-void drawACP( TFile* f, std::string output=".", std::string histName, std::string Oname="O", std::string CHname="", bool legX=0 ){
+
+void drawObservable( TFile* f, std::string output=".", std::string histName, std::string Oname="O", std::string CHname="", bool legX=0 )
+{
    TCanvas *c1 = new TCanvas("c1", "c1",113,93,1099,750);
    gStyle->SetOptStat(0);
    c1->Range(-0.25,1247.471,2.25,1397.296);
@@ -91,46 +94,46 @@ void drawACP( TFile* f, std::string output=".", std::string histName, std::strin
    c1->SetFrameBorderMode(0);
    c1->SetFrameBorderMode(0);
 	
-   TH1D* ACP1Sigma0 = (TH1D*)f->Get(histName.c_str());
-   TH1D* ACP1Sigma = (TH1D*)ACP1Sigma0->Clone("CopyOriginal");
-   TH1D *ACP = (TH1D*)ACP1Sigma->Clone("ACP");
+   TH1D* OSigma0 = (TH1D*)f->Get(histName.c_str());
+   TH1D* OSigma = (TH1D*)OSigma0->Clone("CopyOriginal");
+   TH1D *O = (TH1D*)OSigma->Clone("O");
    Int_t ci;      // for color index setting
    TColor *color; // for color definition with alpha
    ci = TColor::GetColor("#9999ff");
-   ACP1Sigma->SetFillColor(ci);
-   ACP1Sigma->GetXaxis()->SetLabelSize(0.08);
-   ACP1Sigma->GetXaxis()->SetLabelFont(62);
-   ACP1Sigma->GetXaxis()->SetTitleSize(0.035);
-   ACP1Sigma->GetXaxis()->SetTitleFont(62);
-   ACP1Sigma->GetYaxis()->SetLabelFont(62);
-   ACP1Sigma->GetYaxis()->SetTitle("Events");
-   ACP1Sigma->GetYaxis()->SetTitleSize(0.06);
-   ACP1Sigma->GetYaxis()->SetTitleOffset(0.77);
-   ACP1Sigma->GetYaxis()->SetTitleFont(42);
-   ACP1Sigma->GetZaxis()->SetLabelFont(62);
-   ACP1Sigma->GetZaxis()->SetLabelSize(0.035);
-   ACP1Sigma->GetZaxis()->SetTitleSize(0.035);
-   ACP1Sigma->GetZaxis()->SetTitleFont(62);
-   ACP1Sigma->Draw("E2");
+   OSigma->SetFillColor(ci);
+   OSigma->GetXaxis()->SetLabelSize(0.08);
+   OSigma->GetXaxis()->SetLabelFont(62);
+   OSigma->GetXaxis()->SetTitleSize(0.035);
+   OSigma->GetXaxis()->SetTitleFont(62);
+   OSigma->GetYaxis()->SetLabelFont(62);
+   OSigma->GetYaxis()->SetTitle("Events");
+   OSigma->GetYaxis()->SetTitleSize(0.06);
+   OSigma->GetYaxis()->SetTitleOffset(0.77);
+   OSigma->GetYaxis()->SetTitleFont(42);
+   OSigma->GetZaxis()->SetLabelFont(62);
+   OSigma->GetZaxis()->SetLabelSize(0.035);
+   OSigma->GetZaxis()->SetTitleSize(0.035);
+   OSigma->GetZaxis()->SetTitleFont(62);
+   OSigma->Draw("E2");
  
    ci = TColor::GetColor("#000099");
-   ACP->SetLineColor(ci);
-   ACP->SetLineWidth(3);
-   ACP->GetXaxis()->SetBinLabel(1,(Oname+"<0").c_str());
-   ACP->GetXaxis()->SetBinLabel(2,(Oname+">0").c_str());
-   ACP->GetXaxis()->SetLabelFont(42);
-   ACP->GetXaxis()->SetLabelSize(0.035);
-   ACP->GetXaxis()->SetTitleSize(0.035);
-   ACP->GetXaxis()->SetTitleFont(42);
-   ACP->GetYaxis()->SetLabelFont(42);
-   ACP->GetYaxis()->SetLabelSize(0.035);
-   ACP->GetYaxis()->SetTitleSize(0.035);
-   ACP->GetYaxis()->SetTitleFont(42);
-   ACP->GetZaxis()->SetLabelFont(42);
-   ACP->GetZaxis()->SetLabelSize(0.035);
-   ACP->GetZaxis()->SetTitleSize(0.035);
-   ACP->GetZaxis()->SetTitleFont(42);
-   ACP->Draw("histsametext0");
+   O->SetLineColor(ci);
+   O->SetLineWidth(3);
+   O->GetXaxis()->SetBinLabel(1,(Oname+"<0").c_str());
+   O->GetXaxis()->SetBinLabel(2,(Oname+">0").c_str());
+   O->GetXaxis()->SetLabelFont(42);
+   O->GetXaxis()->SetLabelSize(0.035);
+   O->GetXaxis()->SetTitleSize(0.035);
+   O->GetXaxis()->SetTitleFont(42);
+   O->GetYaxis()->SetLabelFont(42);
+   O->GetYaxis()->SetLabelSize(0.035);
+   O->GetYaxis()->SetTitleSize(0.035);
+   O->GetYaxis()->SetTitleFont(42);
+   O->GetZaxis()->SetLabelFont(42);
+   O->GetZaxis()->SetLabelSize(0.035);
+   O->GetZaxis()->SetTitleSize(0.035);
+   O->GetZaxis()->SetTitleFont(42);
+   O->Draw("histsametext0");
 
    TLegend *leg;
    if( legX == 0 ) //Left 
@@ -143,12 +146,12 @@ void drawACP( TFile* f, std::string output=".", std::string histName, std::strin
    leg->SetLineWidth(0);
    leg->SetFillColor(0);
    leg->SetFillStyle(0);
-   leg->AddEntry(ACP1Sigma,"1#sigma stat.","f");
+   leg->AddEntry(OSigma,"1#sigma stat.","f");
    if( CHname.size() == 0 ){
-   	leg->AddEntry(ACP,Oname.c_str(),"l");
+   	leg->AddEntry(O,Oname.c_str(),"l");
    }else{
 	std::string legs=Oname+", "+CHname+" channel";
-   	leg->AddEntry(ACP,legs.c_str(),"l");
+   	leg->AddEntry(O,legs.c_str(),"l");
    }
    leg->Draw();
    c1->SaveAs((output+"/"+histName+".pdf").c_str());
