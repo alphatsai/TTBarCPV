@@ -29,11 +29,11 @@ void drawACP( std::string pathLepJets="../results/TTtoLepJet/result.root",
 	TH1D* h = new TH1D("all", "", allh, 0, allh);
 
 	h->GetXaxis()->SetBinLabel(1, "O_{2}^{e+#mu}");
-	h->GetXaxis()->SetBinLabel(2, "O_{2}^{e}");
-	h->GetXaxis()->SetBinLabel(3, "O_{2}^{#mu}");
+	h->GetXaxis()->SetBinLabel(2, "O_{2}^{#mu}");
+	h->GetXaxis()->SetBinLabel(3, "O_{2}^{e}");
 	h->GetXaxis()->SetBinLabel(4, "O_{7}^{e+#mu}");
-	h->GetXaxis()->SetBinLabel(5, "O_{7}^{e}");
-	h->GetXaxis()->SetBinLabel(6, "O_{7}^{#mu}");
+	h->GetXaxis()->SetBinLabel(5, "O_{7}^{#mu}");
+	h->GetXaxis()->SetBinLabel(6, "O_{7}^{e}");
 	h->GetXaxis()->SetBinLabel(7, "O_{5}(p_{T}^{Bjet}#geq40)");
 	h->GetXaxis()->SetBinLabel(8, "O_{5}(p_{T}^{Bjet}#geq50)");
 	h->GetXaxis()->SetBinLabel(9, "O_{5}(p_{T}^{Bjet}#geq60)");
@@ -41,39 +41,51 @@ void drawACP( std::string pathLepJets="../results/TTtoLepJet/result.root",
 	h->GetXaxis()->SetBinLabel(11, "O_{7}(p_{T}^{Bjet}#geq50)");
 	h->GetXaxis()->SetBinLabel(12, "O_{7}(p_{T}^{Bjet}#geq60)");
 
+	printf("O_{2}^{e+#mu}:\n")
 	h->Fill(0, caculateACP( hlj_o2 ));
 	h->SetBinError(1, caculateACPerror( hlj_o2 ));
 
+	printf("O_{2}^{#mu}:\n")
 	h->Fill(1,     caculateACP( hlj_o2_mu ));
 	h->SetBinError(2, caculateACPerror( hlj_o2_mu ));
 
+	printf("O_{2}^{e}:\n")
 	h->Fill(2,   caculateACP( hlj_o2_el ));
 	h->SetBinError(3, caculateACPerror( hlj_o2_el ));
 
+	printf("O_{7}^{e+#mu}:\n")
 	h->Fill(3, caculateACP( hlj_o7 ));
 	h->SetBinError(4, caculateACPerror( hlj_o7 ));
 
+	printf("O_{7}^{#mu}:\n")
 	h->Fill(4,     caculateACP( hlj_o7_mu ));
 	h->SetBinError(5, caculateACPerror( hlj_o7_mu ));
 
+	printf("O_{7}^{e}:\n")
 	h->Fill(5,   caculateACP( hlj_o7_el ));
 	h->SetBinError(6, caculateACPerror( hlj_o7_el ));
 
+	printf("O_{5}(p_{T}^{Bjet}#geq40):\n")
 	h->Fill(6, caculateACP( hmj_o5_p4 ));
 	h->SetBinError(7, caculateACPerror( hmj_o5_p4 ));
 
+	printf("O_{5}(p_{T}^{Bjet}#geq50):\n")
 	h->Fill(7, caculateACP( hmj_o5_p5 ));
 	h->SetBinError(8, caculateACPerror( hmj_o5_p5 ));
 
+	printf("O_{5}(p_{T}^{Bjet}#geq60):\n")
 	h->Fill(8, caculateACP( hmj_o5_p6 ));
 	h->SetBinError(9, caculateACPerror( hmj_o5_p6 ));
 
+	printf("O_{7}(p_{T}^{Bjet}#geq40):\n")
 	h->Fill(9, caculateACP( hmj_o7_p4 ));
 	h->SetBinError(10, caculateACPerror( hmj_o7_p4 ));
 
+	printf("O_{7}(p_{T}^{Bjet}#geq50):\n")
 	h->Fill(10, caculateACP( hmj_o7_p5 ));
 	h->SetBinError(11, caculateACPerror( hmj_o7_p5 ));
 
+	printf("O_{7}(p_{T}^{Bjet}#geq60):\n")
 	h->Fill(11, caculateACP( hmj_o7_p6 ));
 	h->SetBinError(12, caculateACPerror( hmj_o7_p6 ));
 
