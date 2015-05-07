@@ -42,7 +42,7 @@ class PIDs:
 
 	def showPID(self, name):
 		if not self.correctName(name) in self.NameToPID:
-			return 'Unknown' 
+			return 'Unknown'
 		else: 
 			return self.NameToPID[self.correctName(name)]
 
@@ -51,7 +51,7 @@ class PIDs:
 			return 'None' 
 		elif not int(pid) in self.PIDToName:
 			#return 'Undefined PID - '+str(pid)
-			return 'Unknown'
+			return 'Unknown '+str(pid)
 		else: 
 			return self.PIDToName[int(pid)]
 
